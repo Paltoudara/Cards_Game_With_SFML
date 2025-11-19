@@ -1,9 +1,4 @@
 #include"Header1.h"
-struct abilities {
-    bool ability1;//play
-    bool ability2;//draw
-    bool ability3;//change color
-};
 int main() {
     sf::RenderWindow window(sf::VideoMode({ 2560, 1440 }), 
         "SFML works!",sf::State::Fullscreen);
@@ -142,8 +137,122 @@ int main() {
             //draw a card
         }
     }
-  
-    
-  
 }
 
+
+/*
+
+#include"Header.h"
+int main() {
+    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }),
+        "SFML works!", sf::State::Fullscreen);
+    window.setFramerateLimit(60);
+    std::vector<std::string>file_paths{};
+    load_file_paths(file_paths);
+    std::vector<sf::Texture> textures;  // must stay alive!
+    std::vector<std::pair<std::size_t, sf::Sprite>> deck{};
+    
+    load_textures_from_files(textures, deck, file_paths);
+
+    std::unordered_map<std::size_t, std::string>names{};
+
+    for (std::size_t i = 1; i <= 52; i++) {
+        std::string name{ file_paths[i - 1].substr(81) };
+        names[i] = { name.begin(),name.begin() + name.find('.') };
+    }
+    shuffle_deck(deck);
+    std::unordered_map<std::size_t, sf::Sprite>player1{};
+    std::unordered_map<std::size_t, sf::Sprite>player2{};
+    std::pair<std::size_t, sf::Sprite>table{ deck.back().first,
+    deck.back().second };
+    deck.pop_back();
+
+    give_players_cards(player1, player2, deck);
+    std::string color{};
+    std::string num{};
+    std::vector<std::string>colors{ "clubs","diamonds"
+        ,"hearts","spades" };
+
+    if (names[table.first].contains('A')) {
+        color = rand() % 4;
+        num = "A";
+    }
+    else {
+        if (names[table.first].contains("clubs")) {
+            color = "clubs";
+            num = names[table.first]
+                .substr(names[table.first].find_last_of('_') + 1);
+        }
+        else if (names[table.first].contains("diamonds")) {
+            color = "diamonds";
+            num = names[table.first]
+                .substr(names[table.first].find_last_of('_') + 1);
+        }
+        else if (names[table.first].contains("hearts")) {
+            color = "hearts";
+            num = names[table.first]
+                .substr(names[table.first].find_last_of('_') + 1);
+        }
+        else {
+            color = "spades";
+            num = names[table.first]
+                .substr(names[table.first].find_last_of('_') + 1);
+        
+        }
+        std::cout << color << '\n';
+        std::cout << num << '\n';
+    }
+
+    while (window.isOpen()) {
+        while (const auto event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
+                window.close();
+            }
+        }
+        window.clear(sf::Color::Green);
+        //set up the cards
+        set_the_table_of_cards(window, player1, player2);
+        //
+        table.second.setPosition({ 1100.f, 720.f });
+        window.draw(table.second);
+        window.display();
+        //player1
+        
+        if (can_he_play(player1, color, num, names)) {
+            //play a card
+            while (true) {
+                std::optional<sf::Event> event = window.pollEvent();
+                if (event->is<sf::Event::MouseButtonPressed>()) {
+                    window.close();
+                }
+            }
+        }
+        else {
+            //draw a card
+            if (deck.size() > 0) {
+
+            }
+            else {
+
+            }
+        }
+        //determine if he can play
+       
+        if (can_he_play(player2, color, num, names)) {
+            //play card
+            while (true) {
+                std::optional<sf::Event> event = window.pollEvent();
+                if (event->is<sf::Event::MouseButtonPressed>()) {
+
+                }
+            }
+        }
+        else {
+            //draw a card
+        }
+    }
+
+
+
+}
+*/
