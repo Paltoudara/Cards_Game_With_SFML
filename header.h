@@ -9,6 +9,61 @@
 #include<random>
 #include<optional>
 #include<utility>
+
+//--------------------
+//	INTERFACE BEGIN
+//--------------------
+
+//
+inline void load_file_paths(
+	std::vector<std::string>& file_paths);
+//
+inline void load_textures_from_files(std::vector<sf::Texture>& textures,
+	std::vector<std::pair<std::string, sf::Sprite>>& deck
+	, std::vector<std::string>& file_paths
+	, std::unordered_map<std::string, sf::Sprite>& aces);
+//
+inline void shuffle_deck(
+	std::vector<std::pair<std::string, sf::Sprite>>& deck);
+
+//
+inline void initialize(std::vector <std::pair
+	<std::string, sf::Sprite>>&
+	deck, std::string& color, std::string& num, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces,
+	std::vector<std::string>& colors);
+//
+inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
+	, std::unordered_map<std::string, sf::Sprite>& player2
+	, std::vector<std::pair<std::string, sf::Sprite>>& deck);
+//
+inline bool can_he_play(const std::unordered_map<std::string
+	, sf::Sprite>& player, const std::string& color,
+	const std::string& num);
+//
+inline void set_the_table_of_cards(
+	sf::RenderWindow& window, std::unordered_map<std::string,
+	sf::Sprite>& player1, std::unordered_map<std::string,
+	sf::Sprite>& player2);
+//
+bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
+	& player, std::string& color, std::string& num, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces
+	, std::vector<std::string>& colors);
+//
+
+//--------------------
+//	INTERFACE END
+//--------------------
+
+
+
+//--------------------
+//	IMPLEMENTATION BEGIN
+//--------------------
+
+//
+//
 inline void load_file_paths(std::vector<std::string>& file_paths) {
 	//
 	for (std::size_t i = 2; i < 10; i++) {
@@ -49,7 +104,8 @@ inline void load_file_paths(std::vector<std::string>& file_paths) {
 	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_Q.png");
 	//
 }
-//create a vector deck
+//
+//
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::vector<std::string>& file_paths
@@ -72,11 +128,51 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	}
 }
 //
+//
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::shuffle(deck.begin(), deck.end(), gen);
 }
+//
+//
+inline void initialize(std::vector <std::
+	pair
+	<std::string,sf::Sprite>>&
+	deck,std::string&color,std::string&num,sf::Sprite&table
+,std::unordered_map<std::string,sf::Sprite>&aces,
+std::vector<std::string>&colors) {
+	if (deck.back().first.contains('A')) {
+		num = "A";
+		color = colors[rand() % 4];
+		table = aces.at(color);
+	}
+	else {
+		if (deck.back().first.contains("clubs")) {
+			color = "clubs";
+			num = deck.back().first.substr(
+				deck.back().first.find_last_of('_') + 1);
+		}
+		else if (deck.back().first.contains("diamonds")) {
+			color = "diamonds";
+			num = deck.back().first.substr(
+				deck.back().first.find_last_of('_') + 1);
+		}
+		else if (deck.back().first.contains("hearts")) {
+			color = "hearts";
+			num = deck.back().first.substr(
+				deck.back().first.find_last_of('_') + 1);
+		}
+		else {
+			color = "spades";
+			num = deck.back().first.substr(
+				deck.back().first.find_last_of('_') + 1);
+		}
+		table = deck.back().second;
+	}
+	deck.pop_back();
+}
+//
 //
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
@@ -88,7 +184,8 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 		deck.pop_back();
 	}
 }
-
+//
+//
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num) {
@@ -100,7 +197,8 @@ inline bool can_he_play(const std::unordered_map<std::string
 	}
 	return false;
 }
-
+//
+//
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
@@ -128,26 +226,25 @@ inline void set_the_table_of_cards(
 		window.draw(value);
 	}
 }
-//window, player1, color, num,
-//table, aces, colors
-
-bool check_for_card(sf::RenderWindow&window,std::unordered_map<std::string, sf::Sprite>
-	& player,std::string&color,std::string&num,sf::Sprite&table
-,std::unordered_map<std::string,sf::Sprite>&aces
-,std::vector<std::string>&colors) {
-	sf::Vector2i mous_pos{sf::Mouse::getPosition(window)};
-	sf::Vector2f world_pos{window.mapPixelToCoords(mous_pos)};
+//
+//
+bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
+	& player, std::string& color, std::string& num, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces
+	, std::vector<std::string>& colors) {
+	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
+	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 	std::string card_to_remove{};
 	for (const auto& [key, value] : player) {
 		if (value.getGlobalBounds().contains(world_pos)) {
 			if (key.contains(color) || key.contains(num) ||
 				key.contains("A")) {
 				card_to_remove = key;
-				
+
 				if (key.contains("A")) {
 					color = colors[rand() % 4];
 					num = "A";
-					table = aces.at(color+"_A");
+					table = aces.at(color + "_A");
 				}
 				else {
 					auto first = key.find_first_of('_') + 1;
@@ -166,3 +263,7 @@ bool check_for_card(sf::RenderWindow&window,std::unordered_map<std::string, sf::
 	}
 	return false;
 }
+
+//--------------------
+//	IMPLEMENTATION END
+//--------------------
