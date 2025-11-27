@@ -1,60 +1,43 @@
 #include"header.h"
 int main() {
+    //for window
     sf::RenderWindow window(sf::VideoMode({ 2560, 1440 }),
         "SFML works!", sf::State::Fullscreen);
     window.setFramerateLimit(60);
+    //
     std::vector<std::string>file_paths{};
+    //load file paths for later to load the textures
     load_file_paths(file_paths);
+    //
     std::vector<sf::Texture> textures;  // must stay alive!
     std::unordered_map<std::string, sf::Sprite>aces{};
     std::vector<std::pair<std::string, sf::Sprite>> deck{};
+    //load textures from files
     load_textures_from_files(textures, deck, file_paths,
         aces);
     //
     std::unordered_map<std::string, sf::Sprite>player1{};
     std::unordered_map<std::string, sf::Sprite>player2{};
-    //
+    //shuffle the deck
     shuffle_deck(deck);
+    //
     sf::Sprite table{ deck.back().second };
     std::string color{};
     std::string num{};
     std::vector<std::string>colors{ "spades","hearts",
     "clubs","diamonds" };
-
-    if (deck.back().first.contains('A')) {
-        num = "A";
-        color = colors[rand() % 4];
-        table = aces.at(color);
-    }
-    else {
-        if (deck.back().first.contains("clubs")) {
-            color = "clubs";
-            num = deck.back().first.substr(
-                deck.back().first.find_last_of('_') + 1);
-        }
-        else if (deck.back().first.contains("diamonds")) {
-            color = "diamonds";
-            num = deck.back().first.substr(
-                deck.back().first.find_last_of('_') + 1);
-        }
-        else if (deck.back().first.contains("hearts")) {
-            color = "hearts";
-            num = deck.back().first.substr(
-                deck.back().first.find_last_of('_') + 1);
-        }
-        else {
-            color = "spades";
-            num = deck.back().first.substr(
-                deck.back().first.find_last_of('_') + 1);
-        }
-        table = deck.back().second;
-    }
-    deck.pop_back();
+    
+    //initialize the game
+    initialize(deck, color, num, table, aces, colors);
+    //give each player 7 cards
     give_players_cards(player1, player2, deck);
+    //
+    //initialize flags
     bool flag{ true };
     bool mouseclicked{ false };
     bool p1{ false };
     bool p2{false };
+    //
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
@@ -119,7 +102,7 @@ int main() {
             
         }
         if (p1 && p2) {
-            std::cout << "draw" << '\n';
+            std::cout << "no player wins" << '\n';
         }
         else {
             p1 = false;
