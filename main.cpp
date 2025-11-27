@@ -1,258 +1,135 @@
-#include"Header1.h"
+#include"header.h"
 int main() {
-    sf::RenderWindow window(sf::VideoMode({ 2560, 1440 }), 
-        "SFML works!",sf::State::Fullscreen);
-    window.setFramerateLimit(60);
-    std::vector<std::string>file_paths{};
-    load_file_paths(file_paths);
-    std::vector<sf::Texture> textures;  // must stay alive!
-    std::vector<std::pair<std::size_t, sf::Sprite>> deck{};
-   
-    load_textures_from_files(textures,deck, file_paths);
-    
-    std::unordered_map<std::size_t,std::string>names{};
-    
-    for (std::size_t i = 1; i <= 52; i++) {
-        std::string name{ file_paths[i - 1].substr(81) };
-        names[i]={ name.begin(),name.begin() + name.find('.') };
-    }
-    shuffle_deck(deck);
-    std::unordered_map<std::size_t, sf::Sprite>player1{};
-    std::unordered_map<std::size_t, sf::Sprite>player2{};
-    std::pair<std::size_t, sf::Sprite>table{deck.back().first,
-    deck.back().second};
-    deck.pop_back();
-    
-    give_players_cards(player1, player2, deck);
-    std::string color{};
-    std::string num{};
-    std::vector<std::string>colors{ "clubs","diamonds"
-        ,"hearts","spades" };
-    if (names[table.first].contains('A')) {
-        color = rand() % 4;
-        num = "A";
-    }
-    else {
-        if (names[table.first].contains("clubs")) {
-            color = "clubs";
-            num =names[table.first]
-                .substr( names[table.first].find_last_of('_')+1);
-        }
-        else if (names[table.first].contains("diamonds")) {
-            color = "diamonds";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_')+1);
-        }
-        else if (names[table.first].contains("hearts")) {
-            color = "hearts";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_')+1);
-        }
-        else {
-            color = "spades";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_')+1);
-        }
-       
-    }
-
-    while (window.isOpen()) {
-        while (const auto event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-            }
-        }
-        window.clear(sf::Color::Green);
-        std::size_t i{ 0 };
-        float j{0 };
-        for ( auto& [key, value]:player1) {
-            value.setPosition({ 200.0f + i * 300.0f, 100.0f+j });
-            i++;
-            if (i % 7==0) {
-                j += 100.0f;
-                i = 0;
-            }
-            window.draw(value);
-        }
-        i = 0;
-        j = 1;
-        for ( auto& [key, value] : player2) {
-            value.setPosition({ 200.f + i * 300.f, 1240.f-j });
-            i++;
-            if (i % 7==0) {
-                j += 100.0f;
-                i = 0;
-            }
-            window.draw(value);
-        }
-        table.second.setPosition({ 1100.f, 720.f });
-        window.draw(table.second);
-        window.display();
-        //player1
-        bool can_play = false;
-        for (const auto& [key, value] : player1) {
-            if (names[key].contains(color)) {
-                can_play = true;
-                break;
-            }
-            if (names[key].contains(num)) {
-                can_play = true;
-                break;
-            }
-        }
-        if (can_play) {
-            //play a card
-            while (true) {
-                std::optional<sf::Event> event = window.pollEvent();
-                if (event->is<sf::Event::MouseButtonPressed>()) {
-                    window.close();
-                }
-            }
-        }
-        else {
-            //draw a card 
-        }
-        //
-        can_play = false;
-        for (const auto& [key, value] : player2) {
-            if (names[key].contains(color)) {
-                can_play = true;
-                break;
-            }
-            if (names[key].contains(num)) {
-                can_play = true;
-                break;
-            }
-        }
-        if (can_play) {
-            //play card
-            while (true) {
-                std::optional<sf::Event> event = window.pollEvent();
-                if (event->is<sf::Event::MouseButtonPressed>()) {
-                 
-                }
-            }
-        }
-        else {
-            //draw a card
-        }
-    }
-}
-
-
-/*
-
-#include"Header.h"
-int main() {
-    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }),
+    sf::RenderWindow window(sf::VideoMode({ 2560, 1440 }),
         "SFML works!", sf::State::Fullscreen);
     window.setFramerateLimit(60);
     std::vector<std::string>file_paths{};
     load_file_paths(file_paths);
     std::vector<sf::Texture> textures;  // must stay alive!
-    std::vector<std::pair<std::size_t, sf::Sprite>> deck{};
-    
-    load_textures_from_files(textures, deck, file_paths);
-
-    std::unordered_map<std::size_t, std::string>names{};
-
-    for (std::size_t i = 1; i <= 52; i++) {
-        std::string name{ file_paths[i - 1].substr(81) };
-        names[i] = { name.begin(),name.begin() + name.find('.') };
-    }
+    std::unordered_map<std::string, sf::Sprite>aces{};
+    std::vector<std::pair<std::string, sf::Sprite>> deck{};
+    load_textures_from_files(textures, deck, file_paths,
+        aces);
+    //
+    std::unordered_map<std::string, sf::Sprite>player1{};
+    std::unordered_map<std::string, sf::Sprite>player2{};
+    //
     shuffle_deck(deck);
-    std::unordered_map<std::size_t, sf::Sprite>player1{};
-    std::unordered_map<std::size_t, sf::Sprite>player2{};
-    std::pair<std::size_t, sf::Sprite>table{ deck.back().first,
-    deck.back().second };
-    deck.pop_back();
-
-    give_players_cards(player1, player2, deck);
+    sf::Sprite table{ deck.back().second };
     std::string color{};
     std::string num{};
-    std::vector<std::string>colors{ "clubs","diamonds"
-        ,"hearts","spades" };
+    std::vector<std::string>colors{ "spades","hearts",
+    "clubs","diamonds" };
 
-    if (names[table.first].contains('A')) {
-        color = rand() % 4;
+    if (deck.back().first.contains('A')) {
         num = "A";
+        color = colors[rand() % 4];
+        table = aces.at(color);
     }
     else {
-        if (names[table.first].contains("clubs")) {
+        if (deck.back().first.contains("clubs")) {
             color = "clubs";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_') + 1);
+            num = deck.back().first.substr(
+                deck.back().first.find_last_of('_') + 1);
         }
-        else if (names[table.first].contains("diamonds")) {
+        else if (deck.back().first.contains("diamonds")) {
             color = "diamonds";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_') + 1);
+            num = deck.back().first.substr(
+                deck.back().first.find_last_of('_') + 1);
         }
-        else if (names[table.first].contains("hearts")) {
+        else if (deck.back().first.contains("hearts")) {
             color = "hearts";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_') + 1);
+            num = deck.back().first.substr(
+                deck.back().first.find_last_of('_') + 1);
         }
         else {
             color = "spades";
-            num = names[table.first]
-                .substr(names[table.first].find_last_of('_') + 1);
-        
+            num = deck.back().first.substr(
+                deck.back().first.find_last_of('_') + 1);
         }
-        std::cout << color << '\n';
-        std::cout << num << '\n';
+        table = deck.back().second;
     }
-
+    deck.pop_back();
+    give_players_cards(player1, player2, deck);
+    bool flag{ true };
+    bool mouseclicked{ false };
+    bool p1{ false };
+    bool p2{false };
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+            else if (event->is<sf::Event::MouseButtonPressed>()) {
+                mouseclicked = true;
+            }
         }
-        window.clear(sf::Color::Green);
-        //set up the cards
+        if (mouseclicked) {
+            mouseclicked = false;
+            if (flag == true) 
+            {
+                if (can_he_play(player1, color, num)) {
+                    if (check_for_card(window, player1, color,
+                        num, table, aces, colors)) {
+                        flag = false;
+                    }
+                }
+                else {
+                    if (deck.size()>0) {
+                        player1.emplace(deck.back());
+                        deck.pop_back();
+                        if (!can_he_play(player1, color, num)) {
+                            flag = false;
+                        }
+
+                    }
+                    else {
+                        p1 = true;
+                    }
+                }
+            }
+            else if (flag == false) {
+                if (can_he_play(player2, color, num)) {
+                    if (check_for_card(window, player2, color,
+                        num, table, aces, colors)) {
+                        flag = true;
+                    }
+                }
+                else {
+                    if (deck.size() > 0) {
+                        player2.emplace(deck.back());
+                        deck.pop_back();
+                        if (!can_he_play(player2, color, num)) {
+                            flag = true;
+                        }
+                    }
+                    else {
+                        p2 = true;
+                    }
+                }
+            }
+            if (player1.size() == 0) {
+                std::cout << "player1 won\n";
+                std::exit(0);
+            }
+            else if(player2.size()==0) {
+                std::cout << "player2 won\n";
+                std::exit(0);
+            }
+            
+        }
+        if (p1 && p2) {
+            std::cout << "draw" << '\n';
+        }
+        else {
+            p1 = false;
+            p2 = false;
+        }
+        window.clear(sf::Color::Black);
         set_the_table_of_cards(window, player1, player2);
-        //
-        table.second.setPosition({ 1100.f, 720.f });
-        window.draw(table.second);
+        table.setPosition({ 2560.f/2, 1440.f/2 });
+        window.draw(table);
         window.display();
-        //player1
-        
-        if (can_he_play(player1, color, num, names)) {
-            //play a card
-            while (true) {
-                std::optional<sf::Event> event = window.pollEvent();
-                if (event->is<sf::Event::MouseButtonPressed>()) {
-                    window.close();
-                }
-            }
-        }
-        else {
-            //draw a card
-            if (deck.size() > 0) {
-
-            }
-            else {
-
-            }
-        }
-        //determine if he can play
-       
-        if (can_he_play(player2, color, num, names)) {
-            //play card
-            while (true) {
-                std::optional<sf::Event> event = window.pollEvent();
-                if (event->is<sf::Event::MouseButtonPressed>()) {
-
-                }
-            }
-        }
-        else {
-            //draw a card
-        }
     }
-
-
-
 }
-*/
+
