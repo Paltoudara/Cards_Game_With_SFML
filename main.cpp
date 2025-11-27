@@ -35,8 +35,6 @@ int main() {
     //initialize flags
     bool flag{ true };
     bool mouseclicked{ false };
-    bool p1{ false };
-    bool p2{false };
     //
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
@@ -67,7 +65,7 @@ int main() {
 
                     }
                     else {
-                        p1 = true;
+                        flag = false;
                     }
                 }
             }
@@ -87,10 +85,11 @@ int main() {
                         }
                     }
                     else {
-                        p2 = true;
+                        flag = true;
                     }
                 }
             }
+            //check if a player won
             if (player1.size() == 0) {
                 std::cout << "player1 won\n";
                 std::exit(0);
@@ -99,14 +98,14 @@ int main() {
                 std::cout << "player2 won\n";
                 std::exit(0);
             }
-            
+            //
         }
-        if (p1 && p2) {
-            std::cout << "no player wins" << '\n';
-        }
-        else {
-            p1 = false;
-            p2 = false;
+        //draw because either can play and we have no cards
+        if (!can_he_play(player1, color, num) && !can_he_play(player2, color, num)
+            && deck.size() == 0) {
+            std::cout << "draw either play can play a card" 
+                << '\n';
+            std::exit(0);
         }
         window.clear(sf::Color::Black);
         set_the_table_of_cards(window, player1, player2);
