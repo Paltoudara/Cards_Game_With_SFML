@@ -258,6 +258,7 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 					num = key.substr(last + 1);
 					table = value;
 				}
+	
 				break;
 			}
 		}
