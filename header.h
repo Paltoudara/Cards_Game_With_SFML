@@ -67,41 +67,42 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 inline void load_file_paths(std::vector<std::string>& file_paths) {
 	//
 	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_0" + std::to_string(i) + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_0" + std::to_string(i) + ".png");
 	}
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_10.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_A.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_J.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_K.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_Q.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_10.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_A.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_J.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_K.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_Q.png");
 	//
 	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_0" + std::to_string(i) + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_0" + std::to_string(i) + ".png");
 	}
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_10.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_A.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_J.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_K.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_Q.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_10.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_A.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_J.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_K.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_Q.png");
 	//
 	//
 	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_0" + std::to_string(i) + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_0" + std::to_string(i) + ".png");
 	}
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_10.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_A.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_J.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_K.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_Q.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_10.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_A.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_J.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_K.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_Q.png");
 	//
 	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_0" + std::to_string(i) + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_0" + std::to_string(i) + ".png");
 	}
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_10.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_A.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_J.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_K.png");
-	file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_Q.png");
+	//C:\Users\panag\Source\Repos\Project_kati\playing-cards-pack.zip\PNG\Cards (large)
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_10.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_A.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_J.png");
+	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_K.png");
+	file_paths.emplace_back("C:\\Users\\panag\\source\\repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_Q.png");
 	//
 }
 //
@@ -138,10 +139,10 @@ inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) 
 //
 inline void initialize(std::vector <std::
 	pair
-	<std::string,sf::Sprite>>&
-	deck,std::string&color,std::string&num,sf::Sprite&table
-,std::unordered_map<std::string,sf::Sprite>&aces,
-std::vector<std::string>&colors) {
+	<std::string, sf::Sprite>>&
+	deck, std::string& color, std::string& num, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces,
+	std::vector<std::string>& colors) {
 	if (deck.back().first.contains('A')) {
 		num = "A";
 		color = colors[rand() % 4];
@@ -217,7 +218,7 @@ inline void set_the_table_of_cards(
 	i = 0;
 	j = 0;
 	for (auto& [key, value] : player2) {
-		value.setPosition({ 1880.f + i * 100.f, 1370.f - j });
+		value.setPosition({ 1200.f + i * 100.f, 960.f - j });
 		i++;
 		if (i % 7 == 0) {
 			j += 100.0f;
@@ -240,11 +241,15 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 			if (key.contains(color) || key.contains(num) ||
 				key.contains("A")) {
 				card_to_remove = key;
-
+				std::cout << color << " " <<num<< '\n';
+				std::cout << key << '\n';
 				if (key.contains("A")) {
 					color = colors[rand() % 4];
 					num = "A";
-					table = aces.at(color + "_A");
+					//for pc
+					//table = aces.at(color + "_A");
+					//for laptop
+					table = aces.at(color );
 				}
 				else {
 					auto first = key.find_first_of('_') + 1;
