@@ -6,6 +6,7 @@ int main() {
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
     window.setFramerateLimit(60);
+    //rectangles
     sf::RectangleShape rectangle_p1{};
     sf::RectangleShape rectangle_p2{};
     rectangle_p1.setSize({window.getSize().x/2.f,window.getSize().y/2.f });
@@ -127,6 +128,7 @@ int main() {
             text.setString("P2 Plays");
             text.setPosition({ 10.f,1010.f });
         }
+        //draw stuff
         window.draw(rectangle_p1);
         window.draw(rectangle_p2);
         window.draw(text);
@@ -134,6 +136,9 @@ int main() {
         table.setPosition({ window.getSize().x/2.f,window.getSize().y/2.f });
         table.setOrigin({ 32,32 });
         window.draw(table);
+        //
+        //display everything
         window.display();
+        //
     }
 }
