@@ -1,6 +1,7 @@
-#include"header.h"
+#include"Header.h"
 int main() {
     //for window
+    create_menu();
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
 
     sf::RenderWindow window(video,
@@ -9,11 +10,11 @@ int main() {
     //rectangles
     sf::RectangleShape rectangle_p1{};
     sf::RectangleShape rectangle_p2{};
-    rectangle_p1.setSize({window.getSize().x/2.f,window.getSize().y/2.f });
+    rectangle_p1.setSize({ window.getSize().x / 2.f,window.getSize().y / 2.f });
     rectangle_p1.setFillColor(sf::Color::Blue);
-    rectangle_p2.setSize({(float) window.getSize().x,(float)window.getSize().y });
+    rectangle_p2.setSize({ (float)window.getSize().x,(float)window.getSize().y });
     rectangle_p2.setFillColor(sf::Color::Red);
-    rectangle_p2.setPosition({ window.getSize().x/2.f,window.getSize().y/2.f });
+    rectangle_p2.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
     //
     std::vector<std::string>file_paths{};
     //load file paths for later to load the textures
@@ -76,12 +77,12 @@ int main() {
                         flag = false;
                     }
                 }
-                else if(check_for_card(window, player1, color,
+                else if (check_for_card(window, player1, color,
                     num, table, aces, colors)) {
                     flag = false;
                 }
             }
-            else{//player2 turn
+            else {//player2 turn
                 if (!can_he_play(player2, color, num)) {
                     if (deck.size() > 0) {
                         player2.emplace(deck.back());
@@ -133,7 +134,7 @@ int main() {
         window.draw(rectangle_p2);
         window.draw(text);
         set_the_table_of_cards(window, player1, player2);
-        table.setPosition({ window.getSize().x/2.f,window.getSize().y/2.f });
+        table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
         table.setOrigin({ 32,32 });
         window.draw(table);
         //
