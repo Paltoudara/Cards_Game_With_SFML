@@ -3,6 +3,7 @@
 int main() {
     //for window
     //create_menu();
+    winner(false);
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
