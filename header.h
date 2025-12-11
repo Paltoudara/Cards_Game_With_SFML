@@ -52,6 +52,13 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 	, std::unordered_map<std::string, sf::Sprite>& aces
 	, std::vector<std::string>& colors);
 //
+void create_menu();
+//
+void winner(const bool flag_winner);
+//
+void draw();
+//
+
 
 //--------------------
 //	INTERFACE END
@@ -382,6 +389,31 @@ void winner(const bool flag_winner) {
 		window.display();
 	}
 
+}
+
+void draw() {
+	sf::VideoMode video = sf::VideoMode::getDesktopMode();
+	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
+	window.setFramerateLimit(60);
+	sf::Texture texture{};
+	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\draw_texture_transparent.png")) {
+		std::exit(1);
+	}
+	sf::Vector2u texSize = texture.getSize();   // texture original size
+	sf::Vector2u winSize = window.getSize();    // window size
+
+	sf::Sprite sprite(texture);
+	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is<sf::Event::Closed>()) {
+				window.close();
+			}
+		}
+		window.clear();
+		window.draw(sprite);
+		window.display();
+	}
 }
 
 
