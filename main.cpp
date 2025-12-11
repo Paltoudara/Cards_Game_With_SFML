@@ -3,7 +3,6 @@
 int main() {
     //for window
     //create_menu();
-    winner(false);
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
@@ -62,6 +61,7 @@ int main() {
                 mouseclicked = true;
             }
         }
+        //event happens check it
         if (mouseclicked) {
             mouseclicked = false;
             if (flag == true)//player1 turn
@@ -146,11 +146,13 @@ int main() {
             }
             //check if a player won
             if (player1.size() == 0) {
-                std::cout << "player1 won\n";
+                window.close();
+                winner(true);
                 std::exit(0);
             }
             else if (player2.size() == 0) {
-                std::cout << "player2 won\n";
+                window.close();
+                winner(false);
                 std::exit(0);
             }
             //
@@ -158,8 +160,8 @@ int main() {
         //draw because either can play and we have no cards
         if (!can_he_play(player1, color, num) && !can_he_play(player2, color, num)
             && deck.size() == 0) {
-            std::cout << "draw either play can play a card"
-                << '\n';
+            window.close();
+            draw();
             std::exit(0);
         }
         window.clear(sf::Color::Black);
