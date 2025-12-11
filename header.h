@@ -350,6 +350,40 @@ void create_menu() {
 	}
 }
 
+void winner(const bool flag_winner) {
+	sf::VideoMode video = sf::VideoMode::getDesktopMode();
+	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
+	window.setFramerateLimit(60);
+	sf::Texture texture{};
+	
+	if (flag_winner == true) {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\player1.png")) {
+			std::exit(1);
+		}
+	}
+	else {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\player2.png")) {
+			std::exit(1);
+		}
+	}
+	sf::Vector2u texSize = texture.getSize();   // texture original size
+	sf::Vector2u winSize = window.getSize();    // window size
+
+	sf::Sprite sprite(texture);
+	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is<sf::Event::Closed>()) {
+				window.close();
+			}
+		}
+		window.clear();
+		window.draw(sprite);
+		window.display();
+	}
+
+}
+
 
 //--------------------
 //	IMPLEMENTATION END
