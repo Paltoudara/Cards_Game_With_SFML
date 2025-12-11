@@ -1,9 +1,9 @@
+
 #include"Header.h"
 int main() {
     //for window
-    create_menu();
+    //create_menu();
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
-
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
     window.setFramerateLimit(60);
@@ -79,7 +79,30 @@ int main() {
                 }
                 else if (check_for_card(window, player1, color,
                     num, table, aces, colors)) {
-                    flag = false;
+                    //special cards
+                    if (num == "08"||num=="09") {
+                        flag = true;
+                        //i play again
+                    }
+                    else if (num== "07") {//special card
+                        flag = false;
+                        if (deck.size() >= 2) {
+                            player2.emplace(deck.back());
+                            deck.pop_back();
+                            player2.emplace(deck.back());
+                            deck.pop_back();
+                        }
+                        else {
+                            while (deck.size() != 0) {
+                                player2.emplace(deck.back());
+                                deck.pop_back();
+                            }
+                        }
+                    
+                    }
+                    else {
+                        flag = false;
+                    }
                 }
             }
             else {//player2 turn
@@ -97,7 +120,27 @@ int main() {
                 }
                 else if (check_for_card(window, player2, color,
                     num, table, aces, colors)) {
-                    flag = true;
+                    if (num == "08" || num == "09") {
+                        flag = false;
+                    }
+                    else if (num == "07") {//special card
+                        flag = true;
+                        if (deck.size() >= 2) {
+                            player1.emplace(deck.back());
+                            deck.pop_back();
+                            player1.emplace(deck.back());
+                            deck.pop_back();
+                        }
+                        else {
+                            while (deck.size() != 0) {
+                                player1.emplace(deck.back());
+                                deck.pop_back();
+                            }
+                        }
+                    }
+                    else {
+                        flag = true;
+                    }
                 }
             }
             //check if a player won
@@ -136,6 +179,7 @@ int main() {
         set_the_table_of_cards(window, player1, player2);
         table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
         table.setOrigin({ 32,32 });
+        table.setScale({ 2.f,2.f });
         window.draw(table);
         //
         //display everything
