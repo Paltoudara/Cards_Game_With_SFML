@@ -1,3 +1,4 @@
+
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -208,9 +209,10 @@ inline void set_the_table_of_cards(
 	float j{ 0 };
 	for (auto& [key, value] : player1) {
 		value.setPosition({ 0.0f + i * 100.0f, j });
+		value.setScale({ 2.f,2.f });
 		i++;
 		if (i % 7 == 0) {
-			j += 100.0f;
+			j += 125.0f;
 			i = 0;
 		}
 		window.draw(value);
@@ -219,9 +221,10 @@ inline void set_the_table_of_cards(
 	j = 0;
 	for (auto& [key, value] : player2) {
 		value.setPosition({ 1200.f + i * 100.f, 960.f - j });
+		value.setScale({ 2.f,2.f });
 		i++;
 		if (i % 7 == 0) {
-			j += 100.0f;
+			j += 125.0f;
 			i = 0;
 		}
 		window.draw(value);
@@ -272,7 +275,7 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 //
 void create_menu() {
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{video,"sfml",sf::State::Fullscreen};
+	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
 	sf::Font font{};
 	sf::Texture texture1{};
@@ -296,21 +299,21 @@ void create_menu() {
 	//
 	sf::Sprite sprite1{ texture1 };
 	sf::Sprite sprite2{ texture2 };
-	sf::Sprite sprite3{texture3};
+	sf::Sprite sprite3{ texture3 };
 	sf::Text text{ font };
 	text.setString("Welcome to my cards game");
-	text.setPosition({ video.size.x / 2.f-520.f,video.size.y / 2.f - 200.f });
+	text.setPosition({ video.size.x / 2.f - 520.f,video.size.y / 2.f - 200.f });
 	text.setScale({ 3.f,3.f });
 	text.setFillColor(sf::Color::White);
 	//
 	sprite1.setPosition({ video.size.x / 2.f,video.size.y / 2.f });
 	sprite1.setScale({ 3.f,3.f });
 	sprite1.setOrigin({ 137 / 2.f,37 / 2.f });
-	sprite2.setPosition({ video.size.x / 2.f,video.size.y / 2.f+200.f });
+	sprite2.setPosition({ video.size.x / 2.f,video.size.y / 2.f + 200.f });
 	sprite2.setScale({ 3.f,3.f });
 	sprite2.setOrigin({ 137 / 2.f,37 / 2.f });
 	sprite3.setPosition({ 0.0f,850.f });
-	
+
 	//
 	sf::RectangleShape rectangle_p1{};
 	sf::RectangleShape rectangle_p2{};
