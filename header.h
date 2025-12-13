@@ -47,16 +47,16 @@ inline void set_the_table_of_cards(
 	sf::Sprite>& player1, std::unordered_map<std::string,
 	sf::Sprite>& player2);
 //
-bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
+inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
 	, std::unordered_map<std::string, sf::Sprite>& aces
 	, std::vector<std::string>& colors);
 //
-void create_menu();
+inline void winner(const bool flag_winner);
 //
-void winner(const bool flag_winner);
+inline void draw();
 //
-void draw();
+inline void menu();
 //
 
 
@@ -280,82 +280,6 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 	return false;
 }
 //
-void create_menu() {
-	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
-	window.setFramerateLimit(60);
-	sf::Font font{};
-	sf::Texture texture1{};
-	sf::Texture texture2{};
-	sf::Texture texture3{};
-	if (!texture1.
-		loadFromFile("C:\\Users\\panag\\Downloads\\buttons-2\\start-2.png")) {
-		std::exit(1);
-	}
-	if (!texture2.
-		loadFromFile("C:\\Users\\panag\\Downloads\\buttons-2\\exit-2.png")) {
-		std::exit(1);
-	}
-	if (!texture3.
-		loadFromFile(R"(C:\Users\panag\Source\Repos\Project_kati\github-mark-c791e9551fe4\github-mark\github-mark-white.png)")) {
-		std::exit(1);
-	}
-	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
-		std::exit(1);
-	}
-	//
-	sf::Sprite sprite1{ texture1 };
-	sf::Sprite sprite2{ texture2 };
-	sf::Sprite sprite3{ texture3 };
-	sf::Text text{ font };
-	text.setString("Welcome to my cards game");
-	text.setPosition({ video.size.x / 2.f - 520.f,video.size.y / 2.f - 200.f });
-	text.setScale({ 3.f,3.f });
-	text.setFillColor(sf::Color::White);
-	//
-	sprite1.setPosition({ video.size.x / 2.f,video.size.y / 2.f });
-	sprite1.setScale({ 3.f,3.f });
-	sprite1.setOrigin({ 137 / 2.f,37 / 2.f });
-	sprite2.setPosition({ video.size.x / 2.f,video.size.y / 2.f + 200.f });
-	sprite2.setScale({ 3.f,3.f });
-	sprite2.setOrigin({ 137 / 2.f,37 / 2.f });
-	sprite3.setPosition({ 0.0f,850.f });
-
-	//
-	sf::RectangleShape rectangle_p1{};
-	sf::RectangleShape rectangle_p2{};
-	rectangle_p1.setSize({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-	rectangle_p1.setFillColor(sf::Color::Blue);
-	rectangle_p2.setSize({ (float)window.getSize().x,(float)window.getSize().y });
-	rectangle_p2.setFillColor(sf::Color::Red);
-	rectangle_p2.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-	//
-	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {
-			if (event->is < sf::Event::MouseButtonPressed>()) {
-				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
-				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-				if (sprite1.getGlobalBounds().contains(world_pos)) {
-					window.close();
-				}
-				else if (sprite2.getGlobalBounds().contains(world_pos)) {
-					std::exit(0);
-				}
-				else if (sprite3.getGlobalBounds().contains(world_pos)) {
-					system("start https://github.com/Paltoudara?tab=repositories");
-				}
-			}
-		}
-		window.clear(sf::Color::Black);
-		window.draw(rectangle_p1);
-		window.draw(rectangle_p2);
-		window.draw(text);
-		window.draw(sprite1);
-		window.draw(sprite2);
-		window.draw(sprite3);
-		window.display();
-	}
-}
 
 void winner(const bool flag_winner) {
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
@@ -416,6 +340,124 @@ void draw() {
 	}
 }
 
+void menu() {
+	sf::Texture texture1{};
+	sf::Texture texture2{};
+	sf::Texture texture3{};
+	sf::Texture texture4{};
+	sf::Texture texture5{};
+	sf::Texture texture6{};
+	sf::Font font{};
+	if (!texture1.
+		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
+		std::exit(1);
+	}
+	if (!texture2.
+		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutFlameRed.png"))
+	{
+		std::exit(1);
+	}
+	if (!texture3.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
+		std::exit(1);
+	}
+	if (!texture4.
+		loadFromFile(R"(C:\Users\panag\Source\Repos\Project_kati\github-mark-c791e9551fe4\github-mark\github-mark-white.png)")) {
+		std::exit(1);
+	}
+	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+		std::exit(1);
+	}
+	if (!texture5
+		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\dealer beauty.jpg")) {
+		std::exit(1);
+	}
+	if (!texture6
+		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\cog_silver.png")) {
+		std::exit(1);
+	}
+	sf::VideoMode video = sf::VideoMode::getDesktopMode();
+	sf::RenderWindow window{video,"sfml",sf::State::Fullscreen};
+	window.setFramerateLimit(60);
+	sf::Sprite sprite1{ texture1 };//start
+	sprite1.setScale({1/4.f,1/4.f});
+	sprite1.setPosition({ 960.f,540.f });
+	sprite1.setOrigin({ sprite1.getLocalBounds().size.x/2.f,sprite1.getLocalBounds().size.y/2.f});
+	//
+	sf::Sprite sprite2{ texture2 };//tutorial
+	sprite2.setScale({ 1 / 4.f,1 / 4.f });
+	sprite2.setPosition({ 960.f,650.f });
+	sprite2.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
+	//
+	sf::Sprite sprite3{ texture3 };//exit
+	sprite3.setScale({ 1 / 4.f,1 / 4.f });
+	sprite3.setPosition({ 960.f,760.f });
+	sprite3.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
+	sf::Sprite sprite4{ texture4 };//github
+	sprite4.setPosition({ 1800.f,0.f});
+	sprite4.setScale({1/2.f,1/2.f});
+	sf::Sprite sprite5{texture5};
+	sf::Sprite sprite6{ texture6 };
+	//texts
+	sf::Text text1{ font,"start",50 };
+	text1.setPosition({960.f,530.f});
+	text1.setFillColor(sf::Color::White);
+	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	sf::Text text2{font,"tutorial",50};
+	text2.setPosition({ 960.f,640.f });
+	text2.setFillColor(sf::Color::Black);
+	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
+	sf::Text text3{font,"exit",50};
+	text3.setPosition({ 960.f,750.f });
+	text3.setFillColor(sf::Color::White);
+	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
+	//
+	sf::RectangleShape rectangle_p1{};
+	sf::RectangleShape rectangle_p2{};
+	rectangle_p1.setSize({ window.getSize().x / 2.f,window.getSize().y / 2.f });
+	rectangle_p1.setFillColor(sf::Color::Blue);
+	rectangle_p2.setSize({ (float)window.getSize().x,(float)window.getSize().y });
+	rectangle_p2.setFillColor(sf::Color::Red);
+	rectangle_p2.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
+	//
+
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is < sf::Event::MouseButtonPressed>()) {
+				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
+				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
+				if (sprite1.getGlobalBounds().contains(world_pos)) {
+					window.close();
+				}
+				else if (sprite2.getGlobalBounds().contains(world_pos)) {
+					
+				}
+				else if (sprite3.getGlobalBounds().contains(world_pos)) {
+					std::exit(0);
+				}
+				else if (sprite4.getGlobalBounds().contains(world_pos)) {
+					system("start https://github.com/Paltoudara?tab=repositories");
+				}
+				
+
+			}
+			else if (event->is<sf::Event::Closed>()) {
+				window.close();
+				std::exit(0);
+			}
+		}
+		window.clear();
+		window.draw(sprite5);
+		window.draw(sprite1);
+		window.draw(sprite2);
+		window.draw(sprite3);
+		window.draw(sprite4);
+		window.draw(text1);
+		window.draw(text2);
+		window.draw(text3);
+		window.draw(sprite6);
+		window.display();
+	}
+}
 
 //--------------------
 //	IMPLEMENTATION END
