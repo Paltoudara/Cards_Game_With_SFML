@@ -2,7 +2,7 @@
 #include"Header.h"
 int main() {
     //for window
-    //create_menu();
+    menu();
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
