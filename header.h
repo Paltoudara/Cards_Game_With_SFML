@@ -58,6 +58,9 @@ inline void draw();
 //
 inline void menu();
 //
+inline void tutorial(sf::RenderWindow &window);
+//
+inline void settings();
 
 
 //--------------------
@@ -396,7 +399,7 @@ void menu() {
 	sprite4.setPosition({ 1800.f,0.f});
 	sprite4.setScale({1/2.f,1/2.f});
 	sf::Sprite sprite5{texture5};
-	sf::Sprite sprite6{ texture6 };
+	sf::Sprite sprite6{ texture6 };//settings
 	//texts
 	sf::Text text1{ font,"start",50 };
 	text1.setPosition({960.f,530.f});
@@ -429,7 +432,7 @@ void menu() {
 					window.close();
 				}
 				else if (sprite2.getGlobalBounds().contains(world_pos)) {
-					
+					tutorial(window);
 				}
 				else if (sprite3.getGlobalBounds().contains(world_pos)) {
 					std::exit(0);
@@ -437,8 +440,9 @@ void menu() {
 				else if (sprite4.getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
 				}
-				
-
+				else if (sprite6.getGlobalBounds().contains(world_pos)) {
+					settings();
+				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
 				window.close();
@@ -458,6 +462,66 @@ void menu() {
 		window.display();
 	}
 }
+//
+inline void tutorial(sf::RenderWindow &window) {
+	sf::Font font{};
+	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+		std::exit(1);
+	}
+	sf::Text text1{ font,"Rules:",100 };
+	sf::Text text2{ font
+		,"The rules are simple.You can put a card at the table only if your card has  the			  ",50 };
+	sf::Text text3{font
+		,"same symbol at the middle with the table card or the same number with the table card.",50};
+	sf::Text text4{font
+		,"The numbers are the symbol that is at the top left of the card and also at the bottom   ",50};
+	sf::Text text5{ font,"right.",50 };
+	text5.setFillColor(sf::Color::Green);
+	text5.setPosition({ 960.f,440.f });
+	text5.setOrigin({ text5.getLocalBounds().size.x / 2.f,text5.getLocalBounds().size.y/2.f });
+	text2.setFillColor(sf::Color::Green);
+	text2.setPosition({ 960.f,200.f });
+	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
+	text1.setFillColor(sf::Color::Green);
+	text1.setPosition({ 960.f,20.f });
+	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	text3.setFillColor(sf::Color::Green);
+	text3.setPosition({ 960.f,270.f });
+	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
+	text4.setFillColor(sf::Color::Green);
+	text4.setPosition({ 960.f,340.f });
+	text4.setOrigin({ text4.getLocalBounds().size.x / 2.f,text4.getLocalBounds().size.y / 2.f });
+	//
+	sf::Text text{ font,"TAP ANYWHERE TO CONTINUE...",50};
+	text.setPosition({ 1000.f,1000.f});
+	text.setFillColor(sf::Color::Green);
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is<sf::Event::MouseButtonPressed>()) {
+				return;
+			}
+			else if (event->is<sf::Event::Closed>()) {
+				window.close();
+				std::exit(0);
+			}
+		}
+		window.clear();
+		window.draw(text1);
+		window.draw(text2);
+		window.draw(text3);
+		window.draw(text4);
+		window.draw(text5);
+		window.draw(text);
+		window.display();
+	}
+
+
+}
+//
+inline void settings() {
+
+}
+
 
 //--------------------
 //	IMPLEMENTATION END
