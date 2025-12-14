@@ -1,4 +1,3 @@
-
 #include"Header.h"
 int main() {
     //for window
@@ -64,85 +63,11 @@ int main() {
         //event happens check it
         if (mouseclicked) {
             mouseclicked = false;
-            if (flag == true)//player1 turn
-            {
-                if (!can_he_play(player1, color, num)) {
-                    if (deck.size() > 0) {
-                        player1.emplace(deck.back());
-                        deck.pop_back();
-                        if (!can_he_play(player1, color, num)) {
-                            flag = false;
-                        }
-                    }
-                    else {
-                        flag = false;
-                    }
-                }
-                else if (check_for_card(window, player1, color,
-                    num, table, aces, colors)) {
-                    //special cards
-                    if (num == "08"||num=="09") {
-                        flag = true;
-                        //i play again
-                    }
-                    else if (num== "07") {//special card
-                        flag = false;
-                        if (deck.size() >= 2) {
-                            player2.emplace(deck.back());
-                            deck.pop_back();
-                            player2.emplace(deck.back());
-                            deck.pop_back();
-                        }
-                        else {
-                            while (deck.size() != 0) {
-                                player2.emplace(deck.back());
-                                deck.pop_back();
-                            }
-                        }
-                    
-                    }
-                    else {
-                        flag = false;
-                    }
-                }
+            if (flag == true) {
+                player_plays(player1,flag,player2,deck,color,num,window,colors,table,aces);
             }
-            else {//player2 turn
-                if (!can_he_play(player2, color, num)) {
-                    if (deck.size() > 0) {
-                        player2.emplace(deck.back());
-                        deck.pop_back();
-                        if (!can_he_play(player2, color, num)) {
-                            flag = true;
-                        }
-                    }
-                    else {
-                        flag = true;
-                    }
-                }
-                else if (check_for_card(window, player2, color,
-                    num, table, aces, colors)) {
-                    if (num == "08" || num == "09") {
-                        flag = false;
-                    }
-                    else if (num == "07") {//special card
-                        flag = true;
-                        if (deck.size() >= 2) {
-                            player1.emplace(deck.back());
-                            deck.pop_back();
-                            player1.emplace(deck.back());
-                            deck.pop_back();
-                        }
-                        else {
-                            while (deck.size() != 0) {
-                                player1.emplace(deck.back());
-                                deck.pop_back();
-                            }
-                        }
-                    }
-                    else {
-                        flag = true;
-                    }
-                }
+            else {
+                player_plays(player2,flag,player1,deck,color,num,window,colors,table,aces);
             }
             //check if a player won
             if (player1.size() == 0) {
@@ -190,3 +115,4 @@ int main() {
         //
     }
 }
+
