@@ -61,7 +61,12 @@ inline void menu();
 inline void tutorial(sf::RenderWindow &window);
 //
 inline void settings();
-
+//
+inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
+	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
+	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces);
+//
 
 //--------------------
 //	INTERFACE END
@@ -435,6 +440,7 @@ void menu() {
 					tutorial(window);
 				}
 				else if (sprite3.getGlobalBounds().contains(world_pos)) {
+					window.close();
 					std::exit(0);
 				}
 				else if (sprite4.getGlobalBounds().contains(world_pos)) {
@@ -463,38 +469,36 @@ void menu() {
 	}
 }
 //
-inline void tutorial(sf::RenderWindow &window) {
+inline void tutorial(sf::RenderWindow& window) {
 	sf::Font font{};
-	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
 		std::exit(1);
 	}
-	sf::Text text1{ font,"Rules:",100 };
-	sf::Text text2{ font
-		,"The rules are simple.You can put a card at the table only if your card has  the			  ",50 };
-	sf::Text text3{font
-		,"same symbol at the middle with the table card or the same number with the table card.",50};
-	sf::Text text4{font
-		,"The numbers are the symbol that is at the top left of the card and also at the bottom   ",50};
-	sf::Text text5{ font,"right.",50 };
-	text5.setFillColor(sf::Color::Green);
-	text5.setPosition({ 960.f,440.f });
-	text5.setOrigin({ text5.getLocalBounds().size.x / 2.f,text5.getLocalBounds().size.y/2.f });
-	text2.setFillColor(sf::Color::Green);
-	text2.setPosition({ 960.f,200.f });
-	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
-	text1.setFillColor(sf::Color::Green);
-	text1.setPosition({ 960.f,20.f });
-	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
-	text3.setFillColor(sf::Color::Green);
-	text3.setPosition({ 960.f,270.f });
-	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
-	text4.setFillColor(sf::Color::Green);
-	text4.setPosition({ 960.f,340.f });
-	text4.setOrigin({ text4.getLocalBounds().size.x / 2.f,text4.getLocalBounds().size.y / 2.f });
 	//
-	sf::Text text{ font,"TAP ANYWHERE TO CONTINUE...",50};
-	text.setPosition({ 1000.f,1000.f});
-	text.setFillColor(sf::Color::Green);
+	sf::Text text1{ font,"RULES OF THE GAME:",100 };
+	text1.setPosition({ 920.f,20.f });
+	text1.setFillColor(sf::Color::Green);
+	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	//
+	sf::String message =
+		L"We have a deck of 52 cards and two "
+		L"players. The cards contain symbols. The symbols\n"
+		L"are 4: ♠Spades, ♥Hearts, ♦Diamonds, ♣Clubs. "
+		L"Every symbol contains Number cards: 2\n-10. "
+		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random ca\nrds and there is"
+		L" a card in the table,you can drop cards from your hand at the table on\nly if the symbol of your card or the number"
+		L" matches the symbol or the number of the\ncard respectively at the table.Winner is the player that will have 0 cards left."
+		L"If it is your\nturn and you can't play you have to draw a card and see if you can play it.If you can't\n"
+		L"then the other player plays.Warning if you can't play and the deck has no cards then\nthe other player plays and "
+		L"if no player can play a card and the deck is empty then dra\nw (Player 1 always starts first)"
+		L".Special cards: the numbers 7,8,9 and A are special if yo\nu drop 7 then the other player has"
+		L" to draw two cards(or less if the deck doesn't have t\nwo at the time).If you drop 8 then you can play again and the same goes for 9."
+		L"If you d\nrop an ace then a random card between the four aces will appear in the table.Note th\nat"
+		L" the special cards have no effect if they are at the table at the start of the game(als\no whatever"
+		L" card is in the table you can drop an ace no matter what.TAP ANYWHERE";
+	sf::Text text2{font,message,50};
+	text2.setFillColor(sf::Color::Green);
+	text2.setPosition({ 20.f,90.f });
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::MouseButtonPressed>()) {
@@ -504,14 +508,11 @@ inline void tutorial(sf::RenderWindow &window) {
 				window.close();
 				std::exit(0);
 			}
+			
 		}
 		window.clear();
 		window.draw(text1);
 		window.draw(text2);
-		window.draw(text3);
-		window.draw(text4);
-		window.draw(text5);
-		window.draw(text);
 		window.display();
 	}
 
@@ -522,7 +523,50 @@ inline void settings() {
 
 }
 
+inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player,bool &flag
+,std::unordered_map<std::string,sf::Sprite>&other_player,std::vector<std::pair<std::string,sf::Sprite>>&deck
+,std::string &color,std::string& num,sf::RenderWindow&window,std::vector<std::string>&colors,sf::Sprite&table
+, std::unordered_map<std::string, sf::Sprite>&aces) {
+	if (!can_he_play(player, color, num)) {
+		if (deck.size() > 0) {
+			player.emplace(deck.back());
+			deck.pop_back();
+			if (!can_he_play(player, color, num)) {
+				//flag=true 
+				flag =!flag;
+			}
+		}
+		else {
+			flag =!flag;
+		}
+	}
+	else if (check_for_card(window, player, color,
+		num, table, aces, colors)) {
+		//special cards
+		if (num == "07") {//special card
+			flag = !flag;
+			if (deck.size() >= 2) {
+				other_player.emplace(deck.back());
+				deck.pop_back();
+				other_player.emplace(deck.back());
+				deck.pop_back();
+			}
+			else {
+				while (deck.size() != 0) {
+					other_player.emplace(deck.back());
+					deck.pop_back();
+				}
+			}
+
+		}
+		else if(num!="08" && num!="09") {
+			flag = !flag;
+		}
+	}
+}
+
 
 //--------------------
 //	IMPLEMENTATION END
 //--------------------
+
