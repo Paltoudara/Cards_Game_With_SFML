@@ -1,19 +1,18 @@
+
 #include"Header.h"
 int main() {
     //for window
     menu();
+    sf::Texture backround{};
+    if (!backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
+        std::exit(1);
+    }
+    sf::Sprite  _backround{ backround };
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
+    _backround.setScale({ 1.f,(float)window.getSize().y/backround.getSize().y});
     window.setFramerateLimit(60);
-    //rectangles
-    sf::RectangleShape rectangle_p1{};
-    sf::RectangleShape rectangle_p2{};
-    rectangle_p1.setSize({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-    rectangle_p1.setFillColor(sf::Color::Blue);
-    rectangle_p2.setSize({ (float)window.getSize().x,(float)window.getSize().y });
-    rectangle_p2.setFillColor(sf::Color::Red);
-    rectangle_p2.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
     //
     std::vector<std::string>file_paths{};
     //load file paths for later to load the textures
@@ -90,6 +89,7 @@ int main() {
             std::exit(0);
         }
         window.clear(sf::Color::Black);
+        window.draw(_backround);
         if (flag == true) {
             text.setFillColor(sf::Color::Blue);
             text.setString("P1 Plays");
@@ -101,8 +101,6 @@ int main() {
             text.setPosition({ 10.f,1010.f });
         }
         //draw stuff
-        window.draw(rectangle_p1);
-        window.draw(rectangle_p2);
         window.draw(text);
         set_the_table_of_cards(window, player1, player2);
         table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
@@ -115,4 +113,3 @@ int main() {
         //
     }
 }
-
