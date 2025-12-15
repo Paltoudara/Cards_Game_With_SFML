@@ -1,3 +1,4 @@
+
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -483,21 +484,21 @@ inline void tutorial(sf::RenderWindow& window) {
 		L"We have a deck of 52 cards and two "
 		L"players. The cards contain symbols. The symbols\n"
 		L"are 4: ♠Spades, ♥Hearts, ♦Diamonds, ♣Clubs. "
-		L"Every symbol contains Number cards: 2\n-10. "
-		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random ca\nrds and there is"
-		L" a card in the table,you can drop cards from your hand at the table on\nly if the symbol of your card or the number"
+		L"Every symbol contains Number cards: 2-10.\n"
+		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random cards\nand there is"
+		L" a card in the table,you can drop cards from your hand at the table only\nif the symbol of your card or the number"
 		L" matches the symbol or the number of the\ncard respectively at the table.Winner is the player that will have 0 cards left."
 		L"If it is your\nturn and you can't play you have to draw a card and see if you can play it.If you can't\n"
 		L"then the other player plays.Warning if you can't play and the deck has no cards then\nthe other player plays and "
-		L"if no player can play a card and the deck is empty then dra\nw (Player 1 always starts first)"
-		L".Special cards: the numbers 7,8,9 and A are special if yo\nu drop 7 then the other player has"
-		L" to draw two cards(or less if the deck doesn't have t\nwo at the time).If you drop 8 then you can play again and the same goes for 9."
-		L"If you d\nrop an ace then a random card between the four aces will appear in the table.Note th\nat"
-		L" the special cards have no effect if they are at the table at the start of the game(als\no whatever"
-		L" card is in the table you can drop an ace no matter what.TAP ANYWHERE";
-	sf::Text text2{font,message,50};
+		L"if no player can play a card and the deck is empty then draw\n(Player 1 always starts first)"
+		L".Special cards: the numbers 7,8,9 and A are special if you\n drop 7 then the other player has"
+		L" to draw two cards(or less if the deck doesn't have two\nat the time).If you drop 8 then you can play again and the same goes for 9."
+		L"If you drop\nan ace then a random card between the four aces will appear in the table.Note that\n"
+		L" the special cards have no effect if they are at the table at the start of the game(also\nwhatever"
+		L" card is in the table you can drop an ace no matter what.";
+	sf::Text text2{font,message,30};
 	text2.setFillColor(sf::Color::Green);
-	text2.setPosition({ 20.f,90.f });
+	text2.setPosition({ 370.f,120.f });
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::MouseButtonPressed>()) {
@@ -568,4 +569,3 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player,boo
 //--------------------
 //	IMPLEMENTATION END
 //--------------------
-
