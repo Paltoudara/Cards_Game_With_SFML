@@ -3,6 +3,8 @@
 int main() {
     //for window
     menu();
+    
+    //std::cout << 2 % 0 << '\n';
     sf::Texture backround{};
     if (!backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
         std::exit(1);
@@ -11,7 +13,7 @@ int main() {
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
-    _backround.setScale({ 1.f,(float)window.getSize().y/backround.getSize().y});
+    _backround.setScale({ 1.f,(float)window.getSize().y / backround.getSize().y });
     window.setFramerateLimit(60);
     //
     std::vector<std::string>file_paths{};
@@ -50,6 +52,7 @@ int main() {
         std::exit(1);
     }
     sf::Text text{ font };
+    std::srand(std::time(NULL));
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
@@ -63,10 +66,10 @@ int main() {
         if (mouseclicked) {
             mouseclicked = false;
             if (flag == true) {
-                player_plays(player1,flag,player2,deck,color,num,window,colors,table,aces);
+                player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces);
             }
             else {
-                player_plays(player2,flag,player1,deck,color,num,window,colors,table,aces);
+                player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces);
             }
             //check if a player won
             if (player1.size() == 0) {
