@@ -10,7 +10,7 @@
 #include<random>
 #include<optional>
 #include<utility>
-
+#include<SFML/Audio.hpp>
 //--------------------
 //	INTERFACE BEGIN
 //--------------------
@@ -56,11 +56,9 @@ inline void winner(const bool flag_winner);
 //
 inline void draw();
 //
-inline void menu();
+inline void menu(sf::Music&music);
 //
 inline void tutorial(sf::RenderWindow& window);
-//
-inline void settings();
 //
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
@@ -145,7 +143,6 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	}
 }
 //
-//
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	std::random_device rd{};
 	std::mt19937 gen(rd());
@@ -165,31 +162,15 @@ inline void initialize(std::vector <std::
 		table = aces.at(color);
 	}
 	else {
-		if (deck.back().first.contains("clubs")) {
-			color = "clubs";
-			num = deck.back().first.substr(
-				deck.back().first.find_last_of('_') + 1);
-		}
-		else if (deck.back().first.contains("diamonds")) {
-			color = "diamonds";
-			num = deck.back().first.substr(
-				deck.back().first.find_last_of('_') + 1);
-		}
-		else if (deck.back().first.contains("hearts")) {
-			color = "hearts";
-			num = deck.back().first.substr(
-				deck.back().first.find_last_of('_') + 1);
-		}
-		else {
-			color = "spades";
-			num = deck.back().first.substr(
-				deck.back().first.find_last_of('_') + 1);
-		}
+		color = std::string{ deck.back().first.begin() + deck.back().first.find('_')+1 
+			,deck.back().first.begin()+deck.back().first.find_last_of('_')
+		};
+		num = deck.back().first.substr(
+			deck.back().first.find_last_of('_') + 1);
 		table = deck.back().second;
 	}
 	deck.pop_back();
 }
-//
 //
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
@@ -276,7 +257,6 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 					num = key.substr(last + 1);
 					table = value;
 				}
-
 				break;
 			}
 		}
@@ -347,15 +327,19 @@ void draw() {
 		window.display();
 	}
 }
-
-void menu() {
+//optimize this bitch
+void menu(sf::Music &music) {
 	sf::Texture texture1{};
 	sf::Texture texture2{};
 	sf::Texture texture3{};
 	sf::Texture texture4{};
 	sf::Texture texture5{};
 	sf::Texture texture6{};
+	sf::Texture texture7{};
 	sf::Font font{};
+	music.setLooping(true);
+	music.setVolume(60.f);
+	music.play();
 	if (!texture1.
 		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
 		std::exit(1);
@@ -379,55 +363,57 @@ void menu() {
 		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\dealer beauty.jpg")) {
 		std::exit(1);
 	}
-	if (!texture6
-		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\cog_silver.png")) {
+	if (!texture6.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_on.png")) {
+		std::exit(1);
+	}
+	if (!texture7.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_off.png")) {
 		std::exit(1);
 	}
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
 	sf::Sprite sprite1{ texture1 };//start
+	sf::Sprite sprite2{ texture2 };//tutorial
+	sf::Sprite sprite3{ texture3 };//exit
+	sf::Sprite sprite4{ texture4 };//github
+	sf::Sprite sprite5{ texture5 };//backround
+	sf::Sprite sprite6{ texture6 };//music_on
+	sf::Sprite sprite7{ texture7 };////music_off
 	sprite1.setScale({ 1 / 4.f,1 / 4.f });
 	sprite1.setPosition({ 960.f,540.f });
 	sprite1.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
 	//
-	sf::Sprite sprite2{ texture2 };//tutorial
 	sprite2.setScale({ 1 / 4.f,1 / 4.f });
 	sprite2.setPosition({ 960.f,650.f });
 	sprite2.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
 	//
-	sf::Sprite sprite3{ texture3 };//exit
 	sprite3.setScale({ 1 / 4.f,1 / 4.f });
 	sprite3.setPosition({ 960.f,760.f });
 	sprite3.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
-	sf::Sprite sprite4{ texture4 };//github
+	//
 	sprite4.setPosition({ 1800.f,0.f });
 	sprite4.setScale({ 1 / 2.f,1 / 2.f });
-	sf::Sprite sprite5{ texture5 };
-	sf::Sprite sprite6{ texture6 };//settings
+	//
+	sprite6.setScale({ 64.f/texture6.getSize().x,80.f/texture6.getSize().y });
+	//
+	sprite7.setScale({ 64.f / texture6.getSize().x,80.f / texture6.getSize().y });
 	//texts
 	sf::Text text1{ font,"start",50 };
+	sf::Text text2{ font,"tutorial",50 };
+	sf::Text text3{ font,"exit",50 };
+	//
 	text1.setPosition({ 960.f,530.f });
 	text1.setFillColor(sf::Color::White);
 	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
-	sf::Text text2{ font,"tutorial",50 };
+	//
 	text2.setPosition({ 960.f,640.f });
 	text2.setFillColor(sf::Color::Black);
 	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
-	sf::Text text3{ font,"exit",50 };
+	//
 	text3.setPosition({ 960.f,750.f });
 	text3.setFillColor(sf::Color::White);
 	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
 	//
-	sf::RectangleShape rectangle_p1{};
-	sf::RectangleShape rectangle_p2{};
-	rectangle_p1.setSize({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-	rectangle_p1.setFillColor(sf::Color::Blue);
-	rectangle_p2.setSize({ (float)window.getSize().x,(float)window.getSize().y });
-	rectangle_p2.setFillColor(sf::Color::Red);
-	rectangle_p2.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-	//
-
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is < sf::Event::MouseButtonPressed>()) {
@@ -446,8 +432,14 @@ void menu() {
 				else if (sprite4.getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
 				}
-				else if (sprite6.getGlobalBounds().contains(world_pos)) {
-					settings();
+				else if (sprite6.getLocalBounds().contains(world_pos)) {
+					if (music.getStatus() == sf::SoundSource::Status::Playing) {
+						music.stop();
+					}
+					else {
+						music.play();
+					}
+
 				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
@@ -461,14 +453,20 @@ void menu() {
 		window.draw(sprite2);
 		window.draw(sprite3);
 		window.draw(sprite4);
+		if (music.getStatus()== sf::SoundSource::Status::Playing) {
+			window.draw(sprite6);//music_on
+		}
+		else {
+			window.draw(sprite7);//music_off
+		}
 		window.draw(text1);
 		window.draw(text2);
 		window.draw(text3);
-		window.draw(sprite6);
 		window.display();
 	}
+	music.stop();
 }
-//
+//done
 inline void tutorial(sf::RenderWindow& window) {
 	sf::Font font{};
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
@@ -537,11 +535,7 @@ inline void tutorial(sf::RenderWindow& window) {
 
 
 }
-//
-inline void settings() {
-
-}
-
+//done
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
