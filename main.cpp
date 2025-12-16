@@ -1,10 +1,13 @@
-
 #include"Header.h"
 int main() {
-    //for window
-    menu();
-    
-    //std::cout << 2 % 0 << '\n';
+    //
+    sf::Music music{};
+    if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Sketchbook 2024-10-16.ogg")) {
+        std::exit(1);
+    }
+    //
+    menu(music);
+    //
     sf::Texture backround{};
     if (!backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
         std::exit(1);
@@ -52,7 +55,7 @@ int main() {
         std::exit(1);
     }
     sf::Text text{ font };
-    std::srand(std::time(NULL));
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
