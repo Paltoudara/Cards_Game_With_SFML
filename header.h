@@ -58,7 +58,7 @@ inline void draw();
 //
 inline void menu();
 //
-inline void tutorial(sf::RenderWindow &window);
+inline void tutorial(sf::RenderWindow& window);
 //
 inline void settings();
 //
@@ -294,7 +294,7 @@ void winner(const bool flag_winner) {
 	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
 	sf::Texture texture{};
-	
+
 	if (flag_winner == true) {
 		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\player1.png")) {
 			std::exit(1);
@@ -384,12 +384,12 @@ void menu() {
 		std::exit(1);
 	}
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{video,"sfml",sf::State::Fullscreen};
+	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
 	sf::Sprite sprite1{ texture1 };//start
-	sprite1.setScale({1/4.f,1/4.f});
+	sprite1.setScale({ 1 / 4.f,1 / 4.f });
 	sprite1.setPosition({ 960.f,540.f });
-	sprite1.setOrigin({ sprite1.getLocalBounds().size.x/2.f,sprite1.getLocalBounds().size.y/2.f});
+	sprite1.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
 	//
 	sf::Sprite sprite2{ texture2 };//tutorial
 	sprite2.setScale({ 1 / 4.f,1 / 4.f });
@@ -401,20 +401,20 @@ void menu() {
 	sprite3.setPosition({ 960.f,760.f });
 	sprite3.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
 	sf::Sprite sprite4{ texture4 };//github
-	sprite4.setPosition({ 1800.f,0.f});
-	sprite4.setScale({1/2.f,1/2.f});
-	sf::Sprite sprite5{texture5};
+	sprite4.setPosition({ 1800.f,0.f });
+	sprite4.setScale({ 1 / 2.f,1 / 2.f });
+	sf::Sprite sprite5{ texture5 };
 	sf::Sprite sprite6{ texture6 };//settings
 	//texts
 	sf::Text text1{ font,"start",50 };
-	text1.setPosition({960.f,530.f});
+	text1.setPosition({ 960.f,530.f });
 	text1.setFillColor(sf::Color::White);
 	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
-	sf::Text text2{font,"tutorial",50};
+	sf::Text text2{ font,"tutorial",50 };
 	text2.setPosition({ 960.f,640.f });
 	text2.setFillColor(sf::Color::Black);
 	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
-	sf::Text text3{font,"exit",50};
+	sf::Text text3{ font,"exit",50 };
 	text3.setPosition({ 960.f,750.f });
 	text3.setFillColor(sf::Color::White);
 	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
@@ -475,10 +475,20 @@ inline void tutorial(sf::RenderWindow& window) {
 		std::exit(1);
 	}
 	//
+	sf::Texture texture{};
+	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		std::exit(1);
+	}
+	//
+	sf::Sprite sprite{ texture };
+	sprite.setScale({ window.getSize().x/ sprite.getLocalBounds().size.x,window.getSize().y/sprite.getLocalBounds().size.y });
+	//
 	sf::Text text1{ font,"RULES OF THE GAME:",100 };
-	text1.setPosition({ 920.f,20.f });
-	text1.setFillColor(sf::Color::Green);
+	text1.setPosition({ 930.f,20.f });
+	text1.setFillColor(sf::Color::Black);
 	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	text1.setOutlineColor(sf::Color::White);
+	text1.setOutlineThickness(5.f);
 	//
 	sf::String message =
 		L"We have a deck of 52 cards and two "
@@ -496,9 +506,16 @@ inline void tutorial(sf::RenderWindow& window) {
 		L"If you drop\nan ace then a random card between the four aces will appear in the table.Note that\n"
 		L" the special cards have no effect if they are at the table at the start of the game(also\nwhatever"
 		L" card is in the table you can drop an ace no matter what.";
-	sf::Text text2{font,message,30};
-	text2.setFillColor(sf::Color::Green);
+	sf::Text text2{ font,message,30 };
+	text2.setFillColor(sf::Color::Black);
 	text2.setPosition({ 370.f,120.f });
+	text2.setOutlineColor(sf::Color::White);
+	text2.setOutlineThickness(5.f);
+	sf::Text text3{ font,"TAP ANYWHERE",100};
+	text3.setPosition({ 1200.f,970.f});
+	text3.setFillColor(sf::Color::Black);
+	text3.setOutlineColor(sf::Color::White);
+	text3.setOutlineThickness(10.f);
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::MouseButtonPressed>()) {
@@ -508,11 +525,13 @@ inline void tutorial(sf::RenderWindow& window) {
 				window.close();
 				std::exit(0);
 			}
-			
+
 		}
 		window.clear();
+		window.draw(sprite);
 		window.draw(text1);
 		window.draw(text2);
+		window.draw(text3);
 		window.display();
 	}
 
@@ -523,21 +542,20 @@ inline void settings() {
 
 }
 
-inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player,bool &flag
-,std::unordered_map<std::string,sf::Sprite>&other_player,std::vector<std::pair<std::string,sf::Sprite>>&deck
-,std::string &color,std::string& num,sf::RenderWindow&window,std::vector<std::string>&colors,sf::Sprite&table
-, std::unordered_map<std::string, sf::Sprite>&aces) {
+inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
+	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
+	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces) {
 	if (!can_he_play(player, color, num)) {
 		if (deck.size() > 0) {
 			player.emplace(deck.back());
 			deck.pop_back();
 			if (!can_he_play(player, color, num)) {
-				//flag=true 
-				flag =!flag;
+				flag = !flag;
 			}
 		}
 		else {
-			flag =!flag;
+			flag = !flag;
 		}
 	}
 	else if (check_for_card(window, player, color,
@@ -545,21 +563,12 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player,boo
 		//special cards
 		if (num == "07") {//special card
 			flag = !flag;
-			if (deck.size() >= 2) {
-				other_player.emplace(deck.back());
-				deck.pop_back();
+			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {
 				other_player.emplace(deck.back());
 				deck.pop_back();
 			}
-			else {
-				while (deck.size() != 0) {
-					other_player.emplace(deck.back());
-					deck.pop_back();
-				}
-			}
-
 		}
-		else if(num!="08" && num!="09") {
+		else if (num != "08" && num != "09") {
 			flag = !flag;
 		}
 	}
