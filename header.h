@@ -329,110 +329,124 @@ void draw() {
 }
 //optimize this bitch
 void menu(sf::Music &music) {
-	sf::Texture texture1{};
-	sf::Texture texture2{};
-	sf::Texture texture3{};
-	sf::Texture texture4{};
-	sf::Texture texture5{};
-	sf::Texture texture6{};
-	sf::Texture texture7{};
+	/*
+		texture[0]->start->1
+		texture[1]->tutorial->2
+		texture[2]->exit->3
+		texture[3]->//github->4
+		texture[4]->//backround->5
+		texture[5]->//music_on->6
+		texture[6]->//music_off->7
+	*/
+
+	/*
+		sprites[0]->start->1
+		sprites[1]->tutorial->2
+		sprites[2]->exit->3
+		sprites[3]->//github->4
+		sprites[4]->//backround->5
+		sprites[5]->//music_on->6
+		sprites[6]->//music_off->7
+	*/
+	std::vector<sf::Texture>textures(7);
 	sf::Font font{};
+	//
 	music.setLooping(true);
-	music.setVolume(60.f);
+	music.setVolume(100.f);
 	music.play();
-	if (!texture1.
+	//
+	//textures load
+	if (!textures[0].
 		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
 		std::exit(1);
 	}
-	if (!texture2.
+	if (!textures[1].
 		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutFlameRed.png"))
 	{
 		std::exit(1);
 	}
-	if (!texture3.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
+	if (!textures[2].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
 		std::exit(1);
 	}
-	if (!texture4.
+	if (!textures[3].
 		loadFromFile(R"(C:\Users\panag\Source\Repos\Project_kati\github-mark-c791e9551fe4\github-mark\github-mark-white.png)")) {
+		std::exit(1);
+	}
+	if (!textures[4]
+		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\dealer beauty.jpg")) {
+		std::exit(1);
+	}
+	if (!textures[5].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_on.png")) {
+		std::exit(1);
+	}
+	if (!textures[6].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_off.png")) {
 		std::exit(1);
 	}
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
 		std::exit(1);
 	}
-	if (!texture5
-		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\dealer beauty.jpg")) {
-		std::exit(1);
-	}
-	if (!texture6.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_on.png")) {
-		std::exit(1);
-	}
-	if (!texture7.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_off.png")) {
-		std::exit(1);
-	}
+	//
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
-	sf::Sprite sprite1{ texture1 };//start
-	sf::Sprite sprite2{ texture2 };//tutorial
-	sf::Sprite sprite3{ texture3 };//exit
-	sf::Sprite sprite4{ texture4 };//github
-	sf::Sprite sprite5{ texture5 };//backround
-	sf::Sprite sprite6{ texture6 };//music_on
-	sf::Sprite sprite7{ texture7 };////music_off
-	sprite1.setScale({ 1 / 4.f,1 / 4.f });
-	sprite1.setPosition({ 960.f,540.f });
-	sprite1.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
+	//sprites
+	std::vector<sf::Sprite>sprites{ (sf::Sprite)textures[0],(sf::Sprite)textures[1],
+	(sf::Sprite)textures[2],(sf::Sprite)textures[3],(sf::Sprite)textures[4],(sf::Sprite)textures[5]
+	,(sf::Sprite)textures[6]};
+	//buttons
+	sprites[0].setScale({1 / 4.f,1 / 4.f});
+	sprites[0].setPosition({960.f,540.f});
+	sprites[0].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
+	sprites[1].setScale({1 / 4.f,1 / 4.f});
+	sprites[1].setPosition({960.f,650.f});
+	sprites[1].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
+	sprites[2].setScale({1 / 4.f,1 / 4.f});
+	sprites[2].setPosition({960.f,760.f});
+	sprites[2].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
+	//github
+	sprites[3].setPosition({1800.f,0.f});
+	sprites[3].setScale({1 / 2.f,1 / 2.f});
+	//music_on
+	sprites[5].setScale({64.f / textures[5].getSize().x,80.f / textures[5].getSize().y});
+	//music_off
+	sprites[6].setScale({64.f / textures[6].getSize().x,80.f / textures[6].getSize().y});
 	//
-	sprite2.setScale({ 1 / 4.f,1 / 4.f });
-	sprite2.setPosition({ 960.f,650.f });
-	sprite2.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
-	//
-	sprite3.setScale({ 1 / 4.f,1 / 4.f });
-	sprite3.setPosition({ 960.f,760.f });
-	sprite3.setOrigin({ sprite1.getLocalBounds().size.x / 2.f,sprite1.getLocalBounds().size.y / 2.f });
-	//
-	sprite4.setPosition({ 1800.f,0.f });
-	sprite4.setScale({ 1 / 2.f,1 / 2.f });
-	//
-	sprite6.setScale({ 64.f/texture6.getSize().x,80.f/texture6.getSize().y });
-	//
-	sprite7.setScale({ 64.f / texture6.getSize().x,80.f / texture6.getSize().y });
 	//texts
-	sf::Text text1{ font,"start",50 };
-	sf::Text text2{ font,"tutorial",50 };
-	sf::Text text3{ font,"exit",50 };
+	sf::Text text_start{ font,"start",50 };
+	sf::Text text_tutorial{ font,"tutorial",50 };
+	sf::Text text_exit{ font,"exit",50 };
 	//
-	text1.setPosition({ 960.f,530.f });
-	text1.setFillColor(sf::Color::White);
-	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	text_start.setPosition({ 960.f,530.f });
+	text_start.setFillColor(sf::Color::White);
+	text_start.setOrigin({ text_start.getLocalBounds().size.x / 2.f,text_start.getLocalBounds().size.y / 2.f });
 	//
-	text2.setPosition({ 960.f,640.f });
-	text2.setFillColor(sf::Color::Black);
-	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y / 2.f });
+	text_tutorial.setPosition({ 960.f,640.f });
+	text_tutorial.setFillColor(sf::Color::Black);
+	text_tutorial.setOrigin({ text_tutorial.getLocalBounds().size.x / 2.f,text_tutorial.getLocalBounds().size.y / 2.f });
 	//
-	text3.setPosition({ 960.f,750.f });
-	text3.setFillColor(sf::Color::White);
-	text3.setOrigin({ text3.getLocalBounds().size.x / 2.f,text3.getLocalBounds().size.y / 2.f });
+	text_exit.setPosition({ 960.f,750.f });
+	text_exit.setFillColor(sf::Color::White);
+	text_exit.setOrigin({ text_exit.getLocalBounds().size.x / 2.f,text_exit.getLocalBounds().size.y / 2.f });
 	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is < sf::Event::MouseButtonPressed>()) {
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-				if (sprite1.getGlobalBounds().contains(world_pos)) {
+				if (sprites[0].getGlobalBounds().contains(world_pos)) {
 					window.close();
 				}
-				else if (sprite2.getGlobalBounds().contains(world_pos)) {
+				else if (sprites[1].getGlobalBounds().contains(world_pos)) {
 					tutorial(window);
 				}
-				else if (sprite3.getGlobalBounds().contains(world_pos)) {
+				else if (sprites[2].getGlobalBounds().contains(world_pos)) {
 					window.close();
 					std::exit(0);
 				}
-				else if (sprite4.getGlobalBounds().contains(world_pos)) {
+				else if (sprites[3].getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
 				}
-				else if (sprite6.getLocalBounds().contains(world_pos)) {
+				else if (sprites[5].getLocalBounds().contains(world_pos)) {
 					if (music.getStatus() == sf::SoundSource::Status::Playing) {
 						music.stop();
 					}
@@ -448,20 +462,21 @@ void menu(sf::Music &music) {
 			}
 		}
 		window.clear();
-		window.draw(sprite5);
-		window.draw(sprite1);
-		window.draw(sprite2);
-		window.draw(sprite3);
-		window.draw(sprite4);
+		window.draw(sprites[4]);//backround
+		for (std::size_t i = 0; i < 4; i++) {
+			window.draw(sprites[i]);//all buttons
+		}
+		//music
 		if (music.getStatus()== sf::SoundSource::Status::Playing) {
-			window.draw(sprite6);//music_on
+			window.draw(sprites[5]);
 		}
 		else {
-			window.draw(sprite7);//music_off
+			window.draw(sprites[6]);
 		}
-		window.draw(text1);
-		window.draw(text2);
-		window.draw(text3);
+		//
+		window.draw(text_start);
+		window.draw(text_tutorial);
+		window.draw(text_exit);
 		window.display();
 	}
 	music.stop();
