@@ -56,13 +56,30 @@ int main() {
     }
     sf::Text text{ font };
     std::srand(static_cast<unsigned int>(std::time(NULL)));
+    //
+    sf::Texture _pause{};
+    if (!_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\pause_icon.png")) {
+        std::exit(1);
+    }
+    sf::Sprite pause{ _pause };
+    pause.setPosition({ 1850.f,0.f });
+    //
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
             else if (event->is<sf::Event::MouseButtonPressed>()) {
-                mouseclicked = true;
+                sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
+                sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
+                if (pause.getGlobalBounds().contains(world_pos)) {
+                    //if you tap pause button something new happens
+                    //we have to open new window
+                    pause_menu(window);
+                }
+                else {
+                    mouseclicked = true;
+                }
             }
         }
         //event happens check it
@@ -98,13 +115,13 @@ int main() {
         window.draw(_backround);
         if (flag == true) {
             text.setFillColor(sf::Color::Blue);
-            text.setString("P1 Plays");
-            text.setPosition({ 1800.f,10.f });
+            text.setString("<= P1 Plays");
+            text.setPosition({ 1750.f,80.f });
         }
         else {
             text.setFillColor(sf::Color::Red);
-            text.setString("P2 Plays");
-            text.setPosition({ 10.f,1010.f });
+            text.setString("P2 Plays =>");
+            text.setPosition({ 10.f,1000.f });
         }
         //draw stuff
         window.draw(text);
@@ -113,6 +130,7 @@ int main() {
         table.setOrigin({ 32,32 });
         table.setScale({ 2.f,2.f });
         window.draw(table);
+        window.draw(pause);
         //
         //display everything
         window.display();
