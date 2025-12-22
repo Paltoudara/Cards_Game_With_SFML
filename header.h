@@ -1,4 +1,3 @@
-
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -11,119 +10,93 @@
 #include<optional>
 #include<utility>
 #include<SFML/Audio.hpp>
-//--------------------
-//	INTERFACE BEGIN
-//--------------------
-
-//
-inline void load_file_paths(
-	std::vector<std::string>& file_paths);
-//
-inline void load_textures_from_files(std::vector<sf::Texture>& textures,
-	std::vector<std::pair<std::string, sf::Sprite>>& deck
-	, std::vector<std::string>& file_paths
-	, std::unordered_map<std::string, sf::Sprite>& aces);
-//
-inline void shuffle_deck(
-	std::vector<std::pair<std::string, sf::Sprite>>& deck);
-
-//
-inline void initialize(std::vector <std::pair
-	<std::string, sf::Sprite>>&
-	deck, std::string& color, std::string& num, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces,
-	std::vector<std::string>& colors);
-//
-inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
-	, std::unordered_map<std::string, sf::Sprite>& player2
-	, std::vector<std::pair<std::string, sf::Sprite>>& deck);
-//
-inline bool can_he_play(const std::unordered_map<std::string
-	, sf::Sprite>& player, const std::string& color,
-	const std::string& num);
-//
-inline void set_the_table_of_cards(
-	sf::RenderWindow& window, std::unordered_map<std::string,
-	sf::Sprite>& player1, std::unordered_map<std::string,
-	sf::Sprite>& player2);
-//
-inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
-	& player, std::string& color, std::string& num, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces
-	, std::vector<std::string>& colors);
-//
-inline void winner(const bool flag_winner);
-//
-inline void draw();
-//
-inline void menu(sf::Music&music);
-//
-inline void tutorial(sf::RenderWindow& window);
-//
-inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
-	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
-	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces);
-//
-
-//--------------------
-//	INTERFACE END
-//--------------------
-
-
-
-//--------------------
-//	IMPLEMENTATION BEGIN
-//--------------------
-
-//
 //
 inline void load_file_paths(std::vector<std::string>& file_paths) {
-	//
-	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_0" + std::to_string(i) + ".png");
+	//load 52 carads
+	//4 suits of 13 cards
+	file_paths.reserve(52);
+	std::vector<std::string>table{ "02","03","04","05","06","07","08","09","10","A","J","K","Q" };
+	for (std::size_t i = 0; i < table.size(); i++) {
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_"+table[i]+".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_" + table[i] + ".png");
 	}
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_10.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_A.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_J.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_K.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_Q.png");
-	//
-	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_0" + std::to_string(i) + ".png");
-	}
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_10.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_A.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_J.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_K.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_Q.png");
-	//
-	//
-	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_0" + std::to_string(i) + ".png");
-	}
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_10.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_A.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_J.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_K.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_Q.png");
-	//
-	for (std::size_t i = 2; i < 10; i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_0" + std::to_string(i) + ".png");
-	}
-	//C:\Users\panag\Source\Repos\Project_kati\playing-cards-pack.zip\PNG\Cards (large)
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_10.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_A.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_J.png");
-	file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_K.png");
-	file_paths.emplace_back("C:\\Users\\panag\\source\\repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_Q.png");
-	//
 }
 //
+inline void tutorial(sf::RenderWindow& window) {
+	sf::Font font{};
+	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
+		std::exit(1);
+	}
+	//
+	sf::Texture _backround{};
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		std::exit(1);
+	}
+	//
+	sf::Sprite backround{ _backround };
+	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	//
+	sf::Text text1{ font,"RULES OF THE GAME:",100 };
+	text1.setPosition({ 930.f,20.f });
+	text1.setFillColor(sf::Color::Black);
+	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
+	text1.setOutlineColor(sf::Color::White);
+	text1.setOutlineThickness(5.f);
+	//
+	sf::String message =
+		L"We have a deck of 52 cards and two "
+		L"players. The cards contain symbols. The symbols\n"
+		L"are 4: ♠Spades, ♥Hearts, ♦Diamonds, ♣Clubs. "
+		L"Every symbol contains Number cards: 2-10.\n"
+		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random cards\nand there is"
+		L" a card in the table,you can drop cards from your hand at the table only\nif the symbol of your card or the number"
+		L" matches the symbol or the number of the\ncard respectively at the table.Winner is the player that will have 0 cards left."
+		L"If it is your\nturn and you can't play you have to draw a card and see if you can play it.If you can't\n"
+		L"then the other player plays.Warning if you can't play and the deck has no cards then\nthe other player plays and "
+		L"if no player can play a card and the deck is empty then draw\n(Player 1 always starts first)"
+		L".Special cards: the numbers 7,8,9 and A are special if you\n drop 7 then the other player has"
+		L" to draw two cards(or less if the deck doesn't have two\nat the time).If you drop 8 then you can play again and the same goes for 9."
+		L"If you drop\nan ace then a random card between the four aces will appear in the table.Note that\n"
+		L" the special cards have no effect if they are at the table at the start of the game(also\nwhatever"
+		L" card is in the table you can drop an ace no matter what.";
+	//
+	sf::Text text2{ font,message,30 };
+	text2.setFillColor(sf::Color::Black);
+	text2.setPosition({ 370.f,120.f });
+	text2.setOutlineColor(sf::Color::White);
+	text2.setOutlineThickness(5.f);
+	//
+	sf::Text text3{ font,"TAP ANYWHERE",100 };
+	text3.setPosition({ 1200.f,970.f });
+	text3.setFillColor(sf::Color::Black);
+	text3.setOutlineColor(sf::Color::White);
+	text3.setOutlineThickness(10.f);
+	//
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is<sf::Event::MouseButtonPressed>()) {
+				return;
+			}
+			else if (event->is<sf::Event::Closed>()) {
+				window.close();
+				std::exit(0);
+			}
+
+		}
+		window.clear();
+		window.draw(backround);
+		window.draw(text1);
+		window.draw(text2);
+		window.draw(text3);
+		window.display();
+	}
+}
 //
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
-	, std::vector<std::string>& file_paths
+	,const std::vector<std::string>& file_paths
 	, std::unordered_map<std::string, sf::Sprite>& aces) {
 	textures.resize(file_paths.size());
 
@@ -134,7 +107,7 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 		}
 		std::string name = { file_paths[i].substr(81) };
 		name = std::string{ name.begin(),name.begin() + name.find('.') };
-		sf::Sprite sprite{ textures[i] }; // sprite uses stable texture reference
+		sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
 		if (name.contains('A')) {
 			aces.emplace(name.substr(name.find_first_of('_') + 1,
 				name.find_last_of('_') - 2), sprite);
@@ -142,28 +115,27 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 		deck.emplace_back(std::move(name), sprite);
 	}
 }
-//
+
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::shuffle(deck.begin(), deck.end(), gen);
 }
-//
-//
+
 inline void initialize(std::vector <std::
 	pair
 	<std::string, sf::Sprite>>&
 	deck, std::string& color, std::string& num, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces,
-	std::vector<std::string>& colors) {
+	,const std::unordered_map<std::string, sf::Sprite>& aces,
+	const std::vector<std::string>& colors) {
 	if (deck.back().first.contains('A')) {
 		num = "A";
 		color = colors[rand() % 4];
 		table = aces.at(color);
 	}
 	else {
-		color = std::string{ deck.back().first.begin() + deck.back().first.find('_')+1 
-			,deck.back().first.begin()+deck.back().first.find_last_of('_')
+		color = std::string{ deck.back().first.begin() + deck.back().first.find('_') + 1
+			,deck.back().first.begin() + deck.back().first.find_last_of('_')
 		};
 		num = deck.back().first.substr(
 			deck.back().first.find_last_of('_') + 1);
@@ -171,7 +143,7 @@ inline void initialize(std::vector <std::
 	}
 	deck.pop_back();
 }
-//
+
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
 	, std::vector<std::pair<std::string, sf::Sprite>>& deck) {
@@ -182,8 +154,7 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 		deck.pop_back();
 	}
 }
-//
-//
+
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num) {
@@ -195,14 +166,15 @@ inline bool can_he_play(const std::unordered_map<std::string
 	}
 	return false;
 }
-//
-//
+
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
 	sf::Sprite>& player2) {
+	//
 	std::size_t i{ 0 };
-	float j{ 0 };
+	float j{ 0.f };
+	//
 	for (auto& [key, value] : player1) {
 		value.setPosition({ 0.0f + i * 100.0f, j });
 		value.setScale({ 2.f,2.f });
@@ -226,12 +198,11 @@ inline void set_the_table_of_cards(
 		window.draw(value);
 	}
 }
-//
-//
+
 bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces
-	, std::vector<std::string>& colors) {
+	,const std::unordered_map<std::string, sf::Sprite>& aces
+	,const std::vector<std::string>& colors) {
 	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 	std::string card_to_remove{};
@@ -267,9 +238,16 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 	}
 	return false;
 }
-//
 
-void winner(const bool flag_winner) {
+inline void winner(const bool flag_winner) {
+	sf::Music music{};
+	if (!music
+		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
+		std::exit(1);
+	}
+	music.setVolume(100.f);
+	music.play();
+	//
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
@@ -303,7 +281,13 @@ void winner(const bool flag_winner) {
 
 }
 
-void draw() {
+inline void draw() {
+	sf::Music music{};
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Boo! sound effect.mp3")) {
+		std::exit(1);
+	}
+	music.setVolume(100.f);
+	music.play();
 	sf::VideoMode video = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
 	window.setFramerateLimit(60);
@@ -327,8 +311,8 @@ void draw() {
 		window.display();
 	}
 }
-//optimize this bitch
-void menu(sf::Music &music) {
+
+inline void menu(sf::Music& music) {
 	/*
 		texture[0]->start->1
 		texture[1]->tutorial->2
@@ -392,24 +376,24 @@ void menu(sf::Music &music) {
 	//sprites
 	std::vector<sf::Sprite>sprites{ (sf::Sprite)textures[0],(sf::Sprite)textures[1],
 	(sf::Sprite)textures[2],(sf::Sprite)textures[3],(sf::Sprite)textures[4],(sf::Sprite)textures[5]
-	,(sf::Sprite)textures[6]};
+	,(sf::Sprite)textures[6] };
 	//buttons
-	sprites[0].setScale({1 / 4.f,1 / 4.f});
-	sprites[0].setPosition({960.f,540.f});
-	sprites[0].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
-	sprites[1].setScale({1 / 4.f,1 / 4.f});
-	sprites[1].setPosition({960.f,650.f});
-	sprites[1].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
-	sprites[2].setScale({1 / 4.f,1 / 4.f});
-	sprites[2].setPosition({960.f,760.f});
-	sprites[2].setOrigin({sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f});
+	sprites[0].setScale({ 1 / 4.f,1 / 4.f });
+	sprites[0].setPosition({ 960.f,540.f });
+	sprites[0].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
+	sprites[1].setScale({ 1 / 4.f,1 / 4.f });
+	sprites[1].setPosition({ 960.f,650.f });
+	sprites[1].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
+	sprites[2].setScale({ 1 / 4.f,1 / 4.f });
+	sprites[2].setPosition({ 960.f,760.f });
+	sprites[2].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
 	//github
-	sprites[3].setPosition({1800.f,0.f});
-	sprites[3].setScale({1 / 2.f,1 / 2.f});
+	sprites[3].setPosition({ 1800.f,0.f });
+	sprites[3].setScale({ 1 / 2.f,1 / 2.f });
 	//music_on
-	sprites[5].setScale({64.f / textures[5].getSize().x,80.f / textures[5].getSize().y});
+	sprites[5].setScale({ 64.f / textures[5].getSize().x,80.f / textures[5].getSize().y });
 	//music_off
-	sprites[6].setScale({64.f / textures[6].getSize().x,80.f / textures[6].getSize().y});
+	sprites[6].setScale({ 64.f / textures[6].getSize().x,80.f / textures[6].getSize().y });
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 };
@@ -446,7 +430,7 @@ void menu(sf::Music &music) {
 				else if (sprites[3].getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
 				}
-				else if (sprites[5].getLocalBounds().contains(world_pos)) {
+				else if (sprites[5].getGlobalBounds().contains(world_pos)) {
 					if (music.getStatus() == sf::SoundSource::Status::Playing) {
 						music.stop();
 					}
@@ -467,7 +451,7 @@ void menu(sf::Music &music) {
 			window.draw(sprites[i]);//all buttons
 		}
 		//music
-		if (music.getStatus()== sf::SoundSource::Status::Playing) {
+		if (music.getStatus() == sf::SoundSource::Status::Playing) {
 			window.draw(sprites[5]);
 		}
 		else {
@@ -481,76 +465,7 @@ void menu(sf::Music &music) {
 	}
 	music.stop();
 }
-//done
-inline void tutorial(sf::RenderWindow& window) {
-	sf::Font font{};
-	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
-		std::exit(1);
-	}
-	//
-	sf::Texture texture{};
-	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
-		std::exit(1);
-	}
-	//
-	sf::Sprite sprite{ texture };
-	sprite.setScale({ window.getSize().x/ sprite.getLocalBounds().size.x,window.getSize().y/sprite.getLocalBounds().size.y });
-	//
-	sf::Text text1{ font,"RULES OF THE GAME:",100 };
-	text1.setPosition({ 930.f,20.f });
-	text1.setFillColor(sf::Color::Black);
-	text1.setOrigin({ text1.getLocalBounds().size.x / 2.f,text1.getLocalBounds().size.y / 2.f });
-	text1.setOutlineColor(sf::Color::White);
-	text1.setOutlineThickness(5.f);
-	//
-	sf::String message =
-		L"We have a deck of 52 cards and two "
-		L"players. The cards contain symbols. The symbols\n"
-		L"are 4: ♠Spades, ♥Hearts, ♦Diamonds, ♣Clubs. "
-		L"Every symbol contains Number cards: 2-10.\n"
-		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random cards\nand there is"
-		L" a card in the table,you can drop cards from your hand at the table only\nif the symbol of your card or the number"
-		L" matches the symbol or the number of the\ncard respectively at the table.Winner is the player that will have 0 cards left."
-		L"If it is your\nturn and you can't play you have to draw a card and see if you can play it.If you can't\n"
-		L"then the other player plays.Warning if you can't play and the deck has no cards then\nthe other player plays and "
-		L"if no player can play a card and the deck is empty then draw\n(Player 1 always starts first)"
-		L".Special cards: the numbers 7,8,9 and A are special if you\n drop 7 then the other player has"
-		L" to draw two cards(or less if the deck doesn't have two\nat the time).If you drop 8 then you can play again and the same goes for 9."
-		L"If you drop\nan ace then a random card between the four aces will appear in the table.Note that\n"
-		L" the special cards have no effect if they are at the table at the start of the game(also\nwhatever"
-		L" card is in the table you can drop an ace no matter what.";
-	sf::Text text2{ font,message,30 };
-	text2.setFillColor(sf::Color::Black);
-	text2.setPosition({ 370.f,120.f });
-	text2.setOutlineColor(sf::Color::White);
-	text2.setOutlineThickness(5.f);
-	sf::Text text3{ font,"TAP ANYWHERE",100};
-	text3.setPosition({ 1200.f,970.f});
-	text3.setFillColor(sf::Color::Black);
-	text3.setOutlineColor(sf::Color::White);
-	text3.setOutlineThickness(10.f);
-	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {
-			if (event->is<sf::Event::MouseButtonPressed>()) {
-				return;
-			}
-			else if (event->is<sf::Event::Closed>()) {
-				window.close();
-				std::exit(0);
-			}
 
-		}
-		window.clear();
-		window.draw(sprite);
-		window.draw(text1);
-		window.draw(text2);
-		window.draw(text3);
-		window.display();
-	}
-
-
-}
-//done
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
@@ -582,6 +497,26 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		}
 	}
 }
+//has resume,exit
+inline void pause_menu(sf::RenderWindow&window) {
+	sf::Texture _resume{};
+	sf::Texture	_quit_game{};
+	if (!_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
+		std::exit(1);
+	}
+	if (!_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
+		std::exit(1);
+	}
+	//only keep green backround and 
+	sf::Sprite resume{ _resume };
+	sf::Sprite quit_game{ _quit_game };
+
+	
+	//on progress
+
+
+}
+
 
 
 //--------------------
