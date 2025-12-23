@@ -1,24 +1,21 @@
 #include"Header.h"
 int main() {
-    //
-    sf::Music music{};
-    if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Sketchbook 2024-10-16.ogg")) {
-        std::exit(1);
-    }
-    //
-    menu(music);
-    //
-    sf::Texture backround{};
-    if (!backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
-        std::exit(1);
-    }
-    sf::Sprite  _backround{ backround };
+    //only one window
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
-    _backround.setScale({ 1.f,(float)window.getSize().y / backround.getSize().y });
     window.setFramerateLimit(60);
     //
+    menu(window);
+    if (!window.isOpen())return 0;
+    //
+    sf::Texture _backround{};
+    if (!_backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
+        std::exit(1);
+    }
+    sf::Sprite  backround{ _backround };
+    backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });
+    ////
     std::vector<std::string>file_paths{};
     //load file paths for later to load the textures
     load_file_paths(file_paths);
@@ -68,6 +65,7 @@ int main() {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+                return 0;
             }
             else if (event->is<sf::Event::MouseButtonPressed>()) {
                 sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
@@ -76,6 +74,7 @@ int main() {
                     //if you tap pause button something new happens
                     //we have to open new window
                     pause_menu(window);
+                    if (!window.isOpen())return 0;
                 }
                 else {
                     mouseclicked = true;
@@ -93,26 +92,23 @@ int main() {
             }
             //check if a player won
             if (player1.size() == 0) {
-                window.close();
-                winner(true);
-                std::exit(0);
+                winner(window,true);
+                return 0;
             }
             else if (player2.size() == 0) {
-                window.close();
-                winner(false);
-                std::exit(0);
+                winner(window,false);
+                return 0;
             }
             //
         }
         //draw because either can play and we have no cards
         if (!can_he_play(player1, color, num) && !can_he_play(player2, color, num)
             && deck.size() == 0) {
-            window.close();
-            draw();
-            std::exit(0);
+            draw(window);
+            return 0;
         }
         window.clear(sf::Color::Black);
-        window.draw(_backround);
+        window.draw(backround);
         if (flag == true) {
             text.setFillColor(sf::Color::Blue);
             text.setString("<= P1 Plays");
