@@ -10,6 +10,11 @@
 #include<optional>
 #include<utility>
 #include<SFML/Audio.hpp>
+//
+inline int change_textures(sf::RenderWindow& window) {
+	
+	return 0;
+}
 //done
 inline void load_file_paths(std::vector<std::string>& file_paths) {
 	//load 52 carads
@@ -17,21 +22,21 @@ inline void load_file_paths(std::vector<std::string>& file_paths) {
 	file_paths.reserve(52);
 	std::vector<std::string>table{ "02","03","04","05","06","07","08","09","10","A","J","K","Q" };
 	for (std::size_t i = 0; i < table.size(); i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_clubs_"+table[i]+".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_diamonds_" + table[i] + ".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_hearts_" + table[i] + ".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_clubs_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_diamonds_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_hearts_" + table[i] + ".png");
+		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_spades_" + table[i] + ".png");
 	}
 }
 //done
-inline void tutorial(sf::RenderWindow& window) {
+inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	sf::Font font{};
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
 		std::exit(1);
 	}
 	//
 	sf::Texture _backround{};
-	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
 	//
@@ -105,7 +110,7 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 		if (!textures[i].loadFromFile(file_paths[i])) {
 			std::exit(1);
 		}
-		std::string name = { file_paths[i].substr(81) };
+		std::string name = { file_paths[i].substr(89) };
 		name = std::string{ name.begin(),name.begin() + name.find('.') };
 		sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
 		if (name.contains('A')) {
@@ -242,7 +247,7 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 inline void winner(sf::RenderWindow&window,const bool flag_winner) {
 	sf::Music music{};
 	if (!music
-		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
+		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
@@ -251,12 +256,12 @@ inline void winner(sf::RenderWindow&window,const bool flag_winner) {
 	sf::Texture texture{};
 
 	if (flag_winner == true) {
-		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\player1.png")) {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player1.png")) {
 			std::exit(1);
 		}
 	}
 	else {
-		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\player2.png")) {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player2.png")) {
 			std::exit(1);
 		}
 	}
@@ -279,13 +284,13 @@ inline void winner(sf::RenderWindow&window,const bool flag_winner) {
 //done
 inline void draw(sf::RenderWindow&window) {
 	sf::Music music{};
-	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Boo! sound effect.mp3")) {
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Boo! sound effect.mp3")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
 	music.play();
 	sf::Texture texture{};
-	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\draw_texture_transparent.png")) {
+	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\draw_texture_transparent.png")) {
 		std::exit(1);
 	}
 	sf::Vector2u texSize = texture.getSize();   // texture original size
@@ -306,6 +311,23 @@ inline void draw(sf::RenderWindow&window) {
 }
 //
 inline void menu(sf::RenderWindow&window) {
+	//
+	sf::Music music{};
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Sketchbook 2024-10-16.ogg")) {
+		std::exit(1);
+	}
+	music.setLooping(true);
+	music.setVolume(100.f);
+	music.play();
+	//
+	sf::Texture _start{};
+	sf::Texture _tutorial{};
+	sf::Texture _exit{};
+	sf::Texture _github{};
+	sf::Texture _backround{};
+	sf::Texture _music_on{};
+	sf::Texture _music_off{};
+	sf::Texture _change_texture{};
 	/*
 		texture[0]->start->1
 		texture[1]->tutorial->2
@@ -315,7 +337,6 @@ inline void menu(sf::RenderWindow&window) {
 		texture[5]->//music_on->6
 		texture[6]->//music_off->7
 	*/
-
 	/*
 		sprites[0]->start->1
 		sprites[1]->tutorial->2
@@ -325,73 +346,77 @@ inline void menu(sf::RenderWindow&window) {
 		sprites[5]->//music_on->6
 		sprites[6]->//music_off->7
 	*/
-	sf::Music music{};
-	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Sketchbook 2024-10-16.ogg")) {
-		std::exit(1);
-	}
-	std::vector<sf::Texture>textures(7);
 	sf::Font font{};
 	//
-	music.setLooping(true);
-	music.setVolume(100.f);
-	music.play();
 	//
 	//textures load
-	if (!textures[0].
-		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
+	if (!_start.
+		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")) {
 		std::exit(1);
 	}
-	if (!textures[1].
-		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutFlameRed.png"))
+	if (!_tutorial.
+		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png"))
 	{
 		std::exit(1);
 	}
-	if (!textures[2].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
+	if (!_change_texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameBlue.png")) {
 		std::exit(1);
 	}
-	if (!textures[3].
-		loadFromFile(R"(C:\Users\panag\Source\Repos\Project_kati\github-mark-c791e9551fe4\github-mark\github-mark-white.png)")) {
+	if (!_exit.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")) {
 		std::exit(1);
 	}
-	if (!textures[4]
-		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\dealer beauty.jpg")) {
+	if (!_github.
+		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\github-mark\\github-mark-white.png")) {
 		std::exit(1);
 	}
-	if (!textures[5].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_on.png")) {
+	if (!_backround
+		.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\dealer beauty.jpg")) {
 		std::exit(1);
 	}
-	if (!textures[6].loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\music_off.png")) {
+	if (!_music_on.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_on.png")) {
+		std::exit(1);
+	}
+	if (!_music_off.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_off.png")) {
 		std::exit(1);
 	}
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
 		std::exit(1);
 	}
 	//sprites
-	std::vector<sf::Sprite>sprites{ (sf::Sprite)textures[0],(sf::Sprite)textures[1],
-	(sf::Sprite)textures[2],(sf::Sprite)textures[3],(sf::Sprite)textures[4],(sf::Sprite)textures[5]
-	,(sf::Sprite)textures[6] };
+	sf::Sprite start{ _start };
+	sf::Sprite tutorial{ _tutorial };
+	sf::Sprite exit{ _exit };
+	sf::Sprite github{ _github };
+	sf::Sprite backround{ _backround };
+	sf::Sprite music_on{ _music_on };
+	sf::Sprite music_off{ _music_off };
+	sf::Sprite change_texture{ _change_texture };
 	//buttons
-	sprites[0].setScale({ 1 / 4.f,1 / 4.f });
-	sprites[0].setPosition({ 960.f,540.f });
-	sprites[0].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
-	sprites[1].setScale({ 1 / 4.f,1 / 4.f });
-	sprites[1].setPosition({ 960.f,650.f });
-	sprites[1].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
-	sprites[2].setScale({ 1 / 4.f,1 / 4.f });
-	sprites[2].setPosition({ 960.f,760.f });
-	sprites[2].setOrigin({ sprites[0].getLocalBounds().size.x / 2.f,sprites[0].getLocalBounds().size.y / 2.f });
+	start.setScale({ 1 / 4.f,1 / 4.f });
+	start.setPosition({ 960.f,540.f });
+	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });
+	tutorial.setScale({ 1 / 4.f,1 / 4.f });
+	tutorial.setPosition({ 960.f,650.f });
+	tutorial.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });
+	exit.setScale({ 1 / 4.f,1 / 4.f });
+	exit.setPosition({ 960.f,760.f });
+	exit.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });
+	change_texture.setScale({ 1 / 4.f,1 / 4.f });
+	change_texture.setPosition({ 960.f,870.f });
+	change_texture.setOrigin({ change_texture.getLocalBounds().size.x / 2.f,change_texture.getLocalBounds().size.y / 2.f });
 	//github
-	sprites[3].setPosition({ 1800.f,0.f });
-	sprites[3].setScale({ 1 / 2.f,1 / 2.f });
+	github.setPosition({ 1800.f,0.f });
+	github.setScale({ 1 / 2.f,1 / 2.f });
 	//music_on
-	sprites[5].setScale({ 64.f / textures[5].getSize().x,80.f / textures[5].getSize().y });
+	music_on.setScale({ 64.f / _music_on.getSize().x,80.f / _music_on.getSize().y });
 	//music_off
-	sprites[6].setScale({ 64.f / textures[6].getSize().x,80.f / textures[6].getSize().y });
+	music_off.setScale({ 64.f / _music_off.getSize().x,80.f / _music_off.getSize().y });
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 };
 	sf::Text text_tutorial{ font,"tutorial",50 };
 	sf::Text text_exit{ font,"exit",50 };
+	sf::Text text_change_texture{ font," textures",50 };
 	//
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
@@ -405,27 +430,33 @@ inline void menu(sf::RenderWindow&window) {
 	text_exit.setFillColor(sf::Color::White);
 	text_exit.setOrigin({ text_exit.getLocalBounds().size.x / 2.f,text_exit.getLocalBounds().size.y / 2.f });
 	//
+	text_change_texture.setPosition({ 960.f,860.f });
+	text_change_texture.setFillColor(sf::Color::White);
+	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
+	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is < sf::Event::MouseButtonPressed>()) {
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-				if (sprites[0].getGlobalBounds().contains(world_pos)) {
+				if (start.getGlobalBounds().contains(world_pos)) {
 					//start
 					return;
 				}
-				else if (sprites[1].getGlobalBounds().contains(world_pos)) {
-					tutorial(window);
-					 if (!window.isOpen())return;
+				else if (tutorial.getGlobalBounds().contains(world_pos)) {
+					tutorial_of_the_game(window);
 				}
-				else if (sprites[2].getGlobalBounds().contains(world_pos)) {
+				else if (exit.getGlobalBounds().contains(world_pos)) {
 					//exit
 					window.close();
 				}
-				else if (sprites[3].getGlobalBounds().contains(world_pos)) {
+				else if (change_texture.getGlobalBounds().contains(world_pos)) {
+					change_textures(window);
+				}
+				else if (github.getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
 				}
-				else if (sprites[5].getGlobalBounds().contains(world_pos)) {
+				else if (music_on.getGlobalBounds().contains(world_pos)) {
 					if (music.getStatus() == sf::SoundSource::Status::Playing) {
 						music.stop();
 					}
@@ -441,21 +472,23 @@ inline void menu(sf::RenderWindow&window) {
 			}
 		}
 		window.clear();
-		window.draw(sprites[4]);//backround
-		for (std::size_t i = 0; i < 4; i++) {
-			window.draw(sprites[i]);//all buttons
-		}
-		//music
+		window.draw(backround);
+		window.draw(start);
+		window.draw(tutorial);
+		window.draw(exit);
+		window.draw(github);
 		if (music.getStatus() == sf::SoundSource::Status::Playing) {
-			window.draw(sprites[5]);
+			window.draw(music_on);
 		}
 		else {
-			window.draw(sprites[6]);
+			window.draw(music_off);
 		}
+		window.draw(change_texture);
 		//
 		window.draw(text_start);
 		window.draw(text_tutorial);
 		window.draw(text_exit);
+		window.draw(text_change_texture);
 		window.display();
 	}
 }
@@ -501,13 +534,13 @@ inline void pause_menu(sf::RenderWindow& window) {
 		std::exit(1);
 	}
 	//
-	if (!_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
+	if (!_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")) {
 		std::exit(1);
 	}
-	if (!_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
+	if (!_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")) {
 		std::exit(1);
 	}
-	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
 	//
@@ -557,9 +590,3 @@ inline void pause_menu(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-
-
-
-//--------------------
-//	IMPLEMENTATION END
-//--------------------
