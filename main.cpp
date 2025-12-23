@@ -10,12 +10,12 @@ int main() {
     if (!window.isOpen())return 0;
     //
     sf::Texture _backround{};
-    if (!_backround.loadFromFile("C:\\Users\\panag\\Downloads\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
+    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
         std::exit(1);
     }
     sf::Sprite  backround{ _backround };
     backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });
-    ////
+    //
     std::vector<std::string>file_paths{};
     //load file paths for later to load the textures
     load_file_paths(file_paths);
@@ -55,7 +55,7 @@ int main() {
     std::srand(static_cast<unsigned int>(std::time(NULL)));
     //
     sf::Texture _pause{};
-    if (!_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\pause_icon.png")) {
+    if (!_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")) {
         std::exit(1);
     }
     sf::Sprite pause{ _pause };
