@@ -10,7 +10,7 @@
 #include<optional>
 #include<utility>
 #include<SFML/Audio.hpp>
-//
+//done
 inline void load_file_paths(std::vector<std::string>& file_paths) {
 	//load 52 carads
 	//4 suits of 13 cards
@@ -23,7 +23,7 @@ inline void load_file_paths(std::vector<std::string>& file_paths) {
 		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\playing-cards-pack\\PNG\\Cards (large)\\card_spades_" + table[i] + ".png");
 	}
 }
-//
+//done
 inline void tutorial(sf::RenderWindow& window) {
 	sf::Font font{};
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
@@ -80,8 +80,8 @@ inline void tutorial(sf::RenderWindow& window) {
 				return;
 			}
 			else if (event->is<sf::Event::Closed>()) {
+				//exit
 				window.close();
-				std::exit(0);
 			}
 
 		}
@@ -93,7 +93,7 @@ inline void tutorial(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-//
+//done
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	,const std::vector<std::string>& file_paths
@@ -115,13 +115,13 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 		deck.emplace_back(std::move(name), sprite);
 	}
 }
-
+//done
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::shuffle(deck.begin(), deck.end(), gen);
 }
-
+//done
 inline void initialize(std::vector <std::
 	pair
 	<std::string, sf::Sprite>>&
@@ -143,7 +143,7 @@ inline void initialize(std::vector <std::
 	}
 	deck.pop_back();
 }
-
+//done
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
 	, std::vector<std::pair<std::string, sf::Sprite>>& deck) {
@@ -154,7 +154,7 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 		deck.pop_back();
 	}
 }
-
+//done
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num) {
@@ -166,7 +166,7 @@ inline bool can_he_play(const std::unordered_map<std::string
 	}
 	return false;
 }
-
+//done
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
@@ -198,8 +198,8 @@ inline void set_the_table_of_cards(
 		window.draw(value);
 	}
 }
-
-bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
+//done
+inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
 	,const std::unordered_map<std::string, sf::Sprite>& aces
 	,const std::vector<std::string>& colors) {
@@ -238,8 +238,8 @@ bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf
 	}
 	return false;
 }
-
-inline void winner(const bool flag_winner) {
+//done
+inline void winner(sf::RenderWindow&window,const bool flag_winner) {
 	sf::Music music{};
 	if (!music
 		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
@@ -248,9 +248,6 @@ inline void winner(const bool flag_winner) {
 	music.setVolume(100.f);
 	music.play();
 	//
-	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
-	window.setFramerateLimit(60);
 	sf::Texture texture{};
 
 	if (flag_winner == true) {
@@ -278,19 +275,15 @@ inline void winner(const bool flag_winner) {
 		window.draw(sprite);
 		window.display();
 	}
-
 }
-
-inline void draw() {
+//done
+inline void draw(sf::RenderWindow&window) {
 	sf::Music music{};
 	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Boo! sound effect.mp3")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
 	music.play();
-	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
-	window.setFramerateLimit(60);
 	sf::Texture texture{};
 	if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\draw_texture_transparent.png")) {
 		std::exit(1);
@@ -311,8 +304,8 @@ inline void draw() {
 		window.display();
 	}
 }
-
-inline void menu(sf::Music& music) {
+//
+inline void menu(sf::RenderWindow&window) {
 	/*
 		texture[0]->start->1
 		texture[1]->tutorial->2
@@ -332,6 +325,10 @@ inline void menu(sf::Music& music) {
 		sprites[5]->//music_on->6
 		sprites[6]->//music_off->7
 	*/
+	sf::Music music{};
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Sketchbook 2024-10-16.ogg")) {
+		std::exit(1);
+	}
 	std::vector<sf::Texture>textures(7);
 	sf::Font font{};
 	//
@@ -369,10 +366,6 @@ inline void menu(sf::Music& music) {
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
 		std::exit(1);
 	}
-	//
-	sf::VideoMode video = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window{ video,"sfml",sf::State::Fullscreen };
-	window.setFramerateLimit(60);
 	//sprites
 	std::vector<sf::Sprite>sprites{ (sf::Sprite)textures[0],(sf::Sprite)textures[1],
 	(sf::Sprite)textures[2],(sf::Sprite)textures[3],(sf::Sprite)textures[4],(sf::Sprite)textures[5]
@@ -418,14 +411,15 @@ inline void menu(sf::Music& music) {
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 				if (sprites[0].getGlobalBounds().contains(world_pos)) {
-					window.close();
+					//start
+					return;
 				}
 				else if (sprites[1].getGlobalBounds().contains(world_pos)) {
 					tutorial(window);
 				}
 				else if (sprites[2].getGlobalBounds().contains(world_pos)) {
+					//exit
 					window.close();
-					std::exit(0);
 				}
 				else if (sprites[3].getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
@@ -441,8 +435,8 @@ inline void menu(sf::Music& music) {
 				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
+				//exit
 				window.close();
-				std::exit(0);
 			}
 		}
 		window.clear();
@@ -463,7 +457,6 @@ inline void menu(sf::Music& music) {
 		window.draw(text_exit);
 		window.display();
 	}
-	music.stop();
 }
 
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
@@ -498,23 +491,70 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 	}
 }
 //has resume,exit
-inline void pause_menu(sf::RenderWindow&window) {
+inline void pause_menu(sf::RenderWindow& window) {
 	sf::Texture _resume{};
 	sf::Texture	_quit_game{};
+	sf::Texture _backround{};
+	sf::Font font{};
+	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+		std::exit(1);
+	}
+	//
 	if (!_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutBlue.png")) {
 		std::exit(1);
 	}
 	if (!_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\Buttons\\Buttons\\Left Cut\\LeftCutIce.png")) {
 		std::exit(1);
 	}
-	//only keep green backround and 
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		std::exit(1);
+	}
+	//
 	sf::Sprite resume{ _resume };
 	sf::Sprite quit_game{ _quit_game };
-
-	
-	//on progress
-
-
+	sf::Sprite backround{ _backround };
+	sf::Text text1{ font,"resume",30};
+	sf::Text text2{ font,"quit_game",30 };
+	resume.setPosition({ 960.f,540.f });
+	resume.setOrigin({ resume.getLocalBounds().size.x/2.f,resume.getLocalBounds().size.y/2.f});
+	resume.setScale({1/4.f,1/4.f});
+	//
+	quit_game.setPosition({ 960.f,650.f });
+	quit_game.setOrigin({quit_game.getLocalBounds().size.x/2.f,quit_game.getLocalBounds().size.y/2.f});
+	quit_game.setScale({1/4.f,1/4.f});
+	//
+	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	//
+	text1.setPosition({ 970.f,530.f });
+	text1.setOrigin({text1.getLocalBounds().size.x/2.f,text1.getLocalBounds().size.y/2.f});
+	//
+	text2.setPosition({ 970.f,640.f });
+	text2.setOrigin({ text2.getLocalBounds().size.x / 2.f,text2.getLocalBounds().size.y/2.f});
+	//
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
+			sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
+			if (event->is<sf::Event::MouseButtonPressed>()) {
+				if (resume.getGlobalBounds().contains(world_pos)) {
+					return;
+				}
+				else  if (quit_game.getGlobalBounds().contains(world_pos)) {
+					window.close();
+				}
+			}
+			else if (event->is<sf::Event::Closed>()) {
+				window.close();
+			}
+		}
+		window.clear();
+		window.draw(backround);
+		window.draw(resume);
+		window.draw(quit_game);
+		window.draw(text1);
+		window.draw(text2);
+		window.display();
+	}
 }
 
 
