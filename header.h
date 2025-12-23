@@ -416,7 +416,7 @@ inline void menu(sf::RenderWindow&window) {
 				}
 				else if (sprites[1].getGlobalBounds().contains(world_pos)) {
 					tutorial(window);
-					if(!window.isOpen())return;
+					 if (!window.isOpen())return;
 				}
 				else if (sprites[2].getGlobalBounds().contains(world_pos)) {
 					//exit
