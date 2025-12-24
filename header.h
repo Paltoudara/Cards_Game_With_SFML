@@ -83,16 +83,26 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	return 0;
 }
 //done//
-inline void load_file_paths(std::vector<std::string>& file_paths) {
+inline void load_file_paths(std::vector<std::string>& file_paths,const std::size_t choice) {
 	//load 52 carads
 	//4 suits of 13 cards
 	file_paths.reserve(52);
 	std::vector<std::string>table{ "02","03","04","05","06","07","08","09","10","A","J","K","Q" };
-	for (std::size_t i = 0; i < table.size(); i++) {
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_clubs_" + table[i] + ".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_diamonds_" + table[i] + ".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_hearts_" + table[i] + ".png");
-		file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_spades_" + table[i] + ".png");
+	if (choice == 0) {
+		for (std::size_t i = 0; i < table.size(); i++) {
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_clubs_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_diamonds_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_hearts_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_spades_" + table[i] + ".png");
+		}
+	}
+	else {
+		for (std::size_t i = 0; i < table.size(); i++) {
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG2\\card_clubs_"+table[i]+".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG2\\card_diamonds_"+table[i]+".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG2\\card_hearts_"+table[i]+ ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG2\\card_spades_"+table[i]+ ".png");
+		}
 	}
 }
 //done//
@@ -168,22 +178,41 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	,const std::vector<std::string>& file_paths
-	, std::unordered_map<std::string, sf::Sprite>& aces) {
+	, std::unordered_map<std::string, sf::Sprite>& aces,const std::size_t choice) {
 	textures.resize(file_paths.size());
+	if (choice == 0) {
+		for (std::size_t i = 0; i < file_paths.size(); i++) {
 
-	for (std::size_t i = 0; i < file_paths.size(); i++) {
-
-		if (!textures[i].loadFromFile(file_paths[i])) {
-			std::exit(1);
+			if (!textures[i].loadFromFile(file_paths[i])) {
+				std::exit(1);
+			}
+			//format _d_symbol_num.png
+			std::string name = { file_paths[i].substr(89) };
+			name = std::string{ name.begin(),name.begin() + name.find('.') };
+			sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
+			if (name.contains('A')) {
+				//aces will contain just the symbols
+				aces.emplace(name.substr(name.find_first_of('_') + 1,
+					name.find_last_of('_') - 2), sprite);
+			}
+			deck.emplace_back(std::move(name), sprite);
 		}
-		std::string name = { file_paths[i].substr(89) };
-		name = std::string{ name.begin(),name.begin() + name.find('.') };
-		sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
-		if (name.contains('A')) {
-			aces.emplace(name.substr(name.find_first_of('_') + 1,
-				name.find_last_of('_') - 2), sprite);
+	}
+	else {
+		for (std::size_t i = 0; i < file_paths.size(); i++) {
+			if (!textures[i].loadFromFile(file_paths[i])) {
+				std::exit(1);
+			}
+			//format _d_symbol_num.png
+			std::string name = { file_paths[i].substr(75) };
+			name = std::string{ name.begin(),name.begin() + name.find('.') };
+			sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
+			if (name.contains('A')) {
+				aces.emplace(name.substr(name.find_first_of('_') + 1,
+					name.find_last_of('_') - 2), sprite);
+			}
+			deck.emplace_back(std::move(name), sprite);
 		}
-		deck.emplace_back(std::move(name), sprite);
 	}
 }
 //done//
@@ -241,32 +270,61 @@ inline bool can_he_play(const std::unordered_map<std::string
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
-	sf::Sprite>& player2) {
+	sf::Sprite>& player2,const std::size_t choice) {
 	//
-	std::size_t i{ 0 };
-	float j{ 0.f };
-	//
-	for (auto& [key, value] : player1) {
-		value.setPosition({ 0.0f + i * 100.0f, j });
-		value.setScale({ 2.f,2.f });
-		i++;
-		if (i % 7 == 0) {
-			j += 125.0f;
-			i = 0;
+	if (choice == 0) {
+		std::size_t i{ 0 };
+		float j{ 0.f };
+		//
+		for (auto& [key, value] : player1) {
+			value.setPosition({ 0.0f + i * 100.0f, j });
+			value.setScale({ 2.f,2.f });
+			i++;
+			if (i % 7 == 0) {
+				j += 125.0f;
+				i = 0;
+			}
+			window.draw(value);
 		}
-		window.draw(value);
+		i = 0;
+		j = 0;
+		for (auto& [key, value] : player2) {
+			value.setPosition({ 1200.f + i * 100.f, 960.f - j });
+			value.setScale({ 2.f,2.f });
+			i++;
+			if (i % 7 == 0) {
+				j += 125.0f;
+				i = 0;
+			}
+			window.draw(value);
+		}
 	}
-	i = 0;
-	j = 0;
-	for (auto& [key, value] : player2) {
-		value.setPosition({ 1200.f + i * 100.f, 960.f - j });
-		value.setScale({ 2.f,2.f });
-		i++;
-		if (i % 7 == 0) {
-			j += 125.0f;
-			i = 0;
+	else {
+		std::size_t i{ 0 };
+		float j{ 0.f };
+		//
+		for (auto& [key, value] : player1) {
+			value.setPosition({ 0.0f + i * 100.0f, j });
+			value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+			i++;
+			if (i % 7 == 0) {
+				j += 130.0f;
+				i = 0;
+			}
+			window.draw(value);
 		}
-		window.draw(value);
+		i = 0;
+		j = 0;
+		for (auto& [key, value] : player2) {
+			value.setPosition({ 1200.f + i * 100.f, 960.f - j });
+			value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+			i++;
+			if (i % 7 == 0) {
+				j += 130.0f;
+				i = 0;
+			}
+			window.draw(value);
+		}
 	}
 }
 //done//
