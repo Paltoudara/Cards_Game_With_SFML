@@ -11,9 +11,50 @@
 #include<utility>
 #include<SFML/Audio.hpp>
 //
-inline int change_textures(sf::RenderWindow& window) {
-	
-	return 0;
+inline std::size_t change_textures(sf::RenderWindow& window) {
+	//progress
+	std::size_t choice{ 0 };
+	sf::Texture _backround{};
+	sf::Texture _classic_cards{};
+	sf::Texture _vintage_cards{};
+	//
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		std::exit(1);
+	}
+	if (!_classic_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG1\\Cards (large)\\card_clubs_03.png")) {
+		std::exit(1);
+	}
+	if (!_vintage_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack\\PNG2\\card_clubs_03.png")) {
+		std::exit(1);
+	}
+	//
+	sf::Sprite classic_cards{ _classic_cards };
+	sf::Sprite vintage_cards{ _vintage_cards };
+	sf::Sprite backround{ _backround };
+	//classic-> 640x640
+	//vintage -> 640x640
+	classic_cards.setScale({10.f,10.f});
+	classic_cards.setPosition({ 300.f,400.f });
+	vintage_cards.setPosition({ 1000.f,400.f });
+	vintage_cards.setScale({592.f/vintage_cards.getLocalBounds().size.x,640.f /vintage_cards.getLocalBounds().size.y});
+	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	//
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {
+			if (event->is<sf::Event::Closed>()) {
+				window.close();
+				return 0;
+			}
+			else if (event->is<sf::Event::MouseButtonPressed>()) {
+
+			}
+		}
+		window.clear();
+		window.draw(backround);
+		window.draw(classic_cards);
+		window.draw(vintage_cards);
+		window.display();
+	}
 }
 //done
 inline void load_file_paths(std::vector<std::string>& file_paths) {
@@ -87,6 +128,7 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 			else if (event->is<sf::Event::Closed>()) {
 				//exit
 				window.close();
+				return;
 			}
 
 		}
@@ -274,6 +316,7 @@ inline void winner(sf::RenderWindow&window,const bool flag_winner) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
 				window.close();
+				return;
 			}
 		}
 		window.clear();
@@ -302,6 +345,7 @@ inline void draw(sf::RenderWindow&window) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
 				window.close();
+				return;
 			}
 		}
 		window.clear();
@@ -310,7 +354,7 @@ inline void draw(sf::RenderWindow&window) {
 	}
 }
 //
-inline void menu(sf::RenderWindow&window) {
+inline void menu(sf::RenderWindow&window,std::size_t &choice) {
 	//
 	sf::Music music{};
 	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Sketchbook 2024-10-16.ogg")) {
@@ -328,27 +372,8 @@ inline void menu(sf::RenderWindow&window) {
 	sf::Texture _music_on{};
 	sf::Texture _music_off{};
 	sf::Texture _change_texture{};
-	/*
-		texture[0]->start->1
-		texture[1]->tutorial->2
-		texture[2]->exit->3
-		texture[3]->//github->4
-		texture[4]->//backround->5
-		texture[5]->//music_on->6
-		texture[6]->//music_off->7
-	*/
-	/*
-		sprites[0]->start->1
-		sprites[1]->tutorial->2
-		sprites[2]->exit->3
-		sprites[3]->//github->4
-		sprites[4]->//backround->5
-		sprites[5]->//music_on->6
-		sprites[6]->//music_off->7
-	*/
+	//
 	sf::Font font{};
-	//
-	//
 	//textures load
 	if (!_start.
 		loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")) {
@@ -445,13 +470,16 @@ inline void menu(sf::RenderWindow&window) {
 				}
 				else if (tutorial.getGlobalBounds().contains(world_pos)) {
 					tutorial_of_the_game(window);
+					if (!window.isOpen())return;
 				}
 				else if (exit.getGlobalBounds().contains(world_pos)) {
 					//exit
 					window.close();
+					return;
 				}
 				else if (change_texture.getGlobalBounds().contains(world_pos)) {
-					change_textures(window);
+					choice=change_textures(window);
+					if (!window.isOpen())return;
 				}
 				else if (github.getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
@@ -469,6 +497,7 @@ inline void menu(sf::RenderWindow&window) {
 			else if (event->is<sf::Event::Closed>()) {
 				//exit
 				window.close();
+				return;
 			}
 		}
 		window.clear();
@@ -575,10 +604,12 @@ inline void pause_menu(sf::RenderWindow& window) {
 				}
 				else  if (quit_game.getGlobalBounds().contains(world_pos)) {
 					window.close();
+					return;
 				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
 				window.close();
+				return;
 			}
 		}
 		window.clear();
