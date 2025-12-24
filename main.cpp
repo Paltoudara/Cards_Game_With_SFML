@@ -1,68 +1,59 @@
 #include"Header.h"
-//handle choice,optimize main
+//handle choice
 int main() {
     //only one window
-    std::size_t choice{ 0 };
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
+    std::size_t choice{ 0};
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
-    window.setFramerateLimit(60);
-    menu(window, choice);
-    std::cout << choice << '\n';
-    //if something closes the window we get out 
-    if (!window.isOpen())return 0;
-    //
-    sf::Texture _backround{};
-    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")) {
-        std::exit(1);
-    }
-    sf::Sprite  backround{ _backround };
-    backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });
+    //textures,font
+    sf::Texture _backround{}, _pause{};
+    sf::Font font{};
+    sf::Text text{ font };
     //
     std::vector<std::string>file_paths{};
-    //load file paths for later to load the textures
-    load_file_paths(file_paths);
-    //
     std::vector<sf::Texture> textures;  // must stay alive!
     std::unordered_map<std::string, sf::Sprite>aces{};
     std::vector<std::pair<std::string, sf::Sprite>> deck{};
-    //load textures from files
-    load_textures_from_files(textures, deck, file_paths,
-        aces);
-    //
     std::unordered_map<std::string, sf::Sprite>player1{};
     std::unordered_map<std::string, sf::Sprite>player2{};
-    //shuffle the deck
-    shuffle_deck(deck);
-    //
-    sf::Sprite table{ deck.back().second };
-    std::string color{};
     std::string num{};
     std::vector<std::string>colors{ "spades","hearts",
     "clubs","diamonds" };
+    std::string color{};
+    
+    window.setFramerateLimit(60);
+    menu(window, choice);
+    //if something closes the window we get out 
+    if (!window.isOpen())return 0;
+    //
+    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
+        || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")
+        || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+        std::exit(1);
+    }
+    
+    load_file_paths(file_paths,choice);
+   // load textures from files
+    load_textures_from_files(textures, deck, file_paths,
+        aces,choice);
+    //shuffle the deck
+    shuffle_deck(deck);
+    //
+    sf::Sprite pause{ _pause }, backround{ _backround },table{ deck.back().second };
 
     //initialize the game
     initialize(deck, color, num, table, aces, colors);
     //give each player 7 cards
     give_players_cards(player1, player2, deck);
-    //
     //initialize flags
     bool flag{ true };
     bool mouseclicked{ false };
     //
-    sf::Font font{};
-    if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
-        std::exit(1);
-    }
-    sf::Text text{ font };
-    std::srand(static_cast<unsigned int>(std::time(NULL)));
     //
-    sf::Texture _pause{};
-    if (!_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")) {
-        std::exit(1);
-    }
-    sf::Sprite pause{ _pause };
     pause.setPosition({ 1850.f,0.f });
+    backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });
     //
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
@@ -124,10 +115,17 @@ int main() {
         }
         //draw stuff
         window.draw(text);
-        set_the_table_of_cards(window, player1, player2);
-        table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-        table.setOrigin({ 32,32 });
-        table.setScale({ 2.f,2.f });
+        set_the_table_of_cards(window, player1, player2,choice);
+        if (choice == 0) {
+            table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
+            table.setOrigin({ 32,32 });
+            table.setScale({ 2.f,2.f });
+        }
+        else {
+            table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
+            table.setOrigin({ table.getLocalBounds().size.x/2.f,table.getLocalBounds().size.y/2.f});
+            table.setScale({ 80.f/table.getLocalBounds().size.x,128.f /table.getLocalBounds().size.y});
+        }
         window.draw(table);
         window.draw(pause);
         //
