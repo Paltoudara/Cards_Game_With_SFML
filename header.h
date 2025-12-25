@@ -1,3 +1,5 @@
+//add to the pause menu the score
+//add to the menu an option to reset the score
 #pragma once
 #include<iostream>
 #include<algorithm>
