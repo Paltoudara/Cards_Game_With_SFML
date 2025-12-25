@@ -266,64 +266,103 @@ inline bool can_he_play(const std::unordered_map<std::string
 	}
 	return false;
 }
-//done//
+//done//,optimize
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
-	sf::Sprite>& player2, const std::size_t choice) {
+	sf::Sprite>& player2, const std::size_t choice,const bool flag) {
 	//
+	sf::Texture _hide{};
 	if (choice == 0) {
 		std::size_t i{ 0 };
 		float j{ 0.f };
 		//
+		if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
+			std::exit(1);
+		}
+		sf::Sprite hide{ _hide };
 		for (auto& [key, value] : player1) {
-			value.setPosition({ 0.0f + i * 100.0f, j });
-			value.setScale({ 2.f,2.f });
+			if (flag == true) {
+				value.setPosition({ 0.0f + i * 100.0f, j });
+				value.setScale({ 2.f,2.f });
+				window.draw(value);
+			}
+			else {
+				hide.setPosition({ 0.0f + i * 100.0f, j });
+				hide.setScale({ 2.f,2.f });
+				window.draw(hide);
+			}
 			i++;
 			if (i % 7 == 0) {
 				j += 125.0f;
 				i = 0;
 			}
-			window.draw(value);
+			//window.draw(value);
 		}
 		i = 0;
 		j = 0;
 		for (auto& [key, value] : player2) {
-			value.setPosition({ 1200.f + i * 100.f, 960.f - j });
-			value.setScale({ 2.f,2.f });
+			if (flag == false) {
+				value.setPosition({ 1200.f + i * 100.f, 960.f - j });
+				value.setScale({ 2.f,2.f });
+				window.draw(value);
+			}
+			else {
+				hide.setPosition({ 1200.f + i * 100.f, 960.f - j });
+				hide.setScale({ 2.f,2.f });
+				window.draw(hide);
+			}
 			i++;
 			if (i % 7 == 0) {
 				j += 125.0f;
 				i = 0;
 			}
-			window.draw(value);
 		}
 	}
 	else {
 		std::size_t i{ 0 };
 		float j{ 0.f };
 		//
+		if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\CardBackFaceBlueLargePattern.png")) {
+			std::exit(1);
+		}
+		sf::Sprite hide{ _hide };
 		for (auto& [key, value] : player1) {
-			value.setPosition({ 0.0f + i * 100.0f, j });
-			value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+			if (flag == true) {
+				value.setPosition({ 0.0f + i * 100.0f, j });
+				value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+				window.draw(value);
+			}
+			else {
+				hide.setPosition({ 0.0f + i * 100.0f, j });
+				hide.setScale({ 80.f / hide.getLocalBounds().size.x,128.f / hide.getLocalBounds().size.y });
+				window.draw(hide);
+			}
 			i++;
 			if (i % 7 == 0) {
 				j += 130.0f;
 				i = 0;
 			}
-			window.draw(value);
 		}
 		i = 0;
 		j = 0;
 		for (auto& [key, value] : player2) {
-			value.setPosition({ 1200.f + i * 100.f, 960.f - j });
-			value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+			if (flag == false) {
+				value.setPosition({ 1200.f + i * 100.f, 960.f - j });
+				value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
+				window.draw(value);
+			}
+			else {
+				hide.setPosition({ 1200.f + i * 100.f, 960.f - j });
+				hide.setScale({ 80.f / hide.getLocalBounds().size.x,128.f / hide.getLocalBounds().size.y });
+				window.draw(hide);
+			}
 			i++;
 			if (i % 7 == 0) {
 				j += 130.0f;
 				i = 0;
 			}
-			window.draw(value);
+			
 		}
 	}
 }
@@ -455,7 +494,9 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\dealer beauty.jpg")
 		|| !_music_on.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_on.png")
 		|| !_music_off.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_off.png")
-		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
+		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
+		
+		) {
 		std::exit(1);
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
