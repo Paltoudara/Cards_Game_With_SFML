@@ -1,7 +1,7 @@
 #include"header.h"
 //handle choice
 int main() {
-    //only one window
+    ////only one window
     std::size_t choice{ 0 };
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
