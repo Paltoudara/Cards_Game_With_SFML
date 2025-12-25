@@ -26,7 +26,6 @@ int main() {
     menu(window, choice);
     //if something closes the window we get out 
     if (!window.isOpen())return 0;
-
     //
     if (!_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
         || !_pause.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\pause_icon.png")
@@ -116,7 +115,7 @@ int main() {
         }
         //draw stuff
         window.draw(text);
-        set_the_table_of_cards(window, player1, player2, choice);
+        set_the_table_of_cards(window, player1, player2, choice,flag);
         if (choice == 0) {
             table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
             table.setOrigin({ 32,32 });
