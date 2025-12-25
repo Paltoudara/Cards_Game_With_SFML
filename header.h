@@ -10,6 +10,7 @@
 #include<optional>
 #include<utility>
 #include<SFML/Audio.hpp>
+#include <SFML/System.hpp>
 //done//
 inline std::size_t change_textures(sf::RenderWindow& window) {
 	//textures
@@ -384,9 +385,6 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 				if (key.contains("A")) {
 					color = colors[rand() % 4];
 					num = "A";
-					//for pc
-					//table = aces.at(color + "_A");
-					//for laptop
 					table = aces.at(color);
 				}
 				else {
@@ -481,8 +479,9 @@ inline void draw(sf::RenderWindow& window) {
 //done
 inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//music,textures,font
-	sf::Music music{};
-	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{};
+	sf::Music music,jumpscare_music{};
+	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{}
+	, _jumpscare{};
 	sf::Font font{};
 	//load them
 	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\Sketchbook 2024-10-16.ogg")
@@ -495,12 +494,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		|| !_music_on.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_on.png")
 		|| !_music_off.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_off.png")
 		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
-		
-		) {
+		|| !_jumpscare.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
+		|| !jumpscare_music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")) {
 		std::exit(1);
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
-	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture };
+	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{_jumpscare};
+	sf::Clock timer{};
 	//
 	music.setLooping(true);
 	music.setVolume(100.f);
@@ -549,6 +549,9 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setFillColor(sf::Color::White);
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
 	//
+	jumpscare.setScale({ window.getSize().x / jumpscare.getLocalBounds().size.x, window.getSize().y / jumpscare.getLocalBounds().size.y });
+	//
+	bool event{ false };
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is < sf::Event::MouseButtonPressed>()) {
@@ -560,6 +563,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				}
 				else if (tutorial.getGlobalBounds().contains(world_pos)) {
 					tutorial_of_the_game(window);
+					timer.restart();
 					if (!window.isOpen())return;
 				}
 				else if (exit.getGlobalBounds().contains(world_pos)) {
@@ -569,10 +573,12 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				}
 				else if (change_texture.getGlobalBounds().contains(world_pos)) {
 					choice = change_textures(window);
+					timer.restart();
 					if (!window.isOpen())return;
 				}
 				else if (github.getGlobalBounds().contains(world_pos)) {
 					system("start https://github.com/Paltoudara?tab=repositories");
+					timer.restart();
 				}
 				else if (music_on.getGlobalBounds().contains(world_pos)) {
 					if (music.getStatus() == sf::SoundSource::Status::Playing) {
@@ -581,7 +587,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					else {
 						music.play();
 					}
-
+					timer.restart();
 				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
@@ -591,24 +597,37 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			}
 		}
 		window.clear();
-		window.draw(backround);
-		window.draw(start);
-		window.draw(tutorial);
-		window.draw(exit);
-		window.draw(github);
-		if (music.getStatus() == sf::SoundSource::Status::Playing) {
-			window.draw(music_on);
+		if (!event && timer.getElapsedTime().asSeconds() >=10.f) {
+			music.stop();
+			event = true;
+			window.draw(jumpscare);
+			window.display();
+			jumpscare_music.setVolume(100.f);
+			jumpscare_music.play();
+			sf::sleep(sf::seconds(2.0));
+			music.play();
+
 		}
 		else {
-			window.draw(music_off);
+			window.draw(backround);
+			window.draw(start);
+			window.draw(tutorial);
+			window.draw(exit);
+			window.draw(github);
+			if (music.getStatus() == sf::SoundSource::Status::Playing) {
+				window.draw(music_on);
+			}
+			else {
+				window.draw(music_off);
+			}
+			window.draw(change_texture);
+			//
+			window.draw(text_start);
+			window.draw(text_tutorial);
+			window.draw(text_exit);
+			window.draw(text_change_texture);
+			window.display();
 		}
-		window.draw(change_texture);
-		//
-		window.draw(text_start);
-		window.draw(text_tutorial);
-		window.draw(text_exit);
-		window.draw(text_change_texture);
-		window.display();
 	}
 }
 //done//
