@@ -1,5 +1,5 @@
-//add to the pause menu the score
-//add to the menu an option to reset the score
+//score in pause menu
+//reset score option in menu
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -13,7 +13,83 @@
 #include<utility>
 #include<SFML/Audio.hpp>
 #include <SFML/System.hpp>
-//done//
+//maybe add score
+//-------INTERFACE BEGIN-------
+
+//change_textures->this funtion is used in order for the user to choose which card sleeves he wants to see in the game
+inline std::size_t change_textures(sf::RenderWindow& window);
+//load_file_paths->this function simply creates a vector that contains the file paths to the cards 
+//the choice came from the user,from the function change_textures (for every choice we load different file paths)
+inline void load_file_paths(std::vector<std::string>& file_paths, const std::size_t choice);
+//tutorial_of_the_game->this function simply gives a simple explanation about the rules of the game to the user
+inline void tutorial_of_the_game(sf::RenderWindow& window);
+//load_textures_from_files->this function creates the deck of the 52 cards,the deck is type vector<name_of_card,sprite>
+//sprites are pointers to textures that were loaded so we need a vector of 52 textures to stay alive in all the game
+//aces simply contains the 4 symbols of the deck and the sprites for the aces cards
+//choice again came from the change_textures function
+inline void load_textures_from_files(std::vector<sf::Texture>& textures,
+	std::vector<std::pair<std::string, sf::Sprite>>& deck
+	, const std::vector<std::string>& file_paths
+	, std::unordered_map<std::string, sf::Sprite>& aces, const std::size_t choice);
+//shuffle_deck->shufflesthe deck vector in order for both players to recieve 7 random cards
+inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck);
+//initialiseze->initializes the state of the game,this is the start of the game 
+inline void initialize(std::vector <std::
+	pair
+	<std::string, sf::Sprite>>&
+	deck, std::string& color, std::string& num, sf::Sprite& table
+	, const std::unordered_map<std::string, sf::Sprite>& aces,
+	const std::vector<std::string>& colors);
+//give_players_cards->gives each player 7 cards
+inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
+	, std::unordered_map<std::string, sf::Sprite>& player2
+	, std::vector<std::pair<std::string, sf::Sprite>>& deck);
+//can_he_play->check if a player can play a card when it is his turn
+inline bool can_he_play(const std::unordered_map<std::string
+	, sf::Sprite>& player, const std::string& color,
+	const std::string& num);
+//set_the_table_of_cards->for every frame displays the game that is played beetween the two players
+inline void set_the_table_of_cards(
+	sf::RenderWindow& window, std::unordered_map<std::string,
+	sf::Sprite>& player1, std::unordered_map<std::string,
+	sf::Sprite>& player2, const std::size_t choice, const bool flag);
+//check_for_card->wait until the player that is his is turn to play a card that is acceptable(matches symbols or numbers
+//with the table card)
+inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
+	& player, std::string& color, std::string& num, sf::Sprite& table
+	, const std::unordered_map<std::string, sf::Sprite>& aces
+	, const std::vector<std::string>& colors);
+//winner->show the winner,to be a winner you have to empty all your deck at the table
+inline void winner(sf::RenderWindow& window, const bool flag_winner);
+//draw->in order for a draw to happen the deck must have 0 cards and both players must not be able to play
+//a card to the table
+inline void draw(sf::RenderWindow& window);
+//menu->pretty much the UI of the game 
+inline void menu(sf::RenderWindow& window, std::size_t& choice);
+//player_plays->pretty much it follows the rules of the game and sees if a player can play or not
+//for more see implementation details and read the rules of the game 
+//add reset score to the menu
+inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
+	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
+	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
+	, std::unordered_map<std::string, sf::Sprite>& aces);
+//pause->menu is a classic pause that all the games have
+//add score to the pause menu!!!
+inline void pause_menu(sf::RenderWindow& window);
+
+
+//-------INTERFACE END-------
+
+
+
+//-------IMPLEMENTATION BEGIN-------
+
+
+
+//change_textures function
+//Note that texture is->brief Image living on the graphics card that can be used for drawing
+//Note that sprite is->Drawable representation of a texture, with its
+//own transformations, color, etc. pretty much sprite is the pointer to the texture
 inline std::size_t change_textures(sf::RenderWindow& window) {
 	//textures
 	std::size_t choice{ 0 };
@@ -21,25 +97,26 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	sf::Texture _classic_cards{};
 	sf::Texture _vintage_cards{};
 	sf::Font font{};
-	//font
-	//load them
+	//font used for texts on the window
+	//load them those are the files paths,if a single texture is not loaded properly exit->1
 	if (!_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
 		|| !_classic_cards.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_03.png")
 		|| !_vintage_cards.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")
 		|| !font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
 		std::exit(1);
 	}
-	//sprites
+	//sprites from the textures you loaded
 	sf::Sprite classic_cards{ _classic_cards }, vintage_cards{ _vintage_cards }, backround{ _backround };
 	//texts
 	sf::Text text_title{ font,"  CLICK TO CHOOSE THE TEXTURE THAT YOU WANT:",80 }, text_classic{ font,"CLASSIC:",80 }
 	, text_vintage{ font,"VINTAGE:",80 };
-	//
-	text_title.setFillColor(sf::Color::Black);
-	text_title.setPosition({ 0.f,20.f });
-	text_title.setOutlineColor(sf::Color::White);
-	text_title.setOutlineThickness(5.f);
-	//
+	//those are texts and we apply them some properties
+	text_title.setFillColor(sf::Color::Black);//color of the text
+	text_title.setPosition({ 0.f,20.f });//2d position at the window
+	text_title.setOutlineColor(sf::Color::White);//color for the outline layer
+	text_title.setOutlineThickness(5.f);//creates the outline layer pretty much,outline must have a thickness in order
+	//to appear
+	//we do the same for the other texts
 	text_classic.setFillColor(sf::Color::Black);
 	text_classic.setPosition({ 460.f,320.f });
 	text_classic.setOutlineColor(sf::Color::White);
@@ -51,12 +128,17 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	text_vintage.setOutlineThickness(5.f);
 	//classic-> 640x640
 	//vintage -> 450x600
+	//every sprite has some widthxheight in pixels
+	//the set scale takes two args and both are applied like this 
+	//new sprite dimensions are (widthx10)x(heightx10)
+	//we can change the sprites dimension to make it appear bigger or smaller
 	classic_cards.setScale({ 10.f,10.f });
-	classic_cards.setPosition({ 300.f,400.f });
+	classic_cards.setPosition({ 300.f,400.f });//put it on the screen
 	vintage_cards.setPosition({ 1000.f,420.f });
 	vintage_cards.setScale({ 450.f / vintage_cards.getLocalBounds().size.x,600.f / vintage_cards.getLocalBounds().size.y });
 	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
-	//
+	//window.getSize()gives the dimensions of the window 
+	//in this set scale call we wanna make the backround as big as the window in order to do that
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
@@ -724,3 +806,6 @@ inline void pause_menu(sf::RenderWindow& window) {
 		window.display();
 	}
 }
+
+
+//-------IMPLEMENTATION END-------
