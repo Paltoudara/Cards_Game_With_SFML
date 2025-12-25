@@ -1,9 +1,8 @@
-#include"Header.h"
+#include"header.h"
 //handle choice
 int main() {
     //only one window
-    std::srand(static_cast<unsigned int>(std::time(NULL)));
-    std::size_t choice{ 0};
+    std::size_t choice{ 0 };
     sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
     sf::RenderWindow window(video,
         "SFML works!", sf::State::Fullscreen);
@@ -22,26 +21,27 @@ int main() {
     std::vector<std::string>colors{ "spades","hearts",
     "clubs","diamonds" };
     std::string color{};
-    
+
     window.setFramerateLimit(60);
     menu(window, choice);
     //if something closes the window we get out 
     if (!window.isOpen())return 0;
+
     //
-    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
-        || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")
+    if (!_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
+        || !_pause.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\pause_icon.png")
         || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
         std::exit(1);
     }
-    
-    load_file_paths(file_paths,choice);
-   // load textures from files
+
+    load_file_paths(file_paths, choice);
+    // load textures from files
     load_textures_from_files(textures, deck, file_paths,
-        aces,choice);
+        aces, choice);
     //shuffle the deck
     shuffle_deck(deck);
     //
-    sf::Sprite pause{ _pause }, backround{ _backround },table{ deck.back().second };
+    sf::Sprite pause{ _pause }, backround{ _backround }, table{ deck.back().second };
 
     //initialize the game
     initialize(deck, color, num, table, aces, colors);
@@ -55,6 +55,7 @@ int main() {
     pause.setPosition({ 1850.f,0.f });
     backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });
     //
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
     while (window.isOpen()) {
         while (const auto event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
@@ -86,11 +87,11 @@ int main() {
             }
             //check if a player won
             if (player1.size() == 0) {
-                winner(window,true);
+                winner(window, true);
                 return 0;
             }
             else if (player2.size() == 0) {
-                winner(window,false);
+                winner(window, false);
                 return 0;
             }
             //
@@ -115,7 +116,7 @@ int main() {
         }
         //draw stuff
         window.draw(text);
-        set_the_table_of_cards(window, player1, player2,choice);
+        set_the_table_of_cards(window, player1, player2, choice);
         if (choice == 0) {
             table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
             table.setOrigin({ 32,32 });
@@ -123,8 +124,8 @@ int main() {
         }
         else {
             table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
-            table.setOrigin({ table.getLocalBounds().size.x/2.f,table.getLocalBounds().size.y/2.f});
-            table.setScale({ 80.f/table.getLocalBounds().size.x,128.f /table.getLocalBounds().size.y});
+            table.setOrigin({ table.getLocalBounds().size.x / 2.f,table.getLocalBounds().size.y / 2.f });
+            table.setScale({ 80.f / table.getLocalBounds().size.x,128.f / table.getLocalBounds().size.y });
         }
         window.draw(table);
         window.draw(pause);
