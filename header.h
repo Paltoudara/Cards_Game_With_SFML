@@ -1,6 +1,5 @@
 //score in pause menu
 //reset score option in menu
-//document the remaing funcs and make a git read me properly 
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -150,7 +149,8 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 				window.close();
 				return 0;
 			}
-			else if (event->is<sf::Event::MouseButtonPressed>()) {//click with both mouse buttons
+			else if (event->is<sf::Event::MouseButtonPressed>()) {//this is not limited to only left right click
+				//of the mouse
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };//take where the mouse is at the window
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 				/*std::cout << "(" << mous_pos.x << "," << mous_pos.y << ")" << '\n';
@@ -622,7 +622,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{}
 	, _jumpscare{};
 	sf::Font font{};
-	//load them
+	//load them,buttons backrounds and easter eggs
 	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\Sketchbook 2024-10-16.ogg")
 		|| !_start.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutBlue.png")
 		|| !_tutorial.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameRed.png")
@@ -639,12 +639,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
 	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{_jumpscare};
-	sf::Clock timer{};
+	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
 	music.setLooping(true);
 	music.setVolume(100.f);
-	music.play();
-	//
+	music.play();//play the music in loop while this function runs
+	//so it turns forever
+	//place the sprites on the windwo
 	start.setScale({ 1 / 4.f,1 / 4.f });
 	start.setPosition({ 960.f,540.f });
 	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });
@@ -671,7 +672,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//texts
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
 	, text_change_texture{ font," textures",50 };
-	//
+	//place the texts
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
 	text_start.setOrigin({ text_start.getLocalBounds().size.x / 2.f,text_start.getLocalBounds().size.y / 2.f });
@@ -689,17 +690,23 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
 	//
 	jumpscare.setScale({ window.getSize().x / jumpscare.getLocalBounds().size.x, window.getSize().y / jumpscare.getLocalBounds().size.y });
-	//
+	//place the jumpscare when a certain time is passed
 	bool event{ false };
 	while (window.isOpen()) {
+		//reset timer of the jumpscare if the user does something to the menu
+		//remember the jumpscare is actived if the user stays on the menu and doesn't do anything 
+		//for 360 seconds,if in those seconds he does something then the time resets to 0
 		while (const auto event = window.pollEvent()) {
 			if (event->is < sf::Event::MouseButtonPressed>()) {
+				//take mouse pos
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
+				//check for collision with global bounds
 				if (start.getGlobalBounds().contains(world_pos)) {
 					//start
 					return;
 				}
+				//if for some reason the window closes the game ends
 				else if (tutorial.getGlobalBounds().contains(world_pos)) {
 					tutorial_of_the_game(window);
 					timer.restart();
@@ -716,10 +723,14 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					if (!window.isOpen())return;
 				}
 				else if (github.getGlobalBounds().contains(world_pos)) {
+					//open github
 					system("start https://github.com/Paltoudara?tab=repositories");
 					timer.restart();
 				}
+				//music icon to handle
 				else if (music_on.getGlobalBounds().contains(world_pos)) {
+					//when we tap the music if it off make it play
+					//if it is on make it stop playing
 					if (music.getStatus() == sf::SoundSource::Status::Playing) {
 						music.stop();
 					}
@@ -735,27 +746,33 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				return;
 			}
 		}
+		//this is the frame
 		window.clear();
-		if (!event && timer.getElapsedTime().asSeconds() >=360.f) {//6x60 
+		if (!event && timer.getElapsedTime().asSeconds() >= 360.f) {//6x60 
+			//if event happends draw it and the jumpscare
 			music.stop();
 			event = true;
 			window.draw(jumpscare);
 			window.display();
 			jumpscare_music.setVolume(100.f);
 			jumpscare_music.play();
-			sf::sleep(sf::seconds(2.0));
+			sf::sleep(sf::seconds(2.0));//sleep for 2 seconds that's how much the jumpscare is 
+			//while the program sleeps we stay here and we enjoy the jumpscare and then the music plays and we continue
 			music.play();
 
 		}
 		else {
+			//if event didn't happend draw everything that the menu has
 			window.draw(backround);
 			window.draw(start);
 			window.draw(tutorial);
 			window.draw(exit);
 			window.draw(github);
+			//if music is playing draw icon that it is on 
 			if (music.getStatus() == sf::SoundSource::Status::Playing) {
 				window.draw(music_on);
 			}
+			//if not draw the icon that it doesn't plays
 			else {
 				window.draw(music_off);
 			}
@@ -769,12 +786,18 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		}
 	}
 }
-//on progress
+//this is the overall structure of the game
+//when a player plays what happends
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
 	, std::unordered_map<std::string, sf::Sprite>& aces) {
+	//when a player plays the might have a card to play or not 
 	if (!can_he_play(player, color, num)) {
+		//if they don't have a card they draw one from the deck
+		//if the deck doesn't have cards to give then it is the other players turn 
+		//remember flag==true->player1 plays
+		//flag==false->player2 plays
 		if (deck.size() > 0) {
 			player.emplace(deck.back());
 			deck.pop_back();
@@ -785,23 +808,27 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		else {
 			flag = !flag;
 		}
-	}
+	}//if he can play wait untill he plays the right card in order to continue with the game
 	else if (check_for_card(window, player, color,
 		num, table, aces, colors)) {
-		//special cards
+		//special cards,if he plays a 7 the other draws 2 cards or less if the deck has less than two 
+
 		if (num == "07") {//special card
 			flag = !flag;
 			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {
 				other_player.emplace(deck.back());
 				deck.pop_back();
 			}
-		}
+		}//8 and 9 the player plays again
+		//any other than 8 and 9 then the other player plays
 		else if (num != "08" && num != "09") {
 			flag = !flag;
 		}
 	}
 }
-//on progress
+//this is the pause menu,contains two textures resume and quit game and a backround
+//add score remains
+//whatever instruction here is shown is explained above on what it does
 inline void pause_menu(sf::RenderWindow& window) {
 	//textures,font
 	sf::Texture _resume{}, _quit_game{}, _backround{};
