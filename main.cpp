@@ -32,7 +32,18 @@ int main() {
         || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
         std::exit(1);
     }
-
+    sf::Texture _hide{};
+    if (choice == 0) {
+        if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
+            std::exit(1);
+        }
+    }
+    else {
+        if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\CardBackFaceBlueLargePattern.png")) {
+            std::exit(1);
+        }
+    }
+    sf::Sprite hide{ _hide };
     load_file_paths(file_paths, choice);
     // load textures from files
     load_textures_from_files(textures, deck, file_paths,
@@ -115,7 +126,7 @@ int main() {
         }
         //draw stuff
         window.draw(text);
-        set_the_table_of_cards(window, player1, player2, choice,flag);
+        set_the_table_of_cards(window, player1, player2, choice,flag,hide);
         if (choice == 0) {
             table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
             table.setOrigin({ 32,32 });
