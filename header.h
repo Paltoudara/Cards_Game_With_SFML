@@ -1,5 +1,6 @@
 //score in pause menu
 //reset score option in menu
+//document the remaing funcs and make a git read me properly 
 #pragma once
 #include<iostream>
 #include<algorithm>
