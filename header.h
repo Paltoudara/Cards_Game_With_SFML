@@ -52,7 +52,7 @@ inline bool can_he_play(const std::unordered_map<std::string
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
-	sf::Sprite>& player2, const std::size_t choice, const bool flag);
+	sf::Sprite>& player2, const std::size_t choice, const bool flag,sf::Sprite&hide);
 //check_for_card->wait until the player that is his is turn to play a card that is acceptable(matches symbols or numbers
 //with the table card)
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
@@ -137,26 +137,35 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	vintage_cards.setPosition({ 1000.f,420.f });
 	vintage_cards.setScale({ 450.f / vintage_cards.getLocalBounds().size.x,600.f / vintage_cards.getLocalBounds().size.y });
 	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
-	//window.getSize()gives the dimensions of the window 
-	//in this set scale call we wanna make the backround as big as the window in order to do that
-	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {
-			if (event->is<sf::Event::Closed>()) {
+	//window.getSize() gives the dimensions of the window 
+	//in this setScale call we wanna make the backround as big as the window in order to do that
+	//we make the division with the window x,y cords and the local bounds cords in order to properly scale the backround
+	//to be the size of the window
+	//Note that localBounds=width and height of the texture originaly the scaling doesn't affect local bounds
+	//it only affects globalBounds
+	while (window.isOpen()) {//this loop runs for every frame
+		while (const auto event = window.pollEvent()) {//we parse here all the events happened to the window
+			if (event->is<sf::Event::Closed>()) {//an event that will close our window
 				window.close();
 				return 0;
 			}
-			else if (event->is<sf::Event::MouseButtonPressed>()) {
-				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
+			else if (event->is<sf::Event::MouseButtonPressed>()) {//click with both mouse buttons
+				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };//take where the mouse is at the window
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-				if (classic_cards.getGlobalBounds().contains(world_pos)) {
-					return 0;
+				/*std::cout << "(" << mous_pos.x << "," << mous_pos.y << ")" << '\n';
+				std::cout << "(" <<world_pos.x << "," << world_pos.y << ")" << '\n';*/
+				//check collision with classic_cards sprite or vintage_cards sprite
+				if (classic_cards.getGlobalBounds().contains(world_pos)) {//this is not exactly perfect collision
+					return 0;//sometimes because of the texture the collision may not be perfect 
 				}
 				else if (vintage_cards.getGlobalBounds().contains(world_pos)) {
 					return 1;
 				}
 			}
 		}
+		//this is the frame
 		window.clear();
+		//draw the frame
 		window.draw(backround);
 		window.draw(classic_cards);
 		window.draw(vintage_cards);
@@ -164,16 +173,21 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 		window.draw(text_classic);
 		window.draw(text_vintage);
 		window.display();
+		//display the work we done to the frame
 	}
 	return 0;
 }
-//done//
+//load_file_paths function
+//Note that the choice->is the choice of the user we got from the menu
 inline void load_file_paths(std::vector<std::string>& file_paths, const std::size_t choice) {
-	//load 52 carads
-	//4 suits of 13 cards
+	//keep file paths to load the textures later
 	file_paths.reserve(52);
+	//reserve space for 52 cards
 	std::vector<std::string>table{ "02","03","04","05","06","07","08","09","10","A","J","K","Q" };
-	if (choice == 0) {
+	//look up table
+	//the deck is 52 cards-> 4 suits of 13 cards
+	//every suit contains 2,3,4,5,6,7,8,9,10,A,J,K,Q
+	if (choice == 0) {//classic_cards
 		for (std::size_t i = 0; i < table.size(); i++) {
 			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_"+table[i]+".png");
 			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_diamonds_"+table[i]+".png");
@@ -181,7 +195,7 @@ inline void load_file_paths(std::vector<std::string>& file_paths, const std::siz
 			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_spades_"+table[i]+ ".png");
 		}
 	}
-	else {
+	else {//vintage_cards
 		for (std::size_t i = 0; i < table.size(); i++) {
 			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_"+table[i]+".png");
 			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_diamonds_"+table[i]+".png");
@@ -190,17 +204,21 @@ inline void load_file_paths(std::vector<std::string>& file_paths, const std::siz
 		}
 	}
 }
-//done//
+//simply explains the rules of the game
+//Note that the sprites are placed by their top left corner in the position given to them 
+//in order to change that and make them placed from the middle in the position given to them 
+//we change the origin of them to be (width/2)x(height/2)
+//the default origin of a sprite is the top left corner(change that with setOrigin function)
 inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	//textures,fonts
 	sf::Texture _backround{};
 	sf::Font font{};
-	//load them
+	//load them from those file paths
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
 		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
-	//message
+	//message this message is in utf-8 the L understands far more than simple ascii characters
 	sf::String message =
 		L"We have a deck of 52 cards and two "
 		L"players. The cards contain symbols. The symbols\n"
@@ -223,10 +241,12 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	sf::Text text_title{ font,"RULES OF THE GAME:",100 }, text_rules{ font,message,30 }, text_tap{ font,"TAP ANYWHERE",100 };
 	//
 	text_title.setPosition({ 930.f,20.f });
-	text_title.setFillColor(sf::Color::Black);
+	text_title.setFillColor(sf::Color::Black);//color of the text
 	text_title.setOrigin({ text_title.getLocalBounds().size.x / 2.f,text_title.getLocalBounds().size.y / 2.f });
-	text_title.setOutlineColor(sf::Color::White);
-	text_title.setOutlineThickness(5.f);
+	//make them be placed by the middle
+	//the set origin funtion ignores all transformation scaling etc of the sprite 
+	text_title.setOutlineColor(sf::Color::White);//give outline to the text
+	text_title.setOutlineThickness(5.f);//and give thickness to the outline
 	//
 	text_rules.setFillColor(sf::Color::Black);
 	text_rules.setPosition({ 370.f,120.f });
@@ -239,19 +259,22 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	text_tap.setOutlineThickness(10.f);
 	//
 	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	//again make the backround to have the same size as the window
 	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {
-			if (event->is<sf::Event::MouseButtonPressed>()) {
+		while (const auto event = window.pollEvent()) {//capture all events
+			if (event->is<sf::Event::MouseButtonPressed>()) {//mouse button pressed
 				return;
 			}
-			else if (event->is<sf::Event::Closed>()) {
+			else if (event->is<sf::Event::Closed>()) {//event that will close the window like alt-f4
 				//exit
 				window.close();
 				return;
 			}
 
 		}
+		//this loop runs every frame
 		window.clear();
+		//draw stuff to the window
 		window.draw(backround);
 		window.draw(text_title);
 		window.draw(text_rules);
@@ -259,19 +282,20 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-//done//
+//load_textures_from_files->simply load the texures from the file paths saved on the vector file_paths
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, const std::vector<std::string>& file_paths
 	, std::unordered_map<std::string, sf::Sprite>& aces, const std::size_t choice) {
 	textures.resize(file_paths.size());
-	if (choice == 0) {
+	//textures must contain 52 textures like the 52 cards
+	if (choice == 0) {//classic cards textures
 		for (std::size_t i = 0; i < file_paths.size(); i++) {
 
-			if (!textures[i].loadFromFile(file_paths[i])) {
+			if (!textures[i].loadFromFile(file_paths[i])) {//if the texture is not loaded exit->1
 				std::exit(1);
 			}
-			//format d_symbol_num.png
+			//name will have the following format->d_symbol_num.png 
 			std::string name = { file_paths[i].substr(101) };
 			name = std::string{ name.begin(),name.begin() + name.find('.') };
 			sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
@@ -280,12 +304,14 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 				aces.emplace(name.substr(name.find_first_of('_') + 1,
 					name.find_last_of('_') - 2), sprite);
 			}
-			deck.emplace_back(std::move(name), sprite);
+			//by the end of this name->d_symbol_num we do this in order to parse the symbol and num later
+			deck.emplace_back(std::move(name), sprite);//every name has a sprite on it
+			//we have 52 unique names and cards set on them
 		}
 	}
-	else {
+	else {//vintage cards textures
 		for (std::size_t i = 0; i < file_paths.size(); i++) {
-			if (!textures[i].loadFromFile(file_paths[i])) {
+			if (!textures[i].loadFromFile(file_paths[i])) {//if the texture is not loaded exit->1
 				std::exit(1);
 			}
 			//format d_symbol_num.png
@@ -293,32 +319,38 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 			name = std::string{ name.begin(),name.begin() + name.find('.') };
 			sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
 			if (name.contains('A')) {
+				//aces will contain just the symbols
 				aces.emplace(name.substr(name.find_first_of('_') + 1,
 					name.find_last_of('_') - 2), sprite);
 			}
-			deck.emplace_back(std::move(name), sprite);
+			//by the end of this name->d_symbol_num we do this in order to parse the symbol and num later
+			deck.emplace_back(std::move(name), sprite);//every name has a sprite on it
+			//we have 52 unique names and cards set on them
 		}
 	}
 }
-//done//
+//shuffle_deck->std::shuffle to shuffle the vector simple
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::shuffle(deck.begin(), deck.end(), gen);
 }
-//done//
+//initialize function
 inline void initialize(std::vector <std::
 	pair
 	<std::string, sf::Sprite>>&
 	deck, std::string& color, std::string& num, sf::Sprite& table
 	, const std::unordered_map<std::string, sf::Sprite>& aces,
 	const std::vector<std::string>& colors) {
-	if (deck.back().first.contains('A')) {
+	//simply intializes the state of the game
+	//remember deck.back.first=name that has the following format->d_symbol_num
+	if (deck.back().first.contains('A')) {//if the name contains and ace,pick a random between the four aces
 		num = "A";
-		color = colors[rand() % 4];
-		table = aces.at(color);
+		color = colors[rand() % 4];//colors={ "spades","hearts","clubs", "diamonds"}
+		table = aces.at(color);//aces-><name,sprite> contains the four aces and the sprites to them
 	}
 	else {
+		//name format->d_symbol_num,parse this and take symbol ,num
 		color = std::string{ deck.back().first.begin() + deck.back().first.find('_') + 1
 			,deck.back().first.begin() + deck.back().first.find_last_of('_')
 		};
@@ -326,9 +358,10 @@ inline void initialize(std::vector <std::
 			deck.back().first.find_last_of('_') + 1);
 		table = deck.back().second;
 	}
+	//always initialize table
 	deck.pop_back();
 }
-//done//
+//give_players_cards->gives its player 7 cards
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
 	, std::vector<std::pair<std::string, sf::Sprite>>& deck) {
@@ -337,9 +370,12 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 		deck.pop_back();
 		player2.emplace(deck.back().first, deck.back().second);
 		deck.pop_back();
-	}
+	}//7 cards its player
 }
-//done//
+//can_he_play,check if any card on the players deck can be played
+//color and num contain the symbol and num of the table see if the names of the cards 
+//,that the player holds contain the color or the num
+//name format->d_symbol_num we see if color matches symbol and num matches num
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num) {
@@ -351,23 +387,24 @@ inline bool can_he_play(const std::unordered_map<std::string
 	}
 	return false;
 }
-//done//,optimize
+//set_the_table_of_cards->this function is used in the main loop
+//in order to draw the players cards and the table card
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
-	sf::Sprite>& player2, const std::size_t choice,const bool flag) {
-	//
-	sf::Texture _hide{};
+	sf::Sprite>& player2, const std::size_t choice,const bool flag,sf::Sprite&hide) {
+	//hide is the sprite that hides the cards 
 	if (choice == 0) {
 		std::size_t i{ 0 };
 		float j{ 0.f };
 		//
-		if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
-			std::exit(1);
-		}
-		sf::Sprite hide{ _hide };
+		//when player1 plays hide the cards of the player2 
+		//when player2 plays hide the cards of the player1
+		//flag==true means->player1 plays
+		//flag==false means->player2 plays
 		for (auto& [key, value] : player1) {
 			if (flag == true) {
+				//cards will be placed in certain positions and have some distance between them
 				value.setPosition({ 0.0f + i * 100.0f, j });
 				value.setScale({ 2.f,2.f });
 				window.draw(value);
@@ -378,16 +415,19 @@ inline void set_the_table_of_cards(
 				window.draw(hide);
 			}
 			i++;
+			//every seven cards place the next sprite up 125.f pixels
 			if (i % 7 == 0) {
 				j += 125.0f;
 				i = 0;
 			}
 			//window.draw(value);
 		}
+		//do the same with player2
 		i = 0;
 		j = 0;
 		for (auto& [key, value] : player2) {
 			if (flag == false) {
+				//cards will be placed in certain positions and have some distance between them
 				value.setPosition({ 1200.f + i * 100.f, 960.f - j });
 				value.setScale({ 2.f,2.f });
 				window.draw(value);
@@ -398,6 +438,7 @@ inline void set_the_table_of_cards(
 				window.draw(hide);
 			}
 			i++;
+			//every seven cards place the next sprite up 125.f pixels
 			if (i % 7 == 0) {
 				j += 125.0f;
 				i = 0;
@@ -408,12 +449,13 @@ inline void set_the_table_of_cards(
 		std::size_t i{ 0 };
 		float j{ 0.f };
 		//
-		if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\CardBackFaceBlueLargePattern.png")) {
-			std::exit(1);
-		}
-		sf::Sprite hide{ _hide };
+		//when player1 plays hide the cards of the player2 
+		//when player2 plays hide the cards of the player1
+		//flag==true means->player1 plays
+		//flag==false means->player2 plays
 		for (auto& [key, value] : player1) {
 			if (flag == true) {
+				//cards will be placed in certain positions and have some distance between them
 				value.setPosition({ 0.0f + i * 100.0f, j });
 				value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
 				window.draw(value);
@@ -424,6 +466,7 @@ inline void set_the_table_of_cards(
 				window.draw(hide);
 			}
 			i++;
+			//every seven cards place the next sprite up 130.f pixels
 			if (i % 7 == 0) {
 				j += 130.0f;
 				i = 0;
@@ -431,8 +474,10 @@ inline void set_the_table_of_cards(
 		}
 		i = 0;
 		j = 0;
+		//do the same for player 2 
 		for (auto& [key, value] : player2) {
 			if (flag == false) {
+				//cards will be placed in certain positions and have some distance between them
 				value.setPosition({ 1200.f + i * 100.f, 960.f - j });
 				value.setScale({ 80.f / value.getLocalBounds().size.x,128.f / value.getLocalBounds().size.y });
 				window.draw(value);
@@ -443,6 +488,7 @@ inline void set_the_table_of_cards(
 				window.draw(hide);
 			}
 			i++;
+			//every seven cards place the next sprite up 130.f pixels
 			if (i % 7 == 0) {
 				j += 130.0f;
 				i = 0;
@@ -451,18 +497,20 @@ inline void set_the_table_of_cards(
 		}
 	}
 }
-//done//
+//check_for_card->this function simply waits for the player to play an acceptable card in the table
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
 	, const std::unordered_map<std::string, sf::Sprite>& aces
 	, const std::vector<std::string>& colors) {
+	//get mouse cords and check the map of the player that plays and check if he tapped a card that is valid
+	//if thats the case drop it to the table and extract the card that you played from the map
 	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 	std::string card_to_remove{};
 	for (const auto& [key, value] : player) {
-		if (value.getGlobalBounds().contains(world_pos)) {
+		if (value.getGlobalBounds().contains(world_pos)) {//collision
 			if (key.contains(color) || key.contains(num) ||
-				key.contains("A")) {
+				key.contains("A")) {//acceptable cards
 				card_to_remove = key;
 				std::cout << color << " " << num << '\n';
 				std::cout << key << '\n';
@@ -482,13 +530,15 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 			}
 		}
 	}
+	//if he played a valid card then the card_to_remove variable will not be empty
 	if (!card_to_remove.empty()) {
 		player.extract(card_to_remove);
 		return true;
 	}
 	return false;
 }
-//done//
+//pretty much the screen of the winner
+//every winner has a music
 inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	//music
 	sf::Music music{};
@@ -502,6 +552,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	//texture
 	sf::Texture texture{};
 	//load it
+	//based on the flag load the certain texture
 	if (flag_winner == true) {
 		if (!texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\player1.png")) {
 			std::exit(1);
@@ -518,6 +569,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	//sprite
 	sf::Sprite sprite(texture);
 	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	//this works the same if we took also the local bounds from the value sprite
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
@@ -530,7 +582,8 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		window.display();
 	}
 }
-//done
+//pretty much the screen of the draw
+//the draw also has music
 inline void draw(sf::RenderWindow& window) {
 	//music,texture
 	sf::Texture texture{};
@@ -548,6 +601,7 @@ inline void draw(sf::RenderWindow& window) {
 	//sprite
 	sf::Sprite sprite{ texture };
 	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	//this works the same if we took also the local bounds from the value sprite
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
@@ -560,7 +614,7 @@ inline void draw(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-//done
+//on progress
 inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//music,textures,font
 	sf::Music music,jumpscare_music{};
@@ -681,7 +735,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			}
 		}
 		window.clear();
-		if (!event && timer.getElapsedTime().asSeconds() >=10.f) {
+		if (!event && timer.getElapsedTime().asSeconds() >=360.f) {//6x60 
 			music.stop();
 			event = true;
 			window.draw(jumpscare);
@@ -714,7 +768,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		}
 	}
 }
-//done//
+//on progress
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
@@ -746,7 +800,7 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		}
 	}
 }
-//done//
+//on progress
 inline void pause_menu(sf::RenderWindow& window) {
 	//textures,font
 	sf::Texture _resume{}, _quit_game{}, _backround{};
