@@ -78,7 +78,8 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 //pause->menu is a classic pause that all the games have
 //add score to the pause menu!!!
 inline void pause_menu(sf::RenderWindow& window);
-
+//
+inline void huffman_tree_explanation(sf::RenderWindow& window);
 
 //-------INTERFACE END-------
 
@@ -591,11 +592,8 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//chance for the easter egg
 	std::random_device rd{};
 	std::mt19937 gen(rd());
-	std::bernoulli_distribution chance(1.0 / 1000.0);
-	bool flag = false;
-	if (chance(gen)) {
-		flag = true;
-	}
+	std::bernoulli_distribution chance(1.0/1000.0);
+	bool flag = chance(gen);
 	//music,textures,font
 	sf::Music music, jumpscare_music{};
 	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{}
@@ -614,13 +612,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
 		|| !_jumpscare.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
 		|| !jumpscare_music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")
-		//||!_huffman_button.loadFromFile("")
+		||!_huffman_button.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameRed.png")
 		) {
-		
 		std::exit(1);
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
-	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare };
+	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
+	, huffman_button{_huffman_button};
 	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
 	music.setLooping(true);
@@ -644,6 +642,10 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	change_texture.setPosition({ 960.f,870.f });
 	change_texture.setOrigin({ change_texture.getLocalBounds().size.x / 2.f,change_texture.getLocalBounds().size.y / 2.f });
 	//
+	huffman_button.setScale({ 1 / 4.f,1 / 4.f });
+	huffman_button.setPosition({ 960.f,980.f });
+	huffman_button.setOrigin({ huffman_button.getLocalBounds().size.x / 2.f,huffman_button.getLocalBounds().size.y / 2.f });
+	//
 	github.setPosition({ 1800.f,0.f });
 	github.setScale({ 1 / 2.f,1 / 2.f });
 	//
@@ -653,7 +655,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
-	, text_change_texture{ font," textures",50 };
+	, text_change_texture{ font," textures",50 }, text_huffman{font,"huffman",50};
 	//place the texts
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
@@ -670,6 +672,10 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setPosition({ 960.f,860.f });
 	text_change_texture.setFillColor(sf::Color::White);
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
+	//
+	text_huffman.setPosition({965.f,970.f});
+	text_huffman.setFillColor(sf::Color::White);
+	text_huffman.setOrigin({ text_huffman.getLocalBounds().size.x / 2.f,text_huffman.getLocalBounds().size.y / 2.f });
 	//
 	jumpscare.setScale({ window.getSize().x / jumpscare.getLocalBounds().size.x, window.getSize().y / jumpscare.getLocalBounds().size.y });
 	//place the jumpscare when a certain time is passed
@@ -721,6 +727,12 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					}
 					timer.restart();
 				}
+				else if (flag&&huffman_button.getGlobalBounds().contains(world_pos)) {
+					//if we got the 1/1000 show the func and accept 
+					huffman_tree_explanation(window);
+					timer.restart();
+					if (!window.isOpen())return;
+				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
 				//exit
@@ -764,9 +776,10 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			window.draw(text_tutorial);
 			window.draw(text_exit);
 			window.draw(text_change_texture);
-			/*if (flag == true) {
-				
-			}*/
+			if (flag) {//if we got the 1/1000 show the huffman button
+				window.draw(huffman_button);
+				window.draw(text_huffman);
+			}
 			//window.draw(huffman_tree_explanation);
 			window.display();
 		}
@@ -876,7 +889,70 @@ inline void pause_menu(sf::RenderWindow& window) {
 }
 //
 inline void huffman_tree_explanation(sf::RenderWindow&window) {
-	//on progress
+	//textures,fonts
+	sf::Texture _backround{};
+	sf::Font font{};
+	//load them from those file paths
+	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
+		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		std::exit(1);
+	}
+	//message this message is in utf-8 the L understands far more than simple ascii characters
+	sf::String message =
+		L"To make the huffman tree is simple:"
+		L"First you take all possibilities and sort them by increasing order(if two possibilities\n)"
+		L"have the same chance the order doesn't matter the real algo uses a priority queue"
+		L" take the two smallest possibilities\nand merge them(take the sum of their possibilities).Take the new possibility and then"
+		L" put it with the others and re-sort\nand then do the same.Stop when there is only one tree.I read sedgewick book,the figure he shows,puts the merged\npossibilities wherever he wants in the sorted order"
+		L". I also asked chat gpt and gemini pro.They said the same."
+		L"In the e\nnd sort,take the two mins and then re-sort and then continue until there is only one tree left."
+		;
+	//sprite
+	sf::Sprite backround{ _backround };
+	//texts
+	sf::Text text_title{ font,"HUFFMAN TREE EXPLANATION:",100 }, text_rules{ font,message,30 }, text_tap{ font,"TAP ANYWHERE",100 };
+	//
+	text_title.setPosition({ 930.f,20.f });
+	text_title.setFillColor(sf::Color::Black);//color of the text
+	text_title.setOrigin({ text_title.getLocalBounds().size.x / 2.f,text_title.getLocalBounds().size.y / 2.f });
+	//make them be placed by the middle
+	//the set origin funtion ignores all transformation scaling etc of the sprite 
+	text_title.setOutlineColor(sf::Color::White);//give outline to the text
+	text_title.setOutlineThickness(5.f);//and give thickness to the outline
+	//
+	text_rules.setFillColor(sf::Color::Black);
+	text_rules.setPosition({250.f,120.f });
+	text_rules.setOutlineColor(sf::Color::White);
+	text_rules.setOutlineThickness(5.f);
+	//
+	text_tap.setPosition({ 1200.f,970.f });
+	text_tap.setFillColor(sf::Color::Black);
+	text_tap.setOutlineColor(sf::Color::White);
+	text_tap.setOutlineThickness(10.f);
+	//
+	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	//again make the backround to have the same size as the window
+	while (window.isOpen()) {
+		while (const auto event = window.pollEvent()) {//capture all events
+			if (event->is<sf::Event::MouseButtonPressed>()) {//mouse button pressed
+				return;
+			}
+			else if (event->is<sf::Event::Closed>()) {//event that will close the window like alt-f4
+				//exit
+				window.close();
+				return;
+			}
+
+		}
+		//this loop runs every frame
+		window.clear();
+		//draw stuff to the window
+		window.draw(backround);
+		window.draw(text_title);
+		window.draw(text_rules);
+		window.draw(text_tap);
+		window.display();
+	}
 }
 
 inline void initialise_aces(std::unordered_map<std::string,sf::Sprite>&aces,std::vector<std::pair<std::string,sf::Sprite>>&deck) {
