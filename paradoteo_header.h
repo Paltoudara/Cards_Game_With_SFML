@@ -1,4 +1,4 @@
-
+//tomorrow score kai document 
 //score in pause menu
 //reset score option in menu
 //make the code more simple and readable there must be another way
