@@ -228,11 +228,11 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 		L"We have a deck of 52 cards and two "
 		L"players. The cards contain symbols. The symbols\n"
 		L"are 4: ♠Spades, ♥Hearts, ♦Diamonds, ♣Clubs. "
-		L"Every symbol contains Number cards: 2-10.\n"
-		L"Face cards: Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random cards\nand there is"
-		L" a card in the table,you can drop cards from your hand at the table only\nif the symbol of your card or the number"
-		L" matches the symbol or the number of the\ncard respectively at the table.Winner is the player that will have 0 cards left."
-		L"If it is your\nturn and you can't play you have to draw a card and see if you can play it.If you can't\n"
+		L"Every symbol contains Number cards: 2-10\n or"
+		L" the letters Jack(J), Queen(Q), King(K) and Ace(A).Every player draw's 7 random cards\nand there is"
+		L" a card in the table,you can drop cards from your hand at the table only if the\nsymbol of your card or the number or the letter"
+		L" matches the symbol or the number or the le\ntter of the card respectively at the table.Winner is the player that will have 0 cards left."
+		L"If it is\nyour turn and you can't play you have to draw a card and see if you can play it.If you can't\n"
 		L"then the other player plays.Warning if you can't play and the deck has no cards then\nthe other player plays and "
 		L"if no player can play a card and the deck is empty then draw\n(Player 1 always starts first)"
 		L".Special cards: the numbers 7,8,9 and A are special if you\n drop 7 then the other player has"
@@ -601,7 +601,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	, _jumpscare{}, _huffman_button{};
 	sf::Font font{};
 	//load them,buttons backrounds and easter eggs
-	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\Sketchbook 2024-10-16.ogg")
+	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\White Noiz.mp3")
 		|| !_start.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutBlue.png")
 		|| !_tutorial.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameRed.png")
 		|| !_change_texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameBlue.png")
