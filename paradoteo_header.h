@@ -70,7 +70,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice);
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces);
+	, std::unordered_map<std::string, sf::Sprite>& aces,sf::Music &music);
 //pause_menu-> is a classic pause that all the games have
 //add score to the pause menu!!!
 inline void pause_menu(sf::RenderWindow& window);
@@ -791,7 +791,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces) {
+	, std::unordered_map<std::string, sf::Sprite>& aces,sf::Music&music) {
 	//when a player plays the might have a card to play or not 
 	if (!can_he_play(player, color, num)) {
 		//if they don't have a card they draw one from the deck
@@ -812,7 +812,9 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 	else if (check_for_card(window, player, color,
 		num, table, aces, colors)) {
 		//special cards,if he plays a 7 the other draws 2 cards or less if the deck has less than two 
-
+		music.setVolume(100.f);
+		music.play();
+		//play the sound effect 
 		if (num == "07") {//special card
 			flag = !flag;
 			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {
@@ -920,7 +922,7 @@ inline void huffman_tree_explanation(sf::RenderWindow&window) {
 	//the set origin funtion ignores all transformation scaling etc of the sprite 
 	text_title.setOutlineColor(sf::Color::White);//give outline to the text
 	text_title.setOutlineThickness(5.f);//and give thickness to the outline
-	//
+	//apply properties to texts
 	text_rules.setFillColor(sf::Color::Black);
 	text_rules.setPosition({250.f,120.f });
 	text_rules.setOutlineColor(sf::Color::White);
