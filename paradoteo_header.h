@@ -1,7 +1,3 @@
-//tomorrow score kai document 
-//score in pause menu
-//reset score option in menu
-//make the code more simple and readable there must be another way
 #pragma once
 #include<iostream>
 #include<algorithm>
@@ -75,11 +71,16 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
 	, std::unordered_map<std::string, sf::Sprite>& aces);
-//pause->menu is a classic pause that all the games have
+//pause_menu-> is a classic pause that all the games have
 //add score to the pause menu!!!
 inline void pause_menu(sf::RenderWindow& window);
-//
+//document:pretty much displays a text on the window that shows how to make the huffman tree
 inline void huffman_tree_explanation(sf::RenderWindow& window);
+//document:pretty much it initialises the aces map
+//the map contains the symbols:clubs,hearts,diamonds,spades and the sprite of the ace of that symbol
+//
+inline void initialise_aces(std::unordered_map<std::string, sf::Sprite>& aces, const std::vector<std::pair<std::string, sf::Sprite>>& deck);
+//
 
 //-------INTERFACE END-------
 
@@ -322,8 +323,8 @@ inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) 
 //initialize function
 inline void initialize(std::vector <std::
 	pair
-	<std::string, sf::Sprite>>&
-	deck, std::string& color, std::string& num, sf::Sprite& table
+	<std::string, sf::Sprite>>&deck
+	, std::string& color, std::string& num, sf::Sprite& table
 	, const std::unordered_map<std::string, sf::Sprite>& aces,
 	const std::vector<std::string>& colors) {
 	//simply intializes the state of the game
@@ -589,7 +590,7 @@ inline void draw(sf::RenderWindow& window) {
 }
 //on progress
 inline void menu(sf::RenderWindow& window, std::size_t& choice) {
-	//chance for the easter egg
+	//chance for the easter egg 1/1000 chance
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::bernoulli_distribution chance(1.0/1000.0);
@@ -728,7 +729,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					timer.restart();
 				}
 				else if (flag&&huffman_button.getGlobalBounds().contains(world_pos)) {
-					//if we got the 1/1000 show the func and accept 
+					//if we got the 1/1000 show the func and accept clicks
 					huffman_tree_explanation(window);
 					timer.restart();
 					if (!window.isOpen())return;
@@ -954,8 +955,8 @@ inline void huffman_tree_explanation(sf::RenderWindow&window) {
 		window.display();
 	}
 }
-
-inline void initialise_aces(std::unordered_map<std::string,sf::Sprite>&aces,std::vector<std::pair<std::string,sf::Sprite>>&deck) {
+//
+inline void initialise_aces(std::unordered_map<std::string,sf::Sprite>&aces,const std::vector<std::pair<std::string,sf::Sprite>>&deck) {
 	//the for last slots are the aces
 	//deck[48]->clubs
 	//deck[49]->diamonds
@@ -966,5 +967,6 @@ inline void initialise_aces(std::unordered_map<std::string,sf::Sprite>&aces,std:
 	aces.emplace("hearts", deck[50].second);
 	aces.emplace("spades", deck[51].second);
 }
+//
 
 //-------IMPLEMENTATION END-------
