@@ -9,7 +9,8 @@ int main() {
     //textures,font
     sf::Texture _backround{}, _pause{};
     sf::Font font{};
-    sf::Text text{ font };
+    sf::Text text{ font }, deck_text{font,"deck contains:"}
+    , count_text{ font};
     //structure of the game
     std::vector<std::string>file_paths{};
     std::vector<sf::Texture> textures;  // must stay alive!
@@ -63,6 +64,12 @@ int main() {
     //
     pause.setPosition({ 1850.f,0.f });//pause button
     backround.setScale({ 1.f,(float)window.getSize().y / _backround.getSize().y });//backround
+    //
+    deck_text.setFillColor(sf::Color::Red);
+    deck_text.setPosition({ 10.f,900.f });
+    //
+    count_text.setFillColor(sf::Color::Red);
+    count_text.setPosition({10.f,930.f});
     //
     std::srand(static_cast<unsigned int>(std::time(NULL)));//random
     while (window.isOpen()) {//this loop runs for every frame of the window
@@ -143,6 +150,9 @@ int main() {
         window.draw(pause);
         //
         //display everything
+        window.draw(deck_text);
+        count_text.setString(std::to_string(deck.size()) + " cards");
+        window.draw(count_text);
         window.display();
         //
     }
