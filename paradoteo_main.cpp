@@ -70,6 +70,11 @@ int main() {
     //
     count_text.setFillColor(sf::Color::Red);
     count_text.setPosition({10.f,930.f});
+    //sound effect when someone drops a card at the table
+    sf::Music music{};
+    if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\319896__theriavirra__drumsticks-lutner-2bn-hickory-no1.wav")) {
+        std::exit(1);
+    }
     //
     std::srand(static_cast<unsigned int>(std::time(NULL)));//random
     while (window.isOpen()) {//this loop runs for every frame of the window
@@ -97,10 +102,10 @@ int main() {
         if (mouseclicked) {
             mouseclicked = false;
             if (flag == true) {
-                player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces);
+                player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces,music);
             }
             else {
-                player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces);
+                player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces,music);
             }
             //a player wins if he emptied his deck
             //check if a player won
