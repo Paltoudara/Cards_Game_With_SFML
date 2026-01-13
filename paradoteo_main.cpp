@@ -1,4 +1,4 @@
-#include"header.h"
+#include"Header.h"
 //handle choice
 int main() {
     ////only one window
@@ -9,8 +9,8 @@ int main() {
     //textures,font
     sf::Texture _backround{}, _pause{};
     sf::Font font{};
-    sf::Text text{ font }, deck_text{font,"deck contains:"}
-    , count_text{ font};
+    sf::Text text{ font }, deck_text{ font,"deck contains:" }
+    , count_text{ font };
     //structure of the game
     std::vector<std::string>file_paths{};
     std::vector<sf::Texture> textures;  // must stay alive!
@@ -27,19 +27,19 @@ int main() {
     //if something closes the window we get out 
     if (!window.isOpen())return 0;
     //
-    if (!_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
-        || !_pause.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\pause_icon.png")
+    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
+        || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")
         || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
         std::exit(1);
     }
     sf::Texture _hide{};
     if (choice == 0) {//based on choice different hide texture for cards
-        if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
+        if (!_hide.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
             std::exit(1);
         }
     }
     else {
-        if (!_hide.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\CardBackFaceBlueLargePattern.png")) {
+        if (!_hide.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\CardBackFaceBlueLargePattern.png")) {
             std::exit(1);
         }
     }
@@ -47,7 +47,7 @@ int main() {
     load_file_paths(file_paths, choice);//based on choice load the proper textures of the cards
     // load textures from files
     load_textures_from_files(textures, deck, file_paths, choice);
-    initialise_aces(aces,deck);
+    initialise_aces(aces, deck);
     //shuffle the deck
     shuffle_deck(deck);//shuffle deck
     //
@@ -69,10 +69,10 @@ int main() {
     deck_text.setPosition({ 10.f,900.f });
     //
     count_text.setFillColor(sf::Color::Red);
-    count_text.setPosition({10.f,930.f});
+    count_text.setPosition({ 10.f,930.f });
     //sound effect when someone drops a card at the table
     sf::Music music{};
-    if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\319896__theriavirra__drumsticks-lutner-2bn-hickory-no1.wav")) {
+    if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\319896__theriavirra__drumsticks-lutner-2bn-hickory-no1.wav")) {
         std::exit(1);
     }
     //
@@ -102,10 +102,10 @@ int main() {
         if (mouseclicked) {
             mouseclicked = false;
             if (flag == true) {
-                player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces,music);
+                player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces, music);
             }
             else {
-                player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces,music);
+                player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces, music);
             }
             //a player wins if he emptied his deck
             //check if a player won
