@@ -70,7 +70,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice);
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces,sf::Music &music);
+	, std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music);
 //pause_menu-> is a classic pause that all the games have
 //add score to the pause menu!!!
 inline void pause_menu(sf::RenderWindow& window);
@@ -103,9 +103,9 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	sf::Font font{};
 	//font used for texts on the window
 	//load them those are the files paths,if a single texture is not loaded properly exit->1
-	if (!_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
-		|| !_classic_cards.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_03.png")
-		|| !_vintage_cards.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
+		|| !_classic_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_03.png")
+		|| !_vintage_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")
 		|| !font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
 		std::exit(1);
 	}
@@ -194,18 +194,18 @@ inline void load_file_paths(std::vector<std::string>& file_paths, const std::siz
 	//every suit contains 2,3,4,5,6,7,8,9,10,A,J,K,Q
 	if (choice == 0) {//classic_cards
 		for (std::size_t i = 0; i < table.size(); i++) {
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_diamonds_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_hearts_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_spades_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_diamonds_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_hearts_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_spades_" + table[i] + ".png");
 		}
 	}
 	else {//vintage_cards
 		for (std::size_t i = 0; i < table.size(); i++) {
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_diamonds_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_hearts_" + table[i] + ".png");
-			file_paths.emplace_back("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\playing-cards-pack - Copy\\PNG2\\card_spades_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_diamonds_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_hearts_" + table[i] + ".png");
+			file_paths.emplace_back("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_spades_" + table[i] + ".png");
 		}
 	}
 }
@@ -220,7 +220,7 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	sf::Font font{};
 	//load them from those file paths
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
-		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
 	//message this message is in utf-8 the L understands far more than simple ascii characters
@@ -296,23 +296,23 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	for (std::size_t i = 0; i < file_paths.size(); i++) {
 
 		if (!textures[i].loadFromFile(file_paths[i])) {//if the texture is not loaded exit->1
-				std::exit(1);
+			std::exit(1);
 		}
 		//name will have the following format->d_symbol_num.png 
 		std::string name{};
 		if (choice == 0) {//classic cards
-			name = { file_paths[i].substr(101) };
+			name = { file_paths[i].substr(96) };
 		}
 		else {//vintage cards
-			name = { file_paths[i].substr(87) };
+			name = { file_paths[i].substr(82) };
 		}
 		name = std::string{ name.begin(),name.begin() + name.find('.') };
 		sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
-			//by the end of this name->d_symbol_num we do this in order to parse the symbol and num later
+		//by the end of this name->d_symbol_num we do this in order to parse the symbol and num later
 		deck.emplace_back(std::move(name), sprite);//every name has a sprite on it
-			//we have 52 unique names and cards set on them
+		//we have 52 unique names and cards set on them
 	}
-	
+
 }
 //shuffle_deck->std::shuffle to shuffle the vector simple
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
@@ -468,7 +468,7 @@ inline void set_the_table_of_cards(
 			if (t1 != player1.end())++t1;
 			if (t2 != player2.end())++t2;
 		}
-		
+
 	}
 }
 //check_for_card->this function simply waits for the player to play an acceptable card in the table
@@ -518,7 +518,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	sf::Music music{};
 	//load it 
 	if (!music
-		.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
+		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
@@ -528,12 +528,12 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	//load it
 	//based on the flag load the certain texture
 	if (flag_winner == true) {
-		if (!texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\player1.png")) {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player1.png")) {
 			std::exit(1);
 		}
 	}
 	else {
-		if (!texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\player2.png")) {
+		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player2.png")) {
 			std::exit(1);
 		}
 	}
@@ -563,8 +563,8 @@ inline void draw(sf::RenderWindow& window) {
 	sf::Texture texture{};
 	sf::Music music{};
 	//load them
-	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\Boo! sound effect.mp3")
-		|| !texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\draw_texture_transparent.png")) {
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Boo! sound effect.mp3")
+		|| !texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\draw_texture_transparent.png")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
@@ -593,7 +593,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//chance for the easter egg 1/1000 chance
 	std::random_device rd{};
 	std::mt19937 gen(rd());
-	std::bernoulli_distribution chance(1.0/1000.0);
+	std::bernoulli_distribution chance(1.0 / 1000.0);
 	bool flag = chance(gen);
 	//music,textures,font
 	sf::Music music, jumpscare_music{};
@@ -601,25 +601,25 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	, _jumpscare{}, _huffman_button{};
 	sf::Font font{};
 	//load them,buttons backrounds and easter eggs
-	if (!music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\White Noiz.mp3")
-		|| !_start.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutBlue.png")
-		|| !_tutorial.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameRed.png")
-		|| !_change_texture.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameBlue.png")
-		|| !_exit.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutIce.png")
-		|| !_github.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\github-mark\\github-mark-white.png")
-		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\dealer beauty.jpg")
-		|| !_music_on.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_on.png")
-		|| !_music_off.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\png-icons\\music_off.png")
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\White Noiz.mp3")
+		|| !_start.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")
+		|| !_tutorial.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
+		|| !_change_texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameBlue.png")
+		|| !_exit.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")
+		|| !_github.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\github-mark\\github-mark-white.png")
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\dealer beauty.jpg")
+		|| !_music_on.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_on.png")
+		|| !_music_off.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_off.png")
 		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
-		|| !_jumpscare.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
-		|| !jumpscare_music.openFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")
-		||!_huffman_button.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutFlameRed.png")
+		|| !_jumpscare.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
+		|| !jumpscare_music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")
+		|| !_huffman_button.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
 		) {
 		std::exit(1);
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
-	, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
-	, huffman_button{_huffman_button};
+		, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
+	, huffman_button{ _huffman_button };
 	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
 	music.setLooping(true);
@@ -656,7 +656,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
-	, text_change_texture{ font," textures",50 }, text_huffman{font,"huffman",50};
+	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 };
 	//place the texts
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
@@ -674,7 +674,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setFillColor(sf::Color::White);
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
 	//
-	text_huffman.setPosition({965.f,970.f});
+	text_huffman.setPosition({ 965.f,970.f });
 	text_huffman.setFillColor(sf::Color::White);
 	text_huffman.setOrigin({ text_huffman.getLocalBounds().size.x / 2.f,text_huffman.getLocalBounds().size.y / 2.f });
 	//
@@ -728,7 +728,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					}
 					timer.restart();
 				}
-				else if (flag&&huffman_button.getGlobalBounds().contains(world_pos)) {
+				else if (flag && huffman_button.getGlobalBounds().contains(world_pos)) {
 					//if we got the 1/1000 show the func and accept clicks
 					huffman_tree_explanation(window);
 					timer.restart();
@@ -791,7 +791,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces,sf::Music&music) {
+	, std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music) {
 	//when a player plays the might have a card to play or not 
 	if (!can_he_play(player, color, num)) {
 		//if they don't have a card they draw one from the deck
@@ -837,9 +837,9 @@ inline void pause_menu(sf::RenderWindow& window) {
 	sf::Font font{};
 	//load them
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
-		|| !_resume.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutBlue.png")
-		|| !_quit_game.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\buttons\\LeftCutIce.png")
-		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		|| !_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")
+		|| !_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
 	//sprites
@@ -891,13 +891,13 @@ inline void pause_menu(sf::RenderWindow& window) {
 	}
 }
 //
-inline void huffman_tree_explanation(sf::RenderWindow&window) {
+inline void huffman_tree_explanation(sf::RenderWindow& window) {
 	//textures,fonts
 	sf::Texture _backround{};
 	sf::Font font{};
 	//load them from those file paths
 	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
-		|| !_backround.loadFromFile("C:\\Users\\user\\source\\repos\\Project_practice_1\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
 	//message this message is in utf-8 the L understands far more than simple ascii characters
@@ -924,7 +924,7 @@ inline void huffman_tree_explanation(sf::RenderWindow&window) {
 	text_title.setOutlineThickness(5.f);//and give thickness to the outline
 	//apply properties to texts
 	text_rules.setFillColor(sf::Color::Black);
-	text_rules.setPosition({250.f,120.f });
+	text_rules.setPosition({ 250.f,120.f });
 	text_rules.setOutlineColor(sf::Color::White);
 	text_rules.setOutlineThickness(5.f);
 	//
@@ -958,13 +958,13 @@ inline void huffman_tree_explanation(sf::RenderWindow&window) {
 	}
 }
 //
-inline void initialise_aces(std::unordered_map<std::string,sf::Sprite>&aces,const std::vector<std::pair<std::string,sf::Sprite>>&deck) {
+inline void initialise_aces(std::unordered_map<std::string, sf::Sprite>& aces, const std::vector<std::pair<std::string, sf::Sprite>>& deck) {
 	//the for last slots are the aces
 	//deck[48]->clubs
 	//deck[49]->diamonds
 	//deck[50]->hearts
 	//deck[51]->spades
-	aces.emplace("clubs",deck[48].second);
+	aces.emplace("clubs", deck[48].second);
 	aces.emplace("diamonds", deck[49].second);
 	aces.emplace("hearts", deck[50].second);
 	aces.emplace("spades", deck[51].second);
