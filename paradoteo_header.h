@@ -743,7 +743,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		}
 		//this is the frame
 		window.clear();
-		if (!event && timer.getElapsedTime().asSeconds() >= 360.f) {//6x60 
+		if (!event && timer.getElapsedTime().asSeconds() >= 360.f) {//6x60 d
 			//if event happends draw it and the jumpscare
 			music.stop();
 			event = true;
