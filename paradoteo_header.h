@@ -782,7 +782,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					score_file << "0\n";
 					score_file << "0";
 					score_file.close();
-					//reset the file that contains the score of the two players
+					//reset the file that contains the scores of the two players
 					//recreate it and put 0's
 				}
 			}
