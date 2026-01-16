@@ -906,6 +906,7 @@ inline void pause_menu(sf::RenderWindow& window) {
 	std::size_t score_p2{};
 	file >> score_p1;
 	file >> score_p2;
+	file.close();
 	//sprites
 	sf::Sprite resume{ _resume }, quit_game{ _quit_game }, backround{ _backround }, score{ _score };
 	//texts
