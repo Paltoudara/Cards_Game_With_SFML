@@ -899,7 +899,7 @@ inline void pause_menu(sf::RenderWindow& window) {
 	//just read the scores from the file and display them on the pause menu
 	std::ifstream file("score.txt");
 	if (!file.is_open()) {
-		std::cout << "failed to open the file\n";
+		std::cout << "failed to open the score file\n";
 		std::exit(1);
 	}
 	std::size_t score_p1{};
