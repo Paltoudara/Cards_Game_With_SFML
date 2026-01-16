@@ -12,6 +12,7 @@
 #include<SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include<random>
+#include<fstream>
 //maybe add score
 //-------INTERFACE BEGIN-------
 
@@ -521,6 +522,16 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3")) {
 		std::exit(1);
 	}
+	//read from the score file and do +1 at the score of the player that won
+	std::ifstream file("score.txt");
+	if (!file) {
+		std::cout << "error opening the score file\n";
+		std::exit(1);
+	}
+	std::size_t a{}, b{};
+	file >> a >> b;
+	file.close();
+	//
 	music.setVolume(100.f);
 	music.play();
 	//texture
@@ -531,12 +542,31 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player1.png")) {
 			std::exit(1);
 		}
+		std::ofstream file("score.txt");
+		if (!file.is_open()) {
+			std::cout << "error opening the file\n";
+			std::exit(1);
+		}
+		//change the scores and put them back together
+		a++;
+		file << a <<"\n";
+		file << b;
 	}
 	else {
 		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player2.png")) {
 			std::exit(1);
 		}
+		std::ofstream file("score.txt");
+		if (!file.is_open()) {
+			std::cout << "error opening the file\n";
+			std::exit(1);
+		}
+		//change the scores and put them back together
+		b++;
+		file << a << "\n";
+		file << b;
 	}
+	file.close();
 	//
 	sf::Vector2u texSize = texture.getSize();   // texture original size
 	sf::Vector2u winSize = window.getSize();    // window size
@@ -598,7 +628,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//music,textures,font
 	sf::Music music, jumpscare_music{};
 	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{}
-	, _jumpscare{}, _huffman_button{};
+	, _jumpscare{}, _huffman_button{}, _reset_score{};
 	sf::Font font{};
 	//load them,buttons backrounds and easter eggs
 	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\White Noiz.mp3")
@@ -614,12 +644,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		|| !_jumpscare.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
 		|| !jumpscare_music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")
 		|| !_huffman_button.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
+		|| !_reset_score.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
 		) {
 		std::exit(1);
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
 		, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
-	, huffman_button{ _huffman_button };
+	, huffman_button{ _huffman_button }, reset_score{_reset_score};
 	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
 	music.setLooping(true);
@@ -647,6 +678,10 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	huffman_button.setPosition({ 960.f,980.f });
 	huffman_button.setOrigin({ huffman_button.getLocalBounds().size.x / 2.f,huffman_button.getLocalBounds().size.y / 2.f });
 	//
+	reset_score.setScale({ 1 / 3.5f,1 / 3.5f });
+	reset_score.setPosition({960.f,440.f});
+	reset_score.setOrigin({ reset_score.getLocalBounds().size.x / 2.f,reset_score.getLocalBounds().size.y / 2.f });
+	//
 	github.setPosition({ 1800.f,0.f });
 	github.setScale({ 1 / 2.f,1 / 2.f });
 	//
@@ -656,7 +691,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
-	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 };
+	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 }, text_reset_score{font,"clear score",50};
 	//place the texts
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
@@ -674,9 +709,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setFillColor(sf::Color::White);
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
 	//
-	text_huffman.setPosition({ 965.f,970.f });
+	text_huffman.setPosition({ 960.f,440.f });
 	text_huffman.setFillColor(sf::Color::White);
 	text_huffman.setOrigin({ text_huffman.getLocalBounds().size.x / 2.f,text_huffman.getLocalBounds().size.y / 2.f });
+	//
+	text_reset_score.setPosition({ 970.f,430.f });
+	text_reset_score.setFillColor(sf::Color::White);
+	text_reset_score.setOrigin({ text_reset_score.getLocalBounds().size.x / 2.f,text_reset_score.getLocalBounds().size.y / 2.f });
 	//
 	jumpscare.setScale({ window.getSize().x / jumpscare.getLocalBounds().size.x, window.getSize().y / jumpscare.getLocalBounds().size.y });
 	//place the jumpscare when a certain time is passed
@@ -734,6 +773,18 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					timer.restart();
 					if (!window.isOpen())return;
 				}
+				else if (reset_score.getGlobalBounds().contains(world_pos)) {
+					std::ofstream score_file("score.txt");
+					if (!score_file.is_open()) {
+						std::cout << "error opening the score file\n";
+						std::exit(1);
+					}
+					score_file << "0\n";
+					score_file << "0";
+					score_file.close();
+					//reset the file that contains the score of the two players
+					//recreate it and put 0's
+				}
 			}
 			else if (event->is<sf::Event::Closed>()) {
 				//exit
@@ -781,7 +832,8 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				window.draw(huffman_button);
 				window.draw(text_huffman);
 			}
-			//window.draw(huffman_tree_explanation);
+			window.draw(reset_score);
+			window.draw(text_reset_score);
 			window.display();
 		}
 	}
@@ -833,19 +885,32 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 //whatever instruction here is shown is explained above on what it does
 inline void pause_menu(sf::RenderWindow& window) {
 	//textures,font
-	sf::Texture _resume{}, _quit_game{}, _backround{};
+	sf::Texture _resume{}, _quit_game{}, _backround{}, _score{};
 	sf::Font font{};
 	//load them
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
 		|| !_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")
 		|| !_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")
-		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
+		|| !_score.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
+		) {
 		std::exit(1);
 	}
+	//just read the scores from the file and display them on the pause menu
+	std::ifstream file("score.txt");
+	if (!file.is_open()) {
+		std::cout << "failed to open the file\n";
+		std::exit(1);
+	}
+	std::size_t score_p1{};
+	std::size_t score_p2{};
+	file >> score_p1;
+	file >> score_p2;
 	//sprites
-	sf::Sprite resume{ _resume }, quit_game{ _quit_game }, backround{ _backround };
+	sf::Sprite resume{ _resume }, quit_game{ _quit_game }, backround{ _backround }, score{ _score };
 	//texts
-	sf::Text text_resume{ font,"resume",30 }, text_quit_game{ font,"quit_game",30 };
+	sf::Text text_resume{ font,"resume",30 }, text_quit_game{ font,"quit_game",30 }, text_score{ font,
+		"p1:" + std::to_string(score_p1) + "   ,   p2:" + std::to_string(score_p2),30 };
 	//
 	resume.setPosition({ 960.f,540.f });
 	resume.setOrigin({ resume.getLocalBounds().size.x / 2.f,resume.getLocalBounds().size.y / 2.f });
@@ -855,6 +920,10 @@ inline void pause_menu(sf::RenderWindow& window) {
 	quit_game.setOrigin({ quit_game.getLocalBounds().size.x / 2.f,quit_game.getLocalBounds().size.y / 2.f });
 	quit_game.setScale({ 1 / 4.f,1 / 4.f });
 	//
+	score.setScale({ 1 / 4.f, 1 / 3.0f });
+	score.setPosition({ 960.f,440.f });
+	score.setOrigin({ score.getLocalBounds().size.x / 2.f,score.getLocalBounds().size.y / 2.f });
+	//
 	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
 	//
 	text_resume.setPosition({ 970.f,530.f });
@@ -862,6 +931,9 @@ inline void pause_menu(sf::RenderWindow& window) {
 	//
 	text_quit_game.setPosition({ 970.f,640.f });
 	text_quit_game.setOrigin({ text_quit_game.getLocalBounds().size.x / 2.f,text_quit_game.getLocalBounds().size.y / 2.f });
+	//
+	text_score.setPosition({970.f,430.f});
+	text_score.setOrigin({ text_score.getLocalBounds().size.x / 2.f,text_score.getLocalBounds().size.y / 2.f });
 	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
@@ -887,6 +959,8 @@ inline void pause_menu(sf::RenderWindow& window) {
 		window.draw(quit_game);
 		window.draw(text_resume);
 		window.draw(text_quit_game);
+		window.draw(score);
+		window.draw(text_score);
 		window.display();
 	}
 }
