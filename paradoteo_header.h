@@ -542,31 +542,32 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player1.png")) {
 			std::exit(1);
 		}
-		std::ofstream file("score.txt");
-		if (!file.is_open()) {
+		std::ofstream _file("score.txt");
+		if (!_file.is_open()) {
 			std::cout << "error opening the file\n";
 			std::exit(1);
 		}
 		//change the scores and put them back together
 		a++;
-		file << a <<"\n";
-		file << b;
+		_file << a <<"\n";
+		_file << b;
+		_file.close();
 	}
 	else {
 		if (!texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\player2.png")) {
 			std::exit(1);
 		}
-		std::ofstream file("score.txt");
-		if (!file.is_open()) {
+		std::ofstream _file("score.txt");
+		if (!_file.is_open()) {
 			std::cout << "error opening the file\n";
 			std::exit(1);
 		}
 		//change the scores and put them back together
 		b++;
-		file << a << "\n";
-		file << b;
+		_file << a << "\n";
+		_file << b;
+		_file.close();
 	}
-	file.close();
 	//
 	sf::Vector2u texSize = texture.getSize();   // texture original size
 	sf::Vector2u winSize = window.getSize();    // window size
