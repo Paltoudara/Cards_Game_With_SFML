@@ -549,7 +549,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		}
 		//change the scores and put them back together
 		a++;
-		_file << a <<"\n";
+		_file << a << "\n";
 		_file << b;
 		_file.close();
 	}
@@ -651,7 +651,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	}
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
 		, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
-	, huffman_button{ _huffman_button }, reset_score{_reset_score};
+	, huffman_button{ _huffman_button }, reset_score{ _reset_score };
 	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
 	music.setLooping(true);
@@ -680,7 +680,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	huffman_button.setOrigin({ huffman_button.getLocalBounds().size.x / 2.f,huffman_button.getLocalBounds().size.y / 2.f });
 	//
 	reset_score.setScale({ 1 / 3.5f,1 / 3.5f });
-	reset_score.setPosition({960.f,440.f});
+	reset_score.setPosition({ 960.f,440.f });
 	reset_score.setOrigin({ reset_score.getLocalBounds().size.x / 2.f,reset_score.getLocalBounds().size.y / 2.f });
 	//
 	github.setPosition({ 1800.f,0.f });
@@ -692,7 +692,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	//texts
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
-	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 }, text_reset_score{font,"clear score",50};
+	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 }, text_reset_score{ font,"clear score",50 };
 	//place the texts
 	text_start.setPosition({ 960.f,530.f });
 	text_start.setFillColor(sf::Color::White);
@@ -934,7 +934,7 @@ inline void pause_menu(sf::RenderWindow& window) {
 	text_quit_game.setPosition({ 970.f,640.f });
 	text_quit_game.setOrigin({ text_quit_game.getLocalBounds().size.x / 2.f,text_quit_game.getLocalBounds().size.y / 2.f });
 	//
-	text_score.setPosition({970.f,430.f});
+	text_score.setPosition({ 970.f,430.f });
 	text_score.setOrigin({ text_score.getLocalBounds().size.x / 2.f,text_score.getLocalBounds().size.y / 2.f });
 	//
 	while (window.isOpen()) {
