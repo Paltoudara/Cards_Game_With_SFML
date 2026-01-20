@@ -624,7 +624,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//chance for the easter egg 1/1000 chance
 	std::random_device rd{};
 	std::mt19937 gen(rd());
-	std::bernoulli_distribution chance(1.0 / 1000.0);
+	std::bernoulli_distribution chance(1.0/1000.0);
 	bool flag = chance(gen);
 	//music,textures,font
 	sf::Music music, jumpscare_music{};
@@ -710,7 +710,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	text_change_texture.setFillColor(sf::Color::White);
 	text_change_texture.setOrigin({ text_change_texture.getLocalBounds().size.x / 2.f,text_change_texture.getLocalBounds().size.y / 2.f });
 	//
-	text_huffman.setPosition({ 960.f,440.f });
+	text_huffman.setPosition({ 960.f,970.f });
 	text_huffman.setFillColor(sf::Color::White);
 	text_huffman.setOrigin({ text_huffman.getLocalBounds().size.x / 2.f,text_huffman.getLocalBounds().size.y / 2.f });
 	//
@@ -795,7 +795,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		}
 		//this is the frame
 		window.clear();
-		if (!event && timer.getElapsedTime().asSeconds() >= 360.f) {//6x60 d
+		if (!event && timer.getElapsedTime().asSeconds() >=360.f) {//6x60 d
 			//if event happends draw it and the jumpscare
 			music.stop();
 			event = true;
@@ -830,6 +830,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			window.draw(text_exit);
 			window.draw(text_change_texture);
 			if (flag) {//if we got the 1/1000 show the huffman button
+				std::cout << "hello\n";
 				window.draw(huffman_button);
 				window.draw(text_huffman);
 			}
