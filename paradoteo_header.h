@@ -380,7 +380,7 @@ inline void set_the_table_of_cards(
 	sf::Sprite>& player1, std::unordered_map<std::string,
 	sf::Sprite>& player2, const std::size_t choice, const bool flag, sf::Sprite& hide) {
 	//hide is the sprite that hides the cards 
-	if (choice == 0) {
+	if (choice == 0) {//classic cards
 		std::size_t i{ 0 };
 		float j{ 0.f };
 		//
@@ -388,7 +388,8 @@ inline void set_the_table_of_cards(
 		//when player2 plays hide the cards of the player1
 		//flag==true means->player1 plays
 		//flag==false means->player2 plays
-		auto t1 = player1.begin();
+		auto t1 = player1.begin();//this code simply passes the two hashmaps of the players at the same time in order to draw the cards
+		//that they are holding at their hands 
 		auto t2 = player2.begin();
 		while (t1 != player1.end() || t2 != player2.end()) {
 			if (flag == true) {//player1,hide player2
@@ -461,7 +462,7 @@ inline void set_the_table_of_cards(
 				}
 			}
 			i++;
-			//every seven cards place the next sprite up 125.f pixels
+			//every seven cards place the next sprite up 130.f pixels
 			if (i % 7 == 0) {
 				j += 130.0f;
 				i = 0;
