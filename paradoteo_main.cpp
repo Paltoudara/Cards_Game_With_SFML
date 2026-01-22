@@ -128,7 +128,7 @@ int main() {
         }
         window.clear(sf::Color::Black);
         window.draw(backround);
-        if (flag == true) {//based on the flag we draw the text,in order to show who plays
+        if (flag == true) {//based on the flag we draw the text,in order to show who's turn is to play
             text.setFillColor(sf::Color::Blue);
             text.setString("<= P1 Plays");
             text.setPosition({ 1750.f,80.f });
