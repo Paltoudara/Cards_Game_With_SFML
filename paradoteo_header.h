@@ -850,14 +850,14 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 	, std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music) {
 	//when a player plays the might have a card to play or not 
 	if (!can_he_play(player, color, num)) {
-		//if they don't have a card they draw one from the deck
+		//if they don't have a card they draw one from the deck and tben wait to see if they can play it
 		//if the deck doesn't have cards to give then it is the other players turn 
 		//remember flag==true->player1 plays
 		//flag==false->player2 plays
-		if (deck.size() > 0) {
-			player.emplace(deck.back());
-			deck.pop_back();
-			if (!can_he_play(player, color, num)) {
+		if (deck.size() > 0) {//deck has cards to give
+			player.emplace(deck.back());//give the card
+			deck.pop_back();//take out from the deck
+			if (!can_he_play(player, color, num)) {//if he can't play then it is the other players turn
 				flag = !flag;
 			}
 		}
@@ -866,14 +866,14 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		}
 	}//if he can play wait untill he plays the right card in order to continue with the game
 	else if (check_for_card(window, player, color,
-		num, table, aces, colors)) {
+		num, table, aces, colors)) {//this line activates when he preesed a card and the card is correct based on the ruls of the game
 		//special cards,if he plays a 7 the other draws 2 cards or less if the deck has less than two 
 		music.setVolume(100.f);
 		music.play();
-		//play the sound effect 
+		//play the sound effect  because he droppped a card on the table
 		if (num == "07") {//special card
 			flag = !flag;
-			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {
+			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {//a 7
 				other_player.emplace(deck.back());
 				deck.pop_back();
 			}
