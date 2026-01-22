@@ -24,9 +24,7 @@ inline void load_file_paths(std::vector<std::string>& file_paths, const std::siz
 //tutorial_of_the_game->this function simply gives a simple explanation about the rules of the game to the user
 inline void tutorial_of_the_game(sf::RenderWindow& window);
 //load_textures_from_files->this function creates the deck of the 52 cards,the deck is type vector<name_of_card,sprite>
-//sprites are pointers to textures that were loaded so we need a vector of 52 textures to stay alive in all the game
-//aces simply contains the 4 symbols of the deck and the sprites for the aces cards
-//choice again came from the change_textures function
+//sprites are pointers to textures that were loaded so we need a vector of 52 textures to stay alive in all the game.
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, const std::vector<std::string>& file_paths, const std::size_t choice);
@@ -47,12 +45,12 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num);
-//set_the_table_of_cards->for every frame displays the game that is played beetween the two players
+//set_the_table_of_cards->for every frame display the game that is played beetween the two players
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
 	sf::Sprite>& player2, const std::size_t choice, const bool flag, sf::Sprite& hide);
-//check_for_card->wait until the player that is his is turn to play a card that is acceptable(matches symbols or numbers
+//check_for_card->wait until the player that is his turn to play,plays a card that is acceptable(matches symbols or numbers
 //with the table card)
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
@@ -67,19 +65,16 @@ inline void draw(sf::RenderWindow& window);
 inline void menu(sf::RenderWindow& window, std::size_t& choice);
 //player_plays->pretty much it follows the rules of the game and sees if a player can play or not
 //for more see implementation details and read the rules of the game 
-//add reset score to the menu
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
 	, std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music);
 //pause_menu-> is a classic pause that all the games have
-//add score to the pause menu!!!
 inline void pause_menu(sf::RenderWindow& window);
-//document:pretty much displays a text on the window that shows how to make the huffman tree
+//huffman_tree_explanation->pretty much displays a text on the window that shows how to make the huffman tree
 inline void huffman_tree_explanation(sf::RenderWindow& window);
-//document:pretty much it initialises the aces map
+//initialise_aces->pretty much it initialises the aces map
 //the map contains the symbols:clubs,hearts,diamonds,spades and the sprite of the ace of that symbol
-//
 inline void initialise_aces(std::unordered_map<std::string, sf::Sprite>& aces, const std::vector<std::pair<std::string, sf::Sprite>>& deck);
 //
 
@@ -287,7 +282,7 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-//load_textures_from_files->simply load the texures from the file paths saved on the vector file_paths
+//
 inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, const std::vector<std::string>& file_paths, const std::size_t choice) {
@@ -358,10 +353,11 @@ inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& play
 		deck.pop_back();
 	}//7 cards its player
 }
-//can_he_play,check if any card on the players deck can be played
-//color and num contain the symbol and num of the table see if the names of the cards 
-//,that the player holds contain the color or the num
+//can_he_play,check if any card on the players deck can be played,
+//color and num contain the symbol and num of the table,see if the names of the cards,
+//that the player holds contain the color or the num
 //name format->d_symbol_num we see if color matches symbol and num matches num
+//or the player has an ace
 inline bool can_he_play(const std::unordered_map<std::string
 	, sf::Sprite>& player, const std::string& color,
 	const std::string& num) {
@@ -374,7 +370,6 @@ inline bool can_he_play(const std::unordered_map<std::string
 	return false;
 }
 //set_the_table_of_cards->this function is used in the main loop
-//in order to draw the players cards and the table card
 inline void set_the_table_of_cards(
 	sf::RenderWindow& window, std::unordered_map<std::string,
 	sf::Sprite>& player1, std::unordered_map<std::string,
@@ -620,7 +615,7 @@ inline void draw(sf::RenderWindow& window) {
 		window.display();
 	}
 }
-//on progress
+//menu function
 inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//chance for the easter egg 1/1000 chance
 	std::random_device rd{};
@@ -885,8 +880,6 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		}
 	}
 }
-//this is the pause menu,contains two textures resume and quit game and a backround
-//add score remains
 //whatever instruction here is shown is explained above on what it does
 inline void pause_menu(sf::RenderWindow& window) {
 	//textures,fonts
