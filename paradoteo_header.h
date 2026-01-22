@@ -103,11 +103,11 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	sf::Texture _vintage_cards{};
 	sf::Font font{};
 	//font used for texts on the window
-	//load them those are the files paths,if a single texture is not loaded properly exit->1
-	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
-		|| !_classic_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_03.png")
-		|| !_vintage_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")
-		|| !font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
+	//load them,those are the files paths,if a single texture is not loaded properly exit->1
+	if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")//backround
+		|| !_classic_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_clubs_03.png")//classic cards texture
+		|| !_vintage_cards.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")//vintage cards texture
+		|| !font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {//font
 		std::exit(1);
 	}
 	//sprites from the textures you loaded
@@ -131,22 +131,21 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 	text_vintage.setPosition({ 1050.f,320.f });
 	text_vintage.setOutlineColor(sf::Color::White);
 	text_vintage.setOutlineThickness(5.f);
-	//classic-> 640x640
-	//vintage -> 450x600
+	//classic-> 640x640 default,height
+	//vintage -> 450x600 default,width,height
 	//every sprite has some widthxheight in pixels
 	//the set scale takes two args and both are applied like this 
 	//new sprite dimensions are (widthx10)x(heightx10)
 	//we can change the sprites dimension to make it appear bigger or smaller
-	classic_cards.setScale({ 10.f,10.f });
+	classic_cards.setScale({ 10.f,10.f });//this changes the size of the sprite
 	classic_cards.setPosition({ 300.f,400.f });//put it on the screen
 	vintage_cards.setPosition({ 1000.f,420.f });
 	vintage_cards.setScale({ 450.f / vintage_cards.getLocalBounds().size.x,600.f / vintage_cards.getLocalBounds().size.y });
 	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
 	//window.getSize() gives the dimensions of the window 
 	//in this setScale call we wanna make the backround as big as the window in order to do that
-	//we make the division with the window x,y cords and the local bounds cords in order to properly scale the backround
-	//to be the size of the window
-	//Note that localBounds=width and height of the texture originaly the scaling doesn't affect local bounds
+	//we make the division with the window x,y cords and the local bounds cords in order to properly scale the backround to be the size of the window.
+	//Note that localBounds=width and height of the texture originaly ,the scaling doesn't affect local bounds
 	//it only affects globalBounds
 	while (window.isOpen()) {//this loop runs for every frame
 		while (const auto event = window.pollEvent()) {//we parse here all the events happened to the window
@@ -158,8 +157,6 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 				//of the mouse
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };//take where the mouse is at the window
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-				/*std::cout << "(" << mous_pos.x << "," << mous_pos.y << ")" << '\n';
-				std::cout << "(" <<world_pos.x << "," << world_pos.y << ")" << '\n';*/
 				//check collision with classic_cards sprite or vintage_cards sprite
 				if (classic_cards.getGlobalBounds().contains(world_pos)) {//this is not exactly perfect collision
 					return 0;//sometimes because of the texture the collision may not be perfect 
@@ -220,11 +217,12 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	sf::Texture _backround{};
 	sf::Font font{};
 	//load them from those file paths
-	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
-		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
+	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")//font
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg"))//backround
+	{
 		std::exit(1);
 	}
-	//message this message is in utf-8 the L understands far more than simple ascii characters
+	//this message is in utf-8 the L understands far more than simple ascii characters
 	sf::String message =
 		L"We have a deck of 52 cards and two "
 		L"players. The cards contain symbols. The symbols\n"
@@ -249,7 +247,7 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	text_title.setPosition({ 930.f,20.f });
 	text_title.setFillColor(sf::Color::Black);//color of the text
 	text_title.setOrigin({ text_title.getLocalBounds().size.x / 2.f,text_title.getLocalBounds().size.y / 2.f });
-	//make them be placed by the middle
+	//set origin simply makes them be placed by the middle
 	//the set origin funtion ignores all transformation scaling etc of the sprite 
 	text_title.setOutlineColor(sf::Color::White);//give outline to the text
 	text_title.setOutlineThickness(5.f);//and give thickness to the outline
@@ -264,15 +262,16 @@ inline void tutorial_of_the_game(sf::RenderWindow& window) {
 	text_tap.setOutlineColor(sf::Color::White);
 	text_tap.setOutlineThickness(10.f);
 	//
-	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
+	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });//we wanna mek the
+	//backround the size of our window whick is the same as the desktop width and height,getSize().x gives the width,getSize().y gives the height
 	//again make the backround to have the same size as the window
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {//capture all events
 			if (event->is<sf::Event::MouseButtonPressed>()) {//mouse button pressed
-				return;
+				return;//return back to the menu
 			}
-			else if (event->is<sf::Event::Closed>()) {//event that will close the window like alt-f4
-				//exit
+			else if (event->is<sf::Event::Closed>()) {//event happened that will close the window like alt-f4
+				//close window
 				window.close();
 				return;
 			}
@@ -749,7 +748,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					return;
 				}
 				else if (change_texture.getGlobalBounds().contains(world_pos)) {
-					choice = change_textures(window);
+					choice = change_textures(window);//this is where the user gives his choice about what sprite of the cards he wants to see in the main game
 					timer.restart();
 					if (!window.isOpen())return;
 				}
