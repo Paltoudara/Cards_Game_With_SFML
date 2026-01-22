@@ -26,15 +26,15 @@ int main() {
     window.setFramerateLimit(60);//set to only 60 frames,in order not to have unlimited fps
     menu(window, choice);//menu function
     //if something closes the window we get out 
-    if (!window.isOpen())return 0;
+    if (!window.isOpen())return 0;//the window was closed from the menu function show the game ends
     //
     if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")//those icons are for the main game
         || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")//this icon is for the pause menu
         || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
         std::exit(1);
     }
-    sf::Texture _hide{};
-    if (choice == 0) {//based on choice different hide texture for cards
+    sf::Texture _hide{};//this is the texture that hides the cards of player when the other player is playing 
+    if (choice == 0) {//based on choice different hide texture for cards(that choice we got it from the menu function)
         if (!_hide.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\playing-cards-pack - Copy\\PNG1\\Cards (large)\\card_back.png")) {
             std::exit(1);
         }
@@ -44,7 +44,7 @@ int main() {
             std::exit(1);
         }
     }
-    sf::Sprite hide{ _hide };
+    sf::Sprite hide{ _hide };//sprite
     load_file_paths(file_paths, choice);//based on choice load the proper textures of the cards
     // load textures from files
     load_textures_from_files(textures, deck, file_paths, choice);
