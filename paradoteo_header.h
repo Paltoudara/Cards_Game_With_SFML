@@ -978,7 +978,7 @@ inline void huffman_tree_explanation(sf::RenderWindow& window) {
 		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
 		std::exit(1);
 	}
-	//message this message is in utf-8 the L understands far more than simple ascii characters
+	//this message is in utf-8 the L understands far more than simple ascii characters
 	sf::String message =
 		L"To make the huffman tree is simple:"
 		L"First you take all possibilities and sort them by increasing order(if two possibilities\n)"
