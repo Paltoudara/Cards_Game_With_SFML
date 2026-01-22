@@ -292,23 +292,23 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 	std::vector<std::pair<std::string, sf::Sprite>>& deck
 	, const std::vector<std::string>& file_paths, const std::size_t choice) {
 	textures.resize(file_paths.size());
-	//textures must contain 52 textures like the 52 cards
+	//textures must contain 52 textures like the 52 cards because the deck will contain 52 sprites
 	for (std::size_t i = 0; i < file_paths.size(); i++) {
 
 		if (!textures[i].loadFromFile(file_paths[i])) {//if the texture is not loaded exit->1
 			std::exit(1);
 		}
-		//name will have the following format->d_symbol_num.png 
+		//make name will have the following format->d_symbol_num.png 
 		std::string name{};
 		if (choice == 0) {//classic cards
-			name = { file_paths[i].substr(96) };
+			name = { file_paths[i].substr(96) };//make tbe file path smaller
 		}
 		else {//vintage cards
-			name = { file_paths[i].substr(82) };
+			name = { file_paths[i].substr(82) };//make the file path smaller
 		}
 		name = std::string{ name.begin(),name.begin() + name.find('.') };
 		sf::Sprite sprite{ textures[i] }; // sprite uses a stable texture reference
-		//by the end of this name->d_symbol_num we do this in order to parse the symbol and num later
+		//by the end of this name->d_symbol_num,we do this in order to parse the symbol and num later
 		deck.emplace_back(std::move(name), sprite);//every name has a sprite on it
 		//we have 52 unique names and cards set on them
 	}
