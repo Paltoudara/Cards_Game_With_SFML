@@ -1038,7 +1038,7 @@ inline void huffman_tree_explanation(sf::RenderWindow& window) {
 }
 //
 inline void initialise_aces(std::unordered_map<std::string, sf::Sprite>& aces, const std::vector<std::pair<std::string, sf::Sprite>>& deck) {
-	//the for last slots are the aces
+	//the for last slots are the aces before the shuffle.This is because the load_file_paths function
 	//deck[48]->clubs
 	//deck[49]->diamonds
 	//deck[50]->hearts
