@@ -624,44 +624,46 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//chance for the easter egg 1/1000 chance
 	std::random_device rd{};
 	std::mt19937 gen(rd());
-	std::bernoulli_distribution chance(1.0/1000.0);
-	bool flag = chance(gen);
-	//music,textures,font
+	std::bernoulli_distribution chance(1.0/1000.0);//create the 1/1000 chance for the huffman button to appear to happen
+	bool flag = chance(gen);//if true
+	//music,textures,font's
 	sf::Music music, jumpscare_music{};
 	sf::Texture _start{}, _tutorial{}, _exit{}, _github{}, _backround{}, _music_on{}, _music_off{}, _change_texture{}
 	, _jumpscare{}, _huffman_button{}, _reset_score{};
-	sf::Font font{};
+	sf::Font font{};//a text needs a font in order to draw it on screen
 	//load them,buttons backrounds and easter eggs
-	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\White Noiz.mp3")
-		|| !_start.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")
-		|| !_tutorial.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
-		|| !_change_texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameBlue.png")
-		|| !_exit.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")
-		|| !_github.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\github-mark\\github-mark-white.png")
-		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\dealer beauty.jpg")
-		|| !_music_on.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_on.png")
-		|| !_music_off.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_off.png")
-		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
-		|| !_jumpscare.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")
-		|| !jumpscare_music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")
-		|| !_huffman_button.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
-		|| !_reset_score.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
+	if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\White Noiz.mp3")//music
+		|| !_start.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")//button
+		|| !_tutorial.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")//button
+		|| !_change_texture.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameBlue.png")//button
+		|| !_exit.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")//button
+		|| !_github.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\github-mark\\github-mark-white.png")//github logo
+		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\dealer beauty.jpg")//backround of the menu
+		|| !_music_on.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_on.png")//music icon on
+		|| !_music_off.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\music_off.png")//music icon off
+		|| !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")//font
+		|| !_jumpscare.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\68747470733a2f2f692e7974696d672e636f6d2f76692f524e6f48635745387462512f6d617872657364656661756c742e6a7067.jpg")//jumpscare icon
+		|| !jumpscare_music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\712416__zombyklr__jumpscare-1.mp3")//jumpscare music
+		|| !_huffman_button.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")//button
+		|| !_reset_score.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")//button
 		) {
-		std::exit(1);
+		std::exit(1);//exit if a texture fails to load
 	}
+	//sprite for every texture we loaded
 	sf::Sprite start{ _start }, tutorial{ _tutorial }, exit{ _exit }, github{ _github }, backround{ _backround }
 		, music_on{ _music_on }, music_off{ _music_off }, change_texture{ _change_texture }, jumpscare{ _jumpscare }
 	, huffman_button{ _huffman_button }, reset_score{ _reset_score };
 	sf::Clock timer{};//timer because in a certain time we want the jumpscare to appear
 	//
-	music.setLooping(true);
-	music.setVolume(100.f);
+	music.setLooping(true);//music of the menu will loop
+	music.setVolume(100.f);//volume
 	music.play();//play the music in loop while this function runs
 	//so it turns forever
-	//place the sprites on the windwo
-	start.setScale({ 1 / 4.f,1 / 4.f });
-	start.setPosition({ 960.f,540.f });
-	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });
+	//place the sprites on the windwow
+	start.setScale({ 1 / 4.f,1 / 4.f });//scale of texture this is to manipulate the width and height in a texture(make it width/4 and height/4)
+	start.setPosition({ 960.f,540.f });//place it on the window
+	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });//all textures are rendered from top left corner
+	//this line makes it show their are rendered from the n
 	//
 	tutorial.setScale({ 1 / 4.f,1 / 4.f });
 	tutorial.setPosition({ 960.f,650.f });
@@ -886,17 +888,17 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 //add score remains
 //whatever instruction here is shown is explained above on what it does
 inline void pause_menu(sf::RenderWindow& window) {
-	//textures,font
+	//textures,fonts
 	sf::Texture _resume{}, _quit_game{}, _backround{}, _score{};
 	sf::Font font{};
-	//load them
+	//load them,those are file paths
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
 		|| !_resume.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutBlue.png")
 		|| !_quit_game.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutIce.png")
 		|| !_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
 		|| !_score.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\buttons\\LeftCutFlameRed.png")
 		) {
-		std::exit(1);
+		std::exit(1);//if something fails to load exit the program
 	}
 	//just read the scores from the file and display them on the pause menu
 	std::ifstream file("score.txt");
