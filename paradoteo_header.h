@@ -472,32 +472,32 @@ inline void set_the_table_of_cards(
 
 	}
 }
-//check_for_card->this function simply waits for the player to play an acceptable card in the table
+//check_for_card->this function simply waits for the player to play an acceptable card in the table then it returns true
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>
 	& player, std::string& color, std::string& num, sf::Sprite& table
 	, const std::unordered_map<std::string, sf::Sprite>& aces
 	, const std::vector<std::string>& colors) {
 	//get mouse cords and check the map of the player that plays and check if he tapped a card that is valid
-	//if thats the case drop it to the table and extract the card that you played from the map
+	//if thats the case drop it to the table and extract the card that he played from his map
 	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 	std::string card_to_remove{};
 	for (const auto& [key, value] : player) {
-		if (value.getGlobalBounds().contains(world_pos)) {//collision
+		if (value.getGlobalBounds().contains(world_pos)) {//collision,remember key is the name of card that contains d_symbol_num
 			if (key.contains(color) || key.contains(num) ||
-				key.contains("A")) {//acceptable cards
+				key.contains("A")) {//acceptable cards that he can play according to the rules
 				card_to_remove = key;
-				std::cout << color << " " << num << '\n';
+				std::cout << color << " " << num << '\n';//just print what was played for debbugin purposes
 				std::cout << key << '\n';
-				if (key.contains("A")) {
-					color = colors[rand() % 4];
-					num = "A";
+				if (key.contains("A")) {//ace
+					color = colors[rand() % 4];//chose a random ace
+					num = "A";//change color and num to represent what card is in on the table right now
 					table = aces.at(color);
 				}
-				else {
+				else {//parse the  d_symbol_num
 					auto first = key.find_first_of('_') + 1;
 					auto last = key.find_last_of('_');
-					color = key.substr(first, last - first);
+					color = key.substr(first, last - first);//change color and num to represent what card is in the table right now
 					num = key.substr(last + 1);
 					table = value;
 				}
@@ -507,7 +507,7 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 	}
 	//if he played a valid card then the card_to_remove variable will not be empty
 	if (!card_to_remove.empty()) {
-		player.extract(card_to_remove);
+		player.extract(card_to_remove);//extract the card that he played
 		return true;
 	}
 	return false;
