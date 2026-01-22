@@ -940,16 +940,16 @@ inline void pause_menu(sf::RenderWindow& window) {
 	text_score.setPosition({ 970.f,430.f });
 	text_score.setOrigin({ text_score.getLocalBounds().size.x / 2.f,text_score.getLocalBounds().size.y / 2.f });
 	//
-	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {
+	while (window.isOpen()) {//this loop runs every frame
+		while (const auto event = window.pollEvent()) {//pull all events here
 			sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 			sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-			if (event->is<sf::Event::MouseButtonPressed>()) {
+			if (event->is<sf::Event::MouseButtonPressed>()) {//mouse button pressed
 				if (resume.getGlobalBounds().contains(world_pos)) {
 					return;
 				}
 				else  if (quit_game.getGlobalBounds().contains(world_pos)) {
-					window.close();
+					window.close();//simply close the window if the user want to close the game
 					return;
 				}
 			}
