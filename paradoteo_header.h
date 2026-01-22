@@ -662,8 +662,8 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//place the sprites on the windwow
 	start.setScale({ 1 / 4.f,1 / 4.f });//scale of texture this is to manipulate the width and height in a texture(make it width/4 and height/4)
 	start.setPosition({ 960.f,540.f });//place it on the window
-	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });//all textures are rendered from top left corner
-	//this line makes it show their are rendered from the n
+	start.setOrigin({ start.getLocalBounds().size.x / 2.f,start.getLocalBounds().size.y / 2.f });//all sprites are rendered from top left corner
+	//this line makes it show their are rendered from the center
 	//
 	tutorial.setScale({ 1 / 4.f,1 / 4.f });
 	tutorial.setPosition({ 960.f,650.f });
@@ -692,12 +692,12 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	music_off.setScale({ 64.f / _music_off.getSize().x,80.f / _music_off.getSize().y });
 	//
-	//texts
+	//texts(takes a font,a string and the size of the text when it appears on the window)
 	sf::Text text_start{ font,"start",50 }, text_tutorial{ font,"tutorial",50 }, text_exit{ font,"exit",50 }
 	, text_change_texture{ font," textures",50 }, text_huffman{ font,"huffman",50 }, text_reset_score{ font,"clear score",50 };
 	//place the texts
 	text_start.setPosition({ 960.f,530.f });
-	text_start.setFillColor(sf::Color::White);
+	text_start.setFillColor(sf::Color::White);//color of the text on the screen
 	text_start.setOrigin({ text_start.getLocalBounds().size.x / 2.f,text_start.getLocalBounds().size.y / 2.f });
 	//
 	text_tutorial.setPosition({ 960.f,640.f });
@@ -722,14 +722,14 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 	//
 	jumpscare.setScale({ window.getSize().x / jumpscare.getLocalBounds().size.x, window.getSize().y / jumpscare.getLocalBounds().size.y });
 	//place the jumpscare when a certain time is passed
-	bool event{ false };
-	while (window.isOpen()) {
+	bool event{ false };//for the jumpscare because it appears one time only
+	while (window.isOpen()) {//while the window is open and not closed
 		//reset timer of the jumpscare if the user does something to the menu
 		//remember the jumpscare is actived if the user stays on the menu and doesn't do anything 
 		//for 360 seconds,if in those seconds he does something then the time resets to 0
-		while (const auto event = window.pollEvent()) {
-			if (event->is < sf::Event::MouseButtonPressed>()) {
-				//take mouse pos
+		while (const auto event = window.pollEvent()) {//this lines takes all the events happening to the window
+			if (event->is < sf::Event::MouseButtonPressed>()) {//click event,take the position of the mouse and check if the user tapped a texture
+				//take mouse pos 
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 				//check for collision with global bounds
@@ -741,7 +741,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				else if (tutorial.getGlobalBounds().contains(world_pos)) {
 					tutorial_of_the_game(window);
 					timer.restart();
-					if (!window.isOpen())return;
+					if (!window.isOpen())return;//an event happened that closed the window
 				}
 				else if (exit.getGlobalBounds().contains(world_pos)) {
 					//exit
@@ -762,7 +762,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 				else if (music_on.getGlobalBounds().contains(world_pos)) {
 					//when we tap the music if it off make it play
 					//if it is on make it stop playing
-					if (music.getStatus() == sf::SoundSource::Status::Playing) {
+					if (music.getStatus() == sf::SoundSource::Status::Playing) {//music is playing
 						music.stop();
 					}
 					else {
@@ -771,13 +771,13 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					timer.restart();
 				}
 				else if (flag && huffman_button.getGlobalBounds().contains(world_pos)) {
-					//if we got the 1/1000 show the func and accept clicks
+					//if we got the 1/1000 show the button and accept clicks on it
 					huffman_tree_explanation(window);
 					timer.restart();
 					if (!window.isOpen())return;
 				}
 				else if (reset_score.getGlobalBounds().contains(world_pos)) {
-					std::ofstream score_file("score.txt");
+					std::ofstream score_file("score.txt");//tapped the reset score button so change the score file
 					if (!score_file.is_open()) {
 						std::cout << "error opening the score file\n";
 						std::exit(1);
@@ -789,20 +789,20 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 					//recreate it and put 0's
 				}
 			}
-			else if (event->is<sf::Event::Closed>()) {
-				//exit
+			else if (event->is<sf::Event::Closed>()) {//an event happened that will close the window like alt+f4
+				//close the window
 				window.close();
 				return;
 			}
 		}
-		//this is the frame
+		//this is the frame,this below runs every frame
 		window.clear();
 		if (!event && timer.getElapsedTime().asSeconds() >=360.f) {//6x60 d
 			//if event happends draw it and the jumpscare
-			music.stop();
-			event = true;
-			window.draw(jumpscare);
-			window.display();
+			music.stop();//stop the music currently playing
+			event = true;//the jumpscare will happend and it will not happen again
+			window.draw(jumpscare);//draw the icon
+			window.display();//display everything
 			jumpscare_music.setVolume(100.f);
 			jumpscare_music.play();
 			sf::sleep(sf::seconds(2.0));//sleep for 2 seconds that's how much the jumpscare is 
@@ -811,7 +811,8 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 
 		}
 		else {
-			//if event didn't happend draw everything that the menu has
+			//if event didn't happend draw everything that the menu has 
+			//from the textures we have loaded
 			window.draw(backround);
 			window.draw(start);
 			window.draw(tutorial);
@@ -831,8 +832,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			window.draw(text_tutorial);
 			window.draw(text_exit);
 			window.draw(text_change_texture);
-			if (flag) {//if we got the 1/1000 show the huffman button
-				std::cout << "hello\n";
+			if (flag) {//if we got the 1/1000 show the huffman button and also the text in the button
 				window.draw(huffman_button);
 				window.draw(text_huffman);
 			}
