@@ -3,18 +3,19 @@
 int main() {
     ////only one window
     std::size_t choice{ 0 };//choice of the texture of the cards
-    sf::VideoMode video{ sf::VideoMode::getDesktopMode() };
+    sf::VideoMode video{ sf::VideoMode::getDesktopMode() };//take the dimensions of the monitor 
     sf::RenderWindow window(video,
-        "SFML works!", sf::State::Fullscreen);
+        "SFML works!", sf::State::Fullscreen);//create a window with the  dimensions of the monitor  and make it fullscreen
     //textures,font
-    sf::Texture _backround{}, _pause{};
+    sf::Texture _backround{}, _pause{};//texture for backround and pause
     sf::Font font{};
     sf::Text text{ font }, deck_text{ font,"deck contains:" }
     , count_text{ font };
     //structure of the game
-    std::vector<std::string>file_paths{};
-    std::vector<sf::Texture> textures;  // must stay alive!
-    std::unordered_map<std::string, sf::Sprite>aces{};
+    std::vector<std::string>file_paths{};//create a vector of file paths in order to load the textures from those file paths
+    std::vector<sf::Texture> textures;  // must stay alive!.Note that an sf::sprite is an icon widthxheight that you can draw it on screen and make changes to it,the sf::texture is the place in the memory where the texture is stored
+    //so a texture is stored in the memory,and a sprite is the actual icon that you can draw on screen.In the end a sprite is really a pointer to a texture.
+    std::unordered_map<std::string, sf::Sprite>aces{};//this map contains the four aces,key:symbol like hearts diamonds etc,value:the sprite for that ace
     std::vector<std::pair<std::string, sf::Sprite>> deck{};
     std::unordered_map<std::string, sf::Sprite>player1{};
     std::unordered_map<std::string, sf::Sprite>player2{};
@@ -27,8 +28,8 @@ int main() {
     //if something closes the window we get out 
     if (!window.isOpen())return 0;
     //
-    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")
-        || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")
+    if (!_backround.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\backround\\green-casino-poker-table-texture-game-background-free-vector.jpg")//those icons are for the main game
+        || !_pause.loadFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\png-icons\\pause_icon.png")//this icon is for the pause menu
         || !font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
         std::exit(1);
     }
