@@ -329,13 +329,13 @@ inline void initialize(std::vector <std::
 	const std::vector<std::string>& colors) {
 	//simply intializes the state of the game
 	//remember deck.back.first=name that has the following format->d_symbol_num
-	if (deck.back().first.contains('A')) {//if the name contains and ace,pick a random between the four aces
+	if (deck.back().first.contains('A')) {//if the name contains and ace,pick a random between the four aces(that is from the rules of the game)
 		num = "A";
 		color = colors[rand() % 4];//colors={ "spades","hearts","clubs", "diamonds"}
 		table = aces.at(color);//aces-><name,sprite> contains the four aces and the sprites to them
 	}
 	else {
-		//name format->d_symbol_num,parse this and take symbol ,num
+		//name format->d_symbol_num,parse this and take symbol ,num and put it in color and num values
 		color = std::string{ deck.back().first.begin() + deck.back().first.find('_') + 1
 			,deck.back().first.begin() + deck.back().first.find_last_of('_')
 		};
@@ -344,7 +344,7 @@ inline void initialize(std::vector <std::
 		table = deck.back().second;
 	}
 	//always initialize table
-	deck.pop_back();
+	deck.pop_back();//we give a card to the table,so we take it out from the deck
 }
 //give_players_cards->gives its player 7 cards
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
