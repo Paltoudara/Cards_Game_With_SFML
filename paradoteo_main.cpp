@@ -102,10 +102,10 @@ int main() {
         //mouse button pressed check it 
         if (mouseclicked) {
             mouseclicked = false;
-            if (flag == true) {
+            if (flag == true) {//p1 plays
                 player_plays(player1, flag, player2, deck, color, num, window, colors, table, aces, music);
             }
-            else {
+            else {//p2 plays
                 player_plays(player2, flag, player1, deck, color, num, window, colors, table, aces, music);
             }
             //a player wins if he emptied his deck
