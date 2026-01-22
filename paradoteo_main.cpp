@@ -59,7 +59,7 @@ int main() {
     //give each player 7 cards
     give_players_cards(player1, player2, deck);//give each player 7 cards
     //initialize flags
-    bool flag{ true };//who plays
+    bool flag{ true };//who plays true for player1,false for player2
     bool mouseclicked{ false };//when we tap with the mouse the logic of the game is activated
     //
     //
@@ -73,14 +73,14 @@ int main() {
     count_text.setPosition({ 10.f,930.f });
     //sound effect when someone drops a card at the table
     sf::Music music{};
-    if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\319896__theriavirra__drumsticks-lutner-2bn-hickory-no1.wav")) {
+    if (!music.openFromFile("C:\\Users\\panag\\Source\\Repos\\Project_kati\\assets\\music\\319896__theriavirra__drumsticks-lutner-2bn-hickory-no1.wav")) {//load the sound effect
         std::exit(1);
     }
     //
     std::srand(static_cast<unsigned int>(std::time(NULL)));//random
     while (window.isOpen()) {//this loop runs for every frame of the window
         while (const auto event = window.pollEvent()) {//pull all events that happend to the window here
-            if (event->is<sf::Event::Closed>()) {//if something happends and closes the window
+            if (event->is<sf::Event::Closed>()) {//if something happends and closes the window close it and the game ends
                 window.close();
                 return 0;
             }
@@ -88,13 +88,13 @@ int main() {
                 //to left right click
                 sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
                 sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-                if (pause.getGlobalBounds().contains(world_pos)) {
+                if (pause.getGlobalBounds().contains(world_pos)) {//the user tapped the pause menu
                     //if you tap pause button something new happens
                     //we have to open new window
                     pause_menu(window);
                     if (!window.isOpen())return 0;
                 }
-                else {
+                else {//the user tapped something else show activate the game logic with this flag
                     mouseclicked = true;
                 }
             }
