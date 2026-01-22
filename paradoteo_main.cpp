@@ -140,7 +140,7 @@ int main() {
         }
         //draw stuff
         window.draw(text);
-        set_the_table_of_cards(window, player1, player2, choice, flag, hide);
+        set_the_table_of_cards(window, player1, player2, choice, flag, hide);//draw the cards of player1,player2
         if (choice == 0) {//based on the texture that the user choose some things about the table change
             table.setPosition({ window.getSize().x / 2.f,window.getSize().y / 2.f });
             table.setOrigin({ 32,32 });//the classic card has a size 64x64 so origin is half of width,height in order
@@ -152,11 +152,11 @@ int main() {
             table.setOrigin({ table.getLocalBounds().size.x / 2.f,table.getLocalBounds().size.y / 2.f });
             table.setScale({ 80.f / table.getLocalBounds().size.x,128.f / table.getLocalBounds().size.y });
         }
-        window.draw(table);
-        window.draw(pause);
+        window.draw(table);//table card
+        window.draw(pause);//pause icon
         //
         //display everything
-        window.draw(deck_text);
+        window.draw(deck_text);//text about how many cards the deck contains
         count_text.setString(std::to_string(deck.size()) + " cards");
         window.draw(count_text);
         window.display();
