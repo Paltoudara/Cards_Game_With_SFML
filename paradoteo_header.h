@@ -316,6 +316,7 @@ inline void load_textures_from_files(std::vector<sf::Texture>& textures,
 }
 //shuffle_deck->std::shuffle to shuffle the vector simple
 inline void shuffle_deck(std::vector<std::pair<std::string, sf::Sprite>>& deck) {
+	//simply use the method shuffle to shuffle the items of the vectr deck
 	std::random_device rd{};
 	std::mt19937 gen(rd());
 	std::shuffle(deck.begin(), deck.end(), gen);
