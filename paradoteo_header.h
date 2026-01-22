@@ -351,7 +351,7 @@ inline void initialize(std::vector <std::
 inline void give_players_cards(std::unordered_map<std::string, sf::Sprite>& player1
 	, std::unordered_map<std::string, sf::Sprite>& player2
 	, std::vector<std::pair<std::string, sf::Sprite>>& deck) {
-	for (std::size_t i = 0; i < 7; i++) {
+	for (std::size_t i = 0; i < 7; i++) {//every card you give to the hashmaps of the players take out from the deck
 		player1.emplace(deck.back().first, deck.back().second);
 		deck.pop_back();
 		player2.emplace(deck.back().first, deck.back().second);
