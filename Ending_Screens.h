@@ -81,3 +81,4 @@ inline void draw(sf::RenderWindow& window) {
 		window.display();
 	}
 }
+//dealloc properly all textures that do not load properly
