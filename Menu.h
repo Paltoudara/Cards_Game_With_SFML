@@ -395,7 +395,7 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 			//
 			if (music.getStatus() == sf::SoundSource::Status::Playing) window.draw(music_on);
 			else window.draw(music_off);
-			
+			//
 			window.draw(change_texture);window.draw(text_start);window.draw(text_tutorial);window.draw(text_exit);
 			window.draw(text_change_texture);
 			if (flag) {
