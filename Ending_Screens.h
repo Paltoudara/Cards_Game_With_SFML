@@ -52,23 +52,23 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 }
 //
 inline void draw(sf::RenderWindow& window) {
-	//music,texture
+	//
 	sf::Texture texture{};
 	sf::Music music{};
-	//load them
+	//
 	if (!music.openFromFile("assets\\music\\Boo! sound effect.mp3")
 		|| !texture.loadFromFile("assets\\backround\\draw_texture_transparent.png")) {
 		std::exit(1);
 	}
 	music.setVolume(100.f);
 	music.play();
-	//mouse pos on screen
-	sf::Vector2u texSize = texture.getSize();   // texture original size
-	sf::Vector2u winSize = window.getSize();    // window size
-	//sprite
+	//
+	sf::Vector2u texSize = texture.getSize(); 
+	sf::Vector2u winSize = window.getSize();
+	//
 	sf::Sprite sprite{ texture };
 	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
-	//this works the same if we took also the local bounds from the value sprite
+	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
