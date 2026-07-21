@@ -7,7 +7,7 @@
 //winner function=>it is just the winner screen with some clapping audio.This function also updates the scores of the two players
 //that are in the score.txt
 inline void winner(sf::RenderWindow& window, const bool flag_winner) {
-	//winner music
+	//clapping audio
 	sf::Music music{};
 	//score_1 ->player1,score_2 ->player2
 	std::size_t score_1{}, score_2{};
