@@ -114,11 +114,15 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 	}
 	return false;
 }
-//
+//player_plays=>This function is called when the user presses a mouse button on the screen.We have 3 cases:
+//1)if the player can't play a card and the deck has a card to provide.The player draws a card from the deck.If he can play it then 
+//it is not the other players turn yet.If he still can't play it then it is the other players turn.
+//2)if he can't play a card and the deck has no card to provide then it is the other players turn
+//3)if he can play a card then we wait until he taps a card from his deck and it is a valid card.
 inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bool& flag
 	, std::unordered_map<std::string, sf::Sprite>& other_player, std::vector<std::pair<std::string, sf::Sprite>>& deck
-	, std::string& color, std::string& num, sf::RenderWindow& window, std::vector<std::string>& colors, sf::Sprite& table
-	, std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music) {
+	, std::string& color, std::string& num, sf::RenderWindow& window,const std::vector<std::string>& colors, sf::Sprite& table
+	,const std::unordered_map<std::string, sf::Sprite>& aces, sf::Music& music) {
 	//
 	if (!can_he_play(player, color, num)&&deck.size()>0) {
 		player.emplace(deck.back());
@@ -129,17 +133,19 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 	}
 	else if (!can_he_play(player, color, num) && deck.size() == 0) { flag =!flag; }
 	else if (check_for_card(window, player, color,num, table, aces, colors)) {
-		//
+		//the valid card is played to the table,we play a sound effect for that.
 		music.setVolume(100.f);
 		music.play();
-		//
-		if (num == "07") {//
+		//if the card in the table now contains the number 7 then we give the other player 2 cards or less (this depends on 
+		//how much the deck can give).After that the other player will play
+		if (num == "07") {
 			flag = !flag;
 			for (std::size_t i = 0; i < 2 && !deck.empty(); ++i) {//a 7
 				other_player.emplace(deck.back());
 				deck.pop_back();
 			}
-		}//
+		}//if the card in the table now contains the number 8 or 9 then the player will play again
+		//if it contains another number then the other player will play next 
 		else if (num != "08" && num != "09") {
 			flag = !flag;
 		}
