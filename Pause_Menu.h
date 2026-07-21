@@ -14,7 +14,7 @@ inline void pause_menu(sf::RenderWindow& window) {
 	//load the textures for the 3 buttons,the backround and load the font for the texts
 	//if something fails to load close the window
 	if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")
-		|| !_resume.loadFromFile("assetsd\\buttons\\LeftCutBlue.png")
+		|| !_resume.loadFromFile("assets\\buttons\\LeftCutBlue.png")
 		|| !_quit_game.loadFromFile("assets\\buttons\\LeftCutIce.png")
 		|| !_backround.loadFromFile("assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
 		|| !_score.loadFromFile("assets\\buttons\\LeftCutFlameRed.png")
