@@ -24,7 +24,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	if (!file.is_open()) { std::cout << "failed to open the file score.txt"; std::exit(1); }
 	file >> score_1 >> score_2;
 	file.seekg(0, std::ios::beg);
-	//play the music for the winner only once
+	//play the clapping audio only once
 	music.setVolume(100.f);
 	music.play();
 	//
