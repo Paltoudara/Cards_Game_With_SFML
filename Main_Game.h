@@ -34,16 +34,18 @@ inline bool can_he_play(const std::unordered_map<std::string, sf::Sprite>& playe
 	}
 	return false;
 }
-//
-inline void draw_the_cards_of_the_players(sf::RenderWindow& window, std::unordered_map<std::string,sf::Sprite>& player1
+//draw_the_cards_of_the_players->for every frame simply display the cards of the two players.
+inline void draw_the_cards_of_the_players(sf::RenderWindow& window,std::unordered_map<std::string,sf::Sprite>& player1
 	, std::unordered_map<std::string,sf::Sprite>& player2, const std::size_t choice, const bool flag, sf::Sprite& hide) {
-	//
+	//hide sprite hides the cards for the player that is not his turn
+	//we display normally the cards of the player how is his turn to play
 	std::size_t i{ 0 };
 	float j{ 0.f };
 	auto t1 = player1.begin(), t2 = player2.begin();
 	//
 	while (t1 != player1.end() || t2 != player2.end()) {
-		//
+		//for flag==true display player1 cards and display player2 cards hidden
+		//here we just apply some attributes to the sprites before displaying them
 		if (flag == true && t1 != player1.end()) {
 			t1->second.setPosition({ 0.0f + i * 100.0f, j });
 			if(choice==0)t1->second.setScale({ 2.f,2.f });
@@ -57,7 +59,7 @@ inline void draw_the_cards_of_the_players(sf::RenderWindow& window, std::unorder
 			window.draw(hide);
 
 		}
-		//
+		//for flag==false display player2 cards and display player1 cards  hidden
 		if (flag == false && t1 != player1.end()) {
 			hide.setPosition({ 0.0f + i * 100.0f, j });
 			if (choice == 0)hide.setScale({ 2.f,2.f });
@@ -71,16 +73,17 @@ inline void draw_the_cards_of_the_players(sf::RenderWindow& window, std::unorder
 			window.draw(t2->second);
 		}
 		i++;
-		//
+		//for every seven cards place the next sprite for choice==0 up 125.f pixels and for choice==1 up 130.0f pixels.
+		//This is done simply for smooth display of the cards on the screen
 		if (i % 7 == 0) {
 			if (choice == 0) j += 125.0f;
 			else j += 130.0f;
 			i = 0;
 		}
+		//
 		if (t1 != player1.end())++t1;
 		if (t2 != player2.end())++t2;
 	}
-	//
 }
 //
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>& player, 
