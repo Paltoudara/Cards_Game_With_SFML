@@ -4,41 +4,44 @@
 #include<fstream>
 #include<SFML/Audio.hpp>
 #include<cstdlib>
-
+//winner function=>it is just the winner screen with some music.This function also updates the scores of the two players
+//that are in the score.txt
 inline void winner(sf::RenderWindow& window, const bool flag_winner) {
-	//
+	//winner music
 	sf::Music music{};
-	//
+	//score_1 ->player1,score_2 ->player2
 	std::size_t score_1{}, score_2{};
-	//
+	//we open the file score.txt for reading and also writing.The file has literaly two numbers>=0 inside
 	std::fstream file("score.txt", std::ios::in | std::ios::out);
-	//
-	sf::Texture texture{};
-	//
+	//texture for the backround of the screen
+	sf::Texture _backround{};
+	//load the music of the winner
 	if (!music.openFromFile("assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3"))
 	{
-		std::exit(1);
+		return;
 	}
-	//
+	//take the scores of the two players
 	if (!file.is_open()) { std::cout << "failed to open the file score.txt"; std::exit(1); }
 	file >> score_1 >> score_2;
 	file.seekg(0, std::ios::beg);
+	//play the music for the winner only once
+	music.setVolume(100.f);
+	music.play();
 	//
-	music.setVolume(100.f);music.play();
-	//
-	if (flag_winner == true && !texture.loadFromFile("assets\\backround\\player1.png")) { std::exit(1); }
-	else if (flag_winner == false && !texture.loadFromFile("assets\\backround\\player2.png")) { std::exit(1); }
+	if (flag_winner == true && !_backround.loadFromFile("assets\\backround\\player1.png")) { return; }
+	else if (flag_winner == false && !_backround.loadFromFile("assets\\backround\\player2.png")) { return; }
+	//update the score of the player who won
 	if (flag_winner == true) { score_1++; }
 	else if (flag_winner == false) { score_2++; }
+	//write the new scores back to the file score.txt and close it 
 	file << score_1 << "\n";
 	file << score_2;
 	file.close();
 	//
-	sf::Vector2u texSize = texture.getSize();  
-	sf::Vector2u winSize = window.getSize();     
-	//
-	sf::Sprite sprite(texture);
-	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	sf::Vector2u texSize = _backround.getSize(),winSize = window.getSize();     
+	//change scale of the backround sprite to cover all the screen
+	sf::Sprite backround(_backround);
+	backround.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
 	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
@@ -47,7 +50,9 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 				return;
 			}
 		}
-		window.clear();window.draw(sprite);window.display();
+		window.clear();
+		window.draw(backround);
+		window.display();
 	}
 }
 //
