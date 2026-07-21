@@ -55,23 +55,25 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 		window.display();
 	}
 }
-//
+//draw function=>it is just the draw screen with some booing audio.
 inline void draw(sf::RenderWindow& window) {
-	//
-	sf::Texture texture{};
+	//the draw screen backround texture
+	sf::Texture _backround{};
+	//booing audio 
 	sf::Music music{};
-	//
+	//load the backround texture and the booing audio
 	if (!music.openFromFile("assets\\music\\Boo! sound effect.mp3")
-		|| !texture.loadFromFile("assets\\backround\\draw_texture_transparent.png")) {
-		std::exit(1);
+		|| !_backround.loadFromFile("assets\\backround\\draw_texture_transparent.png")) {
+		return;
 	}
+	//play the booing audio only once
 	music.setVolume(100.f);
 	music.play();
 	//
-	sf::Vector2u texSize = texture.getSize(),winSize = window.getSize();  
-	//
-	sf::Sprite sprite{ texture };
-	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
+	sf::Vector2u texSize = _backround.getSize(),winSize = window.getSize();
+	//change scale of the backround sprite to cover all the screen
+	sf::Sprite backround{ _backround };
+	backround.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
 	//
 	while (window.isOpen()) {
 		while (const auto event = window.pollEvent()) {
@@ -81,7 +83,7 @@ inline void draw(sf::RenderWindow& window) {
 			}
 		}
 		window.clear();
-		window.draw(sprite);
+		window.draw(backround);
 		window.display();
 	}
 }
