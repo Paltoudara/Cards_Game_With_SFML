@@ -114,6 +114,7 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 	}
 	return false;
 }
+//
 //player_plays=>This function is called when the user presses a mouse button on the screen.We have 3 cases:
 //1)if the player can't play a card and the deck has a card to provide.The player draws a card from the deck.If he can play it then 
 //it is not the other players turn yet.If he still can't play it then it is the other players turn.
