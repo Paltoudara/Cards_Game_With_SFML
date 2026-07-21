@@ -94,9 +94,9 @@ inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::str
 	//
 	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-	//check which card he tapped(if he tapped one with the mouse) and check if it is valid to play to the table
 	std::string card_to_remove{};
 	for (const auto& [key, value] : player) {
+		//check which card he tapped(if he tapped one with the mouse) and check if it is valid to play to the table
 		if (value.getGlobalBounds().contains(world_pos)&& (key.contains(color) || key.contains(num) || key.contains("A"))) {
 			card_to_remove = key;
 			//key has format=> card_symbol_num,change table variables
