@@ -5,18 +5,20 @@
 #include<SFML/Graphics.hpp>
 #include<random>
 #include<utility>
-//
+//initialize_start_of_the_game=>gives each player 7 cards from the deck and also intializes the variables for the table.
+//The strings in the deck and the players hashmaps have the format->card_symbol_num
 inline void initialize_start_of_the_game(std::vector <std::pair<std::string, sf::Sprite>>&deck,std::string& color, std::string& num
 	,sf::Sprite& table,std::unordered_map<std::string, sf::Sprite>& player1,std::unordered_map<std::string, sf::Sprite>& player2)
 {
-	//
+	//parse the format card_symbol_num.Take the symbol and the num and put them in the color,num variables.
+	//Do this by using simple std::string methods
 	std::string temp=deck.back().first;
 	color = std::string{ temp.begin() + temp.find('_') + 1,temp.begin() + temp.find_last_of('_')};
 	num = deck.back().first.substr(deck.back().first.find_last_of('_') + 1);
-	table = deck.back().second;//
+	table = deck.back().second;//we must give a card to the table
 	deck.pop_back();
-	//
-	for (std::size_t i = 0; i < 7; i++) {//
+	//put those seven cards in the players hashmaps
+	for (std::size_t i = 0; i < 7; i++) {//every card you give must be takek out from the deck
 		player1.emplace(deck.back().first, deck.back().second); deck.pop_back();
 		player2.emplace(deck.back().first, deck.back().second); deck.pop_back();
 	}
