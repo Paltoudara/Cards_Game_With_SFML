@@ -4,7 +4,7 @@
 #include<fstream>
 #include<SFML/Audio.hpp>
 #include<cstdlib>
-//winner function=>it is just the winner screen with clapping audio.This function also updates the scores of the two players
+//winner function=>it is just the winner screen with some clapping audio.This function also updates the scores of the two players
 //that are in the score.txt
 inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	//winner music
