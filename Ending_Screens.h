@@ -63,8 +63,7 @@ inline void draw(sf::RenderWindow& window) {
 	music.setVolume(100.f);
 	music.play();
 	//
-	sf::Vector2u texSize = texture.getSize(); 
-	sf::Vector2u winSize = window.getSize();
+	sf::Vector2u texSize = texture.getSize(),winSize = window.getSize();  
 	//
 	sf::Sprite sprite{ texture };
 	sprite.setScale({ static_cast<float>(winSize.x) / texSize.x,static_cast<float>(winSize.y) / texSize.y });
