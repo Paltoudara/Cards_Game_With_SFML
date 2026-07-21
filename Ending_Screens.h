@@ -88,3 +88,4 @@ inline void draw(sf::RenderWindow& window) {
 	}
 }
 //dealloc properly all textures that do not load properly
+//check for click bugs
