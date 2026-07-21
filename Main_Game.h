@@ -85,32 +85,31 @@ inline void draw_the_cards_of_the_players(sf::RenderWindow& window,std::unordere
 		if (t2 != player2.end())++t2;
 	}
 }
-//
+//check_for_card=>This function takes the mouse coords and checks the players hashmap that is his turn to play for collision
+//in his cards.if it finds collision it checks if this card is valid to play to the table.If it is,it changes the table 
+//variables according to the card and in the end it also extracts this card from the players hashmap.
 inline bool check_for_card(sf::RenderWindow& window, std::unordered_map<std::string, sf::Sprite>& player, 
 	std::string& color, std::string& num, sf::Sprite& table, const std::unordered_map<std::string, sf::Sprite>& aces
 	, const std::vector<std::string>& colors) {
 	//
-	//
 	sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 	sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
-	//
+	//check which card he tapped(if he tapped one with the mouse) and check if it is valid to play to the table
 	std::string card_to_remove{};
 	for (const auto& [key, value] : player) {
-		//
 		if (value.getGlobalBounds().contains(world_pos)&& (key.contains(color) || key.contains(num) || key.contains("A"))) {
-			//
 			card_to_remove = key;
-			//
+			//key has format=> card_symbol_num,change table variables
 			color = key.contains('A') ? colors[rand() % 4] :
-				std::string{ key.begin() + key.find('_') + 1,key.begin()+key.find_last_of('_')};//change color and num to represent what card is in the table right now
+				std::string{ key.begin() + key.find('_') + 1,key.begin()+key.find_last_of('_')};
 			num = key.substr(key.find_last_of('_')+1);
 			table = key.contains('A') ? aces.at(color) : value;
 			break;
 		}
 	}
-	//
+	//if he tapped a valid card from his cards then the card_to_remove variable will not be empty
 	if (!card_to_remove.empty()) {
-		player.extract(card_to_remove);//
+		player.extract(card_to_remove);//extract the card that he played from his hashmap
 		return true;
 	}
 	return false;
