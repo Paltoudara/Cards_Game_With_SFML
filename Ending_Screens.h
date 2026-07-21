@@ -15,7 +15,7 @@ inline void winner(sf::RenderWindow& window, const bool flag_winner) {
 	std::fstream file("score.txt", std::ios::in | std::ios::out);
 	//texture for the backround of the screen
 	sf::Texture _backround{};
-	//load the music of the winner
+	//load the clapping audio
 	if (!music.openFromFile("assets\\music\\Clapping , Cheering & Applause - NO Copyright - Free Sound Effects.mp3"))
 	{
 		return;
