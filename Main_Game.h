@@ -23,7 +23,9 @@ inline void initialize_start_of_the_game(std::vector <std::pair<std::string, sf:
 		player2.emplace(deck.back().first, deck.back().second); deck.pop_back();
 	}
 }
-//
+//can_he_play=>when one player plays,we check if any card on his hashmap contain the symbol or contain the num on the table
+//color contains the symbol of the card on the table and num contains the num of the card on the table.
+//std::string format from player hashmap->card_symbol_num
 inline bool can_he_play(const std::unordered_map<std::string, sf::Sprite>& player,const std::string& color,const std::string& num) {
 	for (const auto& [key, value] : player) {
 		if (key.contains(color) || key.contains(num)|| key.contains("A")) {
