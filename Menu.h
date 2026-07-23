@@ -351,3 +351,4 @@ inline void menu(sf::RenderWindow& window, std::size_t& choice) {
 		}
 	}
 }
+//change backround from everywhere to background
