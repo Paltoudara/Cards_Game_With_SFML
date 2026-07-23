@@ -11,26 +11,29 @@
 #include<SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include<fstream>
-//
+//change_textures=>This function just displays a screen with text and two different sprites(styles for the cards).The user must 
+//click one of the two sprites that he wants to see in the game.
 inline std::size_t change_textures(sf::RenderWindow& window) {
-	//
+	//textures for the backround and the two different card styles.
 	sf::Texture _backround{},_classic_cards{},_vintage_cards{};
+	//font for texts
 	sf::Font font{};
-	//
+	//load the textures for the backround,the two different card styles and also load the font for the texts
 	if (!_backround.loadFromFile("assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")
 		|| !_classic_cards.loadFromFile("assets\\playing-cards-pack - Copy\\PNG1\\card_clubs_03.png")
 		|| !_vintage_cards.loadFromFile("assets\\playing-cards-pack - Copy\\PNG2\\card_clubs_03.png")
 		|| !font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")) {
-		std::exit(1);
+		window.close();
+		return 0;
 	}
-	//
+	//sprites for the backround and the two different card styles
 	sf::Sprite classic_cards{ _classic_cards }, vintage_cards{ _vintage_cards }, backround{ _backround };
 	//
-	sf::Text text_title{ font,"  CLICK TO CHOOSE THE TEXTURE THAT YOU WANT:",80 }, text_classic{ font,"CLASSIC:",80 }
+	sf::Text text_title{ font,"  CLICK TO CHOOSE THE SPRITE THAT YOU WANT:",80 }, text_classic{ font,"CLASSIC:",80 }
 	, text_vintage{ font,"VINTAGE:",80 };
-	//
-	text_title.setFillColor(sf::Color::Black);text_title.setPosition({ 0.f,20.f });//
-	text_title.setOutlineColor(sf::Color::White);text_title.setOutlineThickness(5.f);//
+	//place the texts on the screen properly and change their attributes for proper appearance
+	text_title.setFillColor(sf::Color::Black);text_title.setPosition({ 0.f,20.f });
+	text_title.setOutlineColor(sf::Color::White);text_title.setOutlineThickness(5.f);
 	//
 	text_classic.setFillColor(sf::Color::Black);text_classic.setPosition({ 460.f,320.f });
 	text_classic.setOutlineColor(sf::Color::White);text_classic.setOutlineThickness(5.f);
@@ -50,19 +53,19 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 				return 0;
 			}
 			else if (event->is<sf::Event::MouseButtonPressed>()) {
-				//
+				//take the mouse coords and check if a mouse button is pressed and also check if a collision with one the 
+				//two sprites happened
 				sf::Vector2i mous_pos{ sf::Mouse::getPosition(window) };
 				sf::Vector2f world_pos{ window.mapPixelToCoords(mous_pos) };
 				//
-				if (classic_cards.getGlobalBounds().contains(world_pos)) {//
-					return 0;//
+				if (classic_cards.getGlobalBounds().contains(world_pos)) {
+					return 0;//0 for classic cards style
 				}
 				else if (vintage_cards.getGlobalBounds().contains(world_pos)) {
-					return 1;
+					return 1;//1 for vintage cards style
 				}
 			}
 		}
-		//
 		window.clear();
 		window.draw(backround);
 		window.draw(classic_cards);
@@ -71,11 +74,9 @@ inline std::size_t change_textures(sf::RenderWindow& window) {
 		window.draw(text_classic);
 		window.draw(text_vintage);
 		window.display();
-		
 	}
 	return 0;
 }
-//
 //
 inline void load_file_paths(std::vector<std::string>& file_paths, const std::size_t choice) {
 	//
