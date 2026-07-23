@@ -151,5 +151,7 @@ inline void player_plays(std::unordered_map<std::string, sf::Sprite>& player, bo
 		}
 	}
 }
+//when a texture fails to load plz deallocate it properly not simply exit
+//only for the files show error text,for textures we are already good
 //std::cout << color << " " << num << '\n';
 //std::cout << key << "\n\n";
