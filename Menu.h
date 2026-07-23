@@ -11,62 +11,6 @@
 #include<SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include<fstream>
-inline void huffman_tree_explanation(sf::RenderWindow& window) {
-	//
-	sf::Texture _backround{};
-	sf::Font font{};
-	//
-	if (!font.openFromFile("C:\\Windows\\Fonts\\segoeui.ttf")
-		|| !_backround.loadFromFile("assets\\backround\\360_F_267103158_QTPpB2GxYh8RZBL4X9XL42SM7jiZ5yXL.jpg")) {
-		std::exit(1);
-	}
-	//
-	sf::String message =
-		L"To make the huffman tree is simple:"
-		L"First you take all possibilities and sort them by increasing order(if two possibilities\n)"
-		L"have the same chance the order doesn't matter the real algo uses a priority queue"
-		L" take the two smallest possibilities\nand merge them(take the sum of their possibilities).Take the new possibility and then"
-		L" put it with the others and re-sort\nand then do the same.Stop when there is only one tree.I read sedgewick book,the figure he shows,puts the merged\npossibilities wherever he wants in the sorted order"
-		L". I also asked chat gpt and gemini pro.They said the same."
-		L"In the e\nnd sort,take the two mins and then re-sort and then continue until there is only one tree left.";
-	//
-	sf::Sprite backround{ _backround };
-	//
-	sf::Text text_title{ font,"HUFFMAN TREE EXPLANATION:",100 }, text_rules{ font,message,30 }, text_tap{ font,"TAP ANYWHERE",100 };
-	//
-	text_title.setPosition({ 930.f,20.f });text_title.setFillColor(sf::Color::Black);//
-	text_title.setOrigin({ text_title.getLocalBounds().size.x / 2.f,text_title.getLocalBounds().size.y / 2.f });
-	text_title.setOutlineColor(sf::Color::White);text_title.setOutlineThickness(5.f);//
-	//
-	text_rules.setFillColor(sf::Color::Black);text_rules.setPosition({ 250.f,120.f });
-	text_rules.setOutlineColor(sf::Color::White);text_rules.setOutlineThickness(5.f);
-	//
-	text_tap.setPosition({ 1200.f,970.f });text_tap.setFillColor(sf::Color::Black);
-	text_tap.setOutlineColor(sf::Color::White);text_tap.setOutlineThickness(10.f);
-	//
-	backround.setScale({ window.getSize().x / backround.getLocalBounds().size.x,window.getSize().y / backround.getLocalBounds().size.y });
-	//
-	while (window.isOpen()) {
-		while (const auto event = window.pollEvent()) {//
-			if (event->is<sf::Event::MouseButtonPressed>()) {//
-				return;
-			}
-			else if (event->is<sf::Event::Closed>()) {//
-				//
-				window.close();
-				return;
-			}
-
-		}
-		//
-		window.clear();
-		window.draw(backround);
-		window.draw(text_title);
-		window.draw(text_rules);
-		window.draw(text_tap);
-		window.display();
-	}
-}
 //
 inline std::size_t change_textures(sf::RenderWindow& window) {
 	//
